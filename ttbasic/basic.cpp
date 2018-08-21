@@ -44,6 +44,7 @@
 // 2018/08/13 Arduino_STM32安定版判定はSTM32_R20160323の定義の有無のみで判定するように修正
 // 2018/08/15 OLED,TFT利用時、CONFIGコマンドでキーボード設定が出来ない不具合の修正
 // 2018/08/19 CONFIG 0,n,n,n でNTSC信号の縦横位置補正が出来るように修正　
+// 2018/08/21 OLED版はプログラム保存本数を７に変更（スケッチサイズ肥大のため）
 //
 
 #include <Arduino.h>
@@ -153,10 +154,10 @@ sdfiles fs;
 #define FLASH_PAGE_NUM         128     // 全ページ数
 #define FLASH_PAGE_SIZE        1024    // ページ内バイト数
 #define FLASH_PAGE_PAR_PRG     4       // 1プログラム当たりの利用ページ数
-#ifdef STM32_R20170323
-  #define FLASH_SAVE_NUM       8       // プログラム保存可能数
+#if USE_OLED == 1
+  #define FLASH_SAVE_NUM       7       // プログラム保存可能数
 #else
-  #define FLASH_SAVE_NUM       6       // プログラム保存可能数
+  #define FLASH_SAVE_NUM       8       // プログラム保存可能数
 #endif
 
 // フラッシュメモリ管理オブジェクト(プログラム保存、システム環境設定を管理）
