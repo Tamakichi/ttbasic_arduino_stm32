@@ -45,6 +45,7 @@
 // 2018/08/15 OLED,TFT利用時、CONFIGコマンドでキーボード設定が出来ない不具合の修正
 // 2018/08/19 CONFIG 0,n,n,n でNTSC信号の縦横位置補正が出来るように修正　
 // 2018/08/21 OLED版はプログラム保存本数を７に変更（スケッチサイズ肥大のため）
+// 2018/08/22 I2C 接続にてAM2320利用時、フルーズする不具合対応
 //
 
 #include <Arduino.h>
@@ -2571,13 +2572,15 @@ int16_t ii2cr() {
   }
   rc = I2C_WIRE.endTransmission();
   if (rdlen) {
-    if (rc!=0)
+    if (rc!=0) {
+      delay(1); // Issues #8 フリーズするBUG対応,2018/08/22
       return rc;
+    }
     n = I2C_WIRE.requestFrom(i2cAdr, rdlen);
     while (I2C_WIRE.available()) {
       *(rdptr++) = I2C_WIRE.read();
     }
-  }  
+  }
   return rc;
 }
 
