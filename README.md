@@ -1,4 +1,4 @@
-## 豊四季タイニーBASIC for Arduino STM32V0.85nβ(18/08/21)
+## 豊四季タイニーBASIC for Arduino STM32V0.85a/n(18/08/22)
 
 （注意）V0.85β版までは、下記のリポジトリにて管理しています。  
 Tamakichi/ttbasic_arduino  https://github.com/Tamakichi/ttbasic_arduino  
