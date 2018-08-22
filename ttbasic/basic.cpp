@@ -2540,6 +2540,7 @@ int16_t ii2cw() {
       I2C_WIRE.write(*ptr++);
   }
   rc =  I2C_WIRE.endTransmission();
+  c_puts("DEBUG i2cw end");newline();
   return rc;
 }
 
@@ -2574,6 +2575,7 @@ int16_t ii2cr() {
   if (rdlen) {
     if (rc!=0) {
       delay(1); // Issues #8 フリーズするBUG対応,2018/08/22
+      c_puts("DEBUG i2cr error");newline();
       return rc;
     }
     n = I2C_WIRE.requestFrom(i2cAdr, rdlen);
@@ -2581,6 +2583,7 @@ int16_t ii2cr() {
       *(rdptr++) = I2C_WIRE.read();
     }
   }
+  c_puts("DEBUG i2cr end");newline();
   return rc;
 }
 
