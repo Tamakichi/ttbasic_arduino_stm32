@@ -13,35 +13,35 @@
 
 #include <Arduino.h>
 #include "tSerialDev.h"
-
+#include "mcurses.h"
 // 編集キーの定義
-#define KEY_TAB       '\t'   // [TAB] key
-#define KEY_CR        0x0D   // [CR]
-#define KEY_LF        0x0A   // [LF]
-#define KEY_ENTER     '\r'   // [Enter] key
-#define KEY_BACKSPACE '\b'   // [Backspace] key
-#define KEY_ESCAPE    0x1B   // [ESC] key
-#define KEY_DOWN      0x80   // [↓] key
-#define KEY_UP        0x81   // [↑] key
-#define KEY_LEFT      0x82   // [←] key
-#define KEY_RIGHT     0x83   // [→] key
-#define KEY_HOME      0x84   // [Home] key
-#define KEY_DC        0x85   // [Delete] key
-#define KEY_IC        0x86   // [Insert] key
-#define KEY_NPAGE     0x87   // [PageDown] key
-#define KEY_PPAGE     0x88   // [PageUp] key
-#define KEY_END       0x89   // [End] key
-#define KEY_BTAB      0x8A   // [Back tab] key
-#define KEY_Fn1       0x8B   // Function key F1
-#define KEY_Fn(n)     (KEY_Fn1+(n)-1)  // Space for additional 12 function keys
+//#define KEY_TAB       '\t'   // [TAB] key
+//#define KEY_CR        0x0D   // [CR]
+//#define KEY_LF        0x0A   // [LF]
+//#define KEY_ENTER     '\r'   // [Enter] key
+//#define KEY_BACKSPACE '\b'   // [Backspace] key
+//#define KEY_ESCAPE    0x1B   // [ESC] key
+//#define KEY_DOWN      0x80   // [↓] key
+//#define KEY_UP        0x81   // [↑] key
+//#define KEY_LEFT      0x82   // [←] key
+//#define KEY_RIGHT     0x83   // [→] key
+//#define KEY_HOME      0x84   // [Home] key
+//#define KEY_DC        0x85   // [Delete] key
+//#define KEY_IC        0x86   // [Insert] key
+//#define KEY_NPAGE     0x87   // [PageDown] key
+//#define KEY_PPAGE     0x88   // [PageUp] key
+//#define KEY_END       0x89   // [End] key
+//#define KEY_BTAB      0x8A   // [Back tab] key
+//#define KEY_Fn1       0x8B   // Function key F1
+//#define KEY_Fn(n)     (KEY_Fn1+(n)-1)  // Space for additional 12 function keys
 
 // コントロールキーコードの定義
-#define SC_KEY_CTRL_L   12  // 画面を消去
-#define SC_KEY_CTRL_R   18  // 画面を再表示
-#define SC_KEY_CTRL_X   24  // 1文字削除(DEL)
-#define SC_KEY_CTRL_C    3  // break
-#define SC_KEY_CTRL_D    4  // 行削除
-#define SC_KEY_CTRL_N   14  // 行挿入
+//#define SC_KEY_CTRL_L   12  // 画面を消去
+//#define SC_KEY_CTRL_R   18  // 画面を再表示
+//#define SC_KEY_CTRL_X   24  // 1文字削除(DEL)
+//#define SC_KEY_CTRL_C    3  // break
+//#define SC_KEY_CTRL_D    4  // 行削除
+//#define SC_KEY_CTRL_N   14  // 行挿入
 
 #define VPEEK(X,Y)      (screen[width*(Y)+(X)])
 #define VPOKE(X,Y,C)    (screen[width*(Y)+(X)]=C)

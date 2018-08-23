@@ -1,4 +1,5 @@
 // 修正日 2018/01/07 [ENTER]キー処理用にKEY_LFを追加
+// 修正日 2018/08/23 SC_KEY_XXX をKEY_XXXに変更
 
 #include "tGraphicScreen.h"
 
@@ -29,7 +30,7 @@ void tGraphicScreen::Serial_Ctrl(int16_t ch) {
     case KEY_BACKSPACE:
     s = (char*)"\x08\x1b[P";
      break;
-    case SC_KEY_CTRL_L:
+    case KEY_CTRL_L:
      s = (char*)"\x1b[2J\x1b[H";
      break;
   }
@@ -157,10 +158,10 @@ uint8_t tGraphicScreen::edit() {
           }
           break;
   
-        case SC_KEY_CTRL_L:  // [CTRL+L] 画面クリア
+        case KEY_CTRL_L:    // [CTRL+L] 画面クリア
           cls();
           locate(0,0);
-          Serial_Ctrl(SC_KEY_CTRL_L);
+          Serial_Ctrl(KEY_CTRL_L);
           break;
    
         case KEY_HOME:      // [HOMEキー] 行先頭移動
@@ -183,7 +184,7 @@ uint8_t tGraphicScreen::edit() {
           }  
           break;
   
-        case SC_KEY_CTRL_R: // [CTRL_R(F5)] 画面更新
+        case KEY_CTRL_R:    // [CTRL_R(F5)] 画面更新
           this->refresh();  break;
   
         case KEY_END:       // [ENDキー] 行の右端移動
@@ -201,7 +202,7 @@ uint8_t tGraphicScreen::edit() {
           break;        
   
         case KEY_DC:         // [Del]キー
-        case SC_KEY_CTRL_X:
+        case KEY_CTRL_X:
           this->delete_char();
           break;        
         
@@ -221,11 +222,11 @@ uint8_t tGraphicScreen::edit() {
           this->movePosPrevLineChar();
           break;
   
-        case SC_KEY_CTRL_N:  // 行挿入 
+        case KEY_CTRL_N:     // 行挿入 
           this->Insert_newLine(pos_y);       
           break;
   
-        case SC_KEY_CTRL_D:  // 行削除
+        case KEY_CTRL_D:     // 行削除
           this->clerLine(pos_y);
           break;
         

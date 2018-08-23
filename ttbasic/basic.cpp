@@ -46,6 +46,7 @@
 // 2018/08/19 CONFIG 0,n,n,n でNTSC信号の縦横位置補正が出来るように修正　
 // 2018/08/21 OLED版はプログラム保存本数を７に変更（スケッチサイズ肥大のため）
 // 2018/08/22 I2C 接続にてAM2320利用時、フルーズする不具合対応
+// 2018/08/23 SC_KEY_XXX をKEY_XXXに変更
 //
 
 #include <Arduino.h>
@@ -119,7 +120,7 @@ tTermscreen sc1;   // ターミナルスクリーン
   tOLEDScreen sc2;
 #endif
 
-#define KEY_ENTER 13
+//#define KEY_ENTER 13
 
 // **** I2Cライブラリの利用設定 ****
 #if defined(STM32_R20170323)
@@ -724,7 +725,7 @@ int16_t getnum() {
     c = c_getch();
     if (c == KEY_ENTER && len) {
         break;
-    } else if (c == SC_KEY_CTRL_C || c==27) {
+    } else if (c == KEY_CTRL_C || c==27) {
       err = ERR_CTR_C;
         break;
     } else 
@@ -1542,7 +1543,7 @@ void ilist(uint8_t devno=0) {
     //強制的な中断の判定
     c = c_kbhit();
     if (c) { // もし未読文字があったら
-        if (c == SC_KEY_CTRL_C || c==27 ) { // 読み込んでもし[ESC],［CTRL_C］キーだったら
+        if (c == KEY_CTRL_C || c==27 ) { // 読み込んでもし[ESC],［CTRL_C］キーだったら
           err = ERR_CTR_C;                  // エラー番号をセット
           prevPressKey = 0;
           break;
@@ -4948,7 +4949,7 @@ unsigned char* iexe() {
   //強制的な中断の判定
   c = c_kbhit();
   if (c) { // もし未読文字があったら
-      if (c == SC_KEY_CTRL_C || c==27 ) { // 読み込んでもし[ESC],［CTRL_C］キーだったら
+      if (c == KEY_CTRL_C || c==27 ) { // 読み込んでもし[ESC],［CTRL_C］キーだったら
         err = ERR_CTR_C;                  // エラー番号をセット
         prevPressKey = 0;
         break;

@@ -5,7 +5,8 @@
 //  修正日 2017/03/26, 色制御関連関数の追加
 //  修正日 2017/03/30, moveLineEnd()の追加,[HOME],[END]の編集キーの仕様変更
 //  修正日 2017/06/27, 汎用化のための修正
-//
+//  修正日 2018/08/22, KEY_F(n)をKEY_F1,KEY_F2 .. の定義に変更対応
+//  修正日 2018/08/23, SC_KEY_XXX をKEY_XXXに変更
 
 #include <string.h>
 #include "tTermscreen.h"
@@ -112,12 +113,14 @@ uint8_t tTermscreen::isKeyIn() {
 // 文字入力
 uint8_t tTermscreen::get_ch() {
   uint8_t c = getch();
+/*
   switch (c) {
-    case KEY_F(1):c=SC_KEY_CTRL_L; break; 
-    case KEY_F(2):c=SC_KEY_CTRL_D; break;
-    case KEY_F(3):c=SC_KEY_CTRL_N; break;
-    case KEY_F(5):c=SC_KEY_CTRL_R; break;
+    case KEY_F1:c=KEY_CTRL_L; break; 
+    case KEY_F2:c=KEY_CTRL_D; break;
+    case KEY_F3:c=KEY_CTRL_N; break;
+    case KEY_F5:c=KEY_CTRL_R; break;
   }
+*/ 
   return c;
 }
 
