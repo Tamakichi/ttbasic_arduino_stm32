@@ -7,6 +7,7 @@
 //  修正日 2017/06/27, 汎用化のための修正
 //  修正日 2018/08/22, KEY_F(n)をKEY_F1,KEY_F2 .. の定義に変更対応
 //  修正日 2018/08/23, SC_KEY_XXX をKEY_XXXに変更
+//  修正日 2018/08/23, 全角文字(SJIS)対応
 
 #include <string.h>
 #include "tTermscreen.h"
@@ -139,14 +140,6 @@ uint8_t tTermscreen::isKeyIn() {
 // 文字入力
 uint8_t tTermscreen::get_ch() {
   uint8_t c = getch();
-/*
-  switch (c) {
-    case KEY_F1:c=KEY_CTRL_L; break; 
-    case KEY_F2:c=KEY_CTRL_D; break;
-    case KEY_F3:c=KEY_CTRL_N; break;
-    case KEY_F5:c=KEY_CTRL_R; break;
-  }
-*/ 
   return c;
 }
 
@@ -479,15 +472,15 @@ void tTermscreen::putch(uint8_t c) {
 
 // 文字の出力（シフトJIS対応)
 void tTermscreen::putwch(uint16_t c) {
-  if (c>0xff) {
-   VPOKE(pos_x, pos_y, c>>8); // VRAMへの書込み
+  if (c>0xff) { // 2バイト文字
+   VPOKE(pos_x, pos_y, c>>8);     // VRAMへの書込み
    VPOKE(pos_x+1, pos_y, c&0xff); // VRAMへの書込み
    WRITE(c>>8); WRITE(c&0xff);
    
    movePosNextNewChar();
    movePosNextNewChar();
-  } else {
-   VPOKE(pos_x, pos_y, c); // VRAMへの書込み
+  } else {     // 1バイト文字
+   VPOKE(pos_x, pos_y, c);        // VRAMへの書込み
    WRITE(c);
    movePosNextNewChar();
   }  
@@ -560,13 +553,12 @@ uint8_t tTermscreen::edit() {
         return enter_text();
         break;
 
-      //case SC_KEY_CTRL_L:  // [CTRL+L] 画面クリア
-      case KEY_F1:        // F1
+      case KEY_F1:        // [F1],[CTRL+L] 画面クリア
         cls();
         //locate(0,0);
         break;
  
-      case KEY_HOME:      // [HOMEキー] 行先頭移動
+      case KEY_HOME:      // [HOME]キー 行先頭移動
         locate(0, pos_y);
         break;
         
@@ -586,12 +578,11 @@ uint8_t tTermscreen::edit() {
         }  
         break;
         
-      //case KEY_CTRL_R:   // [CTRL_R] 画面更新
-      case KEY_F5:         // F5
-        //beep();
+      case KEY_F5:         // [F5],[CTRL_R] 画面更新
+        beep();
         refresh();  break;
 
-      case KEY_END:        // [ENDキー] 行の右端移動
+      case KEY_END:        // [END]キー 行の右端移動
          moveLineEnd();
          break;
 
@@ -625,25 +616,23 @@ uint8_t tTermscreen::edit() {
         movePosPrevLineChar();
         break;
 
-      //case SC_KEY_CTRL_N:  // 行挿入
-      case KEY_F3:        // F3
+      case KEY_F3:        // [F3],[CTRL N] 行挿入
         Insert_newLine(pos_y);       
         break;
 
-      //case SC_KEY_CTRL_D:  // 行削除
-      case KEY_F2:        // F2
+      case KEY_F2:        // [F2], [CTRL D] 行削除
         clerLine(pos_y);
         break;
 
-      case KEY_F7:        // F7 行の分割
+      case KEY_F7:        // [F7] 行の分割
         splitLine();
         break;
 
-      case KEY_F8:        // F8 行の結合
+      case KEY_F8:        // [F8] 行の結合
         margeLine();
         break;
       
-      default:               // その他
+      default:            // その他 可視可能文字は挿入表示
       
       if (IS_PRINT(ch)) {
         Insert_char(ch);

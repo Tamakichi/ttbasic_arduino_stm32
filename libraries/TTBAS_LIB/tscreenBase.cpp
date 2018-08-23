@@ -461,7 +461,7 @@ uint8_t tscreenBase::edit_scrollDown() {
 #endif
   return 0;
 }
-
+/*
 // スクリーン編集
 uint8_t tscreenBase::edit() {
   uint8_t ch = 0;       // 入力文字
@@ -569,3 +569,4 @@ uint8_t tscreenBase::edit() {
   } while(1);
    show_curs(true);
 }
+*/
