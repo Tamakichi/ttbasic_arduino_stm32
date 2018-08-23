@@ -47,6 +47,7 @@
 // 2018/08/21 OLED版はプログラム保存本数を７に変更（スケッチサイズ肥大のため）
 // 2018/08/22 I2C 接続にてAM2320利用時、フルーズする不具合対応
 // 2018/08/23 SC_KEY_XXX をKEY_XXXに変更
+// 2018/08/23 シリアルコンソールで全角文字SJIS対応、プログラム保存本数を6に変更
 //
 
 #include <Arduino.h>
@@ -60,9 +61,9 @@
 
 #define STR_EDITION "Arduino STM32"
 #ifdef STM32_R20170323
- #define STR_VARSION "Edition V0.85a"
+ #define STR_VARSION "Edition V0.86a"
 #else
- #define STR_VARSION "Edition V0.85n"
+ #define STR_VARSION "Edition V0.86n"
 #endif
 
 // TOYOSHIKI TinyBASIC プログラム利用域に関する定義
@@ -156,11 +157,7 @@ sdfiles fs;
 #define FLASH_PAGE_NUM         128     // 全ページ数
 #define FLASH_PAGE_SIZE        1024    // ページ内バイト数
 #define FLASH_PAGE_PAR_PRG     4       // 1プログラム当たりの利用ページ数
-#if USE_OLED == 1
-  #define FLASH_SAVE_NUM       7       // プログラム保存可能数
-#else
-  #define FLASH_SAVE_NUM       8       // プログラム保存可能数
-#endif
+#define FLASH_SAVE_NUM         6       // プログラム保存可能数
 
 // フラッシュメモリ管理オブジェクト(プログラム保存、システム環境設定を管理）
 tFlashMan FlashMan(FLASH_PAGE_NUM,FLASH_PAGE_SIZE, FLASH_SAVE_NUM, FLASH_PAGE_PAR_PRG); 
