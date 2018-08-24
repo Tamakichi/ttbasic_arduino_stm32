@@ -1,4 +1,4 @@
-## 豊四季タイニーBASIC for Arduino STM32V0.85a/n(18/08/22)
+## 豊四季タイニーBASIC for Arduino STM32V0.86a/n
 
 （注意）V0.85β版までは、下記のリポジトリにて管理しています。  
 Tamakichi/ttbasic_arduino  https://github.com/Tamakichi/ttbasic_arduino  
@@ -69,7 +69,7 @@ RTC用バックアップ電池、SDカードモジュールも必要に応じて
 
 ![RTC用電池](./image/02_1.png)  
 
-​    
+    
 
 #### ピン利用構成  
 
@@ -280,136 +280,137 @@ ttbtwrite ブートローダー付きファームウェアファイル
 
 書込みが完了したら、BOOT0ジャンバを0に戻して下さい。  
 
+
+
 ### スケッチの書込み手順
 
 スケッチをコンパイルして書き込む場合の手順です。  
-スケッチを修正して機能拡張を行う場合、スケッチサイズの肥大化により、BASICプログラム保存領域と競合してしまう可能性があります。  
-その対処として、BASICプログラム保存領域をデフォルトの8よりも小さくして下さい。  
-**basic.cpp**の`#define FLASH_SAVE_NUM  8`の値8を修正することで変更出来ます。    
+    
 
 #### 事前準備
 
-- 「ファームウェア書込み手順(Windows 10の場合)」の「事前準備」と同じ準備を行って下さい.  
+1. 「ファームウェア書込み手順(Windows 10の場合)」の「事前準備」と同じ準備を行って下さい.  
 
-- プロジェクトファイルのダウンロードと配置  
+2. プロジェクトファイルのダウンロードと配置  
+
   1) プロジェクト一式をダウンロードし、解凍した中の、フォルダ**libraries**内のフォルダを  
   各自のArduino環境のライブラリ配置ディレクトリ**libraries**に配置して下さい.  
   ![ディレクトリ構成](./image/06.png)  
 
   添付のSDライブラリは既存のSDライブラリの修正版です.  
-  上書き（差し換え）したくない場合は、STM32F1\librariesの方に配置して下さい.  
+  Arduino STM32環境でのみ利用する場合は、STM32F1\librariesの方に配置して下さい.  
 
   添付ライブラリは、Arduino STM32環境に依存するライブラリを含むため、  
-  下記のディレクトリの配置でも良いです.  
-  (古いバージョンのArduino IDEと共存利用している環境では競合等回避のためここへの配置を推奨）  
-  \hardware\Arduino_STM32\STM32F1\libraries  
+  下記のディレクトリの配置でも良いです.  
+  (古いバージョンのArduino IDEと共存利用している環境では競合等回避のためここへの配置を推奨）  
+  \hardware\Arduino_STM32\STM32F1\libraries  
+  添付ライブラリの個別利用・入手は下記のリンクを参照して下さい.      
 
-  添付ライブラリの個別利用・入手は下記のリンクを参照して下さい.  
+  2)スケッチ本体のフォルダ**ttbasic**を各自のスケッチ配置フォルダの配置  
 
-  2) スケッチ本体のフォルダ**ttbasic**を各自のスケッチ配置フォルダの配置   
+3. Arduino STM32に関する設定  
 
-- Arduino STM32モジュールは下記の安定版 を使って下さい
-  https://github.com/rogerclarkmelbourne/Arduino_STM32/releases/tag/R20170323  
-  Arduino STM32環境に2017/08/04以降のバージョンを利用する場合は、
+   安定版と最新版に対応しています。  
 
-  配布スケッチの次の箇所を修正して下さい。
+   - 安定版 ：https://github.com/rogerclarkmelbourne/Arduino_STM32/releases/tag/R20170323 
+   - 最新版（オリジナル版）：https://github.com/rogerclarkmelbourne/Arduino_STM32  
+   - 最新版（動作確認時スナップショット＋修正）： https://github.com/Tamakichi/Arduino_STM32  
 
-  - `tconfig.h`の修正
+   デフォルトでは、最新版に対応しています。  
+   安定版を利用する場合は、条件付きコンパイル指定の**STM32_R20170323**の定義が必要となります。  
+   インストールしたArduino STM32パッケージの **\hardware\Arduino_STM32\STM32F1\ **に  
+   **platform.local.txt**を配置し、次の定義を行って下さい。  
 
-    `OLD_WIRE_LIB`の値`1`を`0`に変更して下さい .
+````TXT
+compiler.c.extra_flags=-DSTM32_R20170323
+compiler.cpp.extra_flags=-DSTM32_R20170323
+````
 
-    ```
-     // Wireライブラリ新旧指定対応 0:新 1:旧(R20170323相当)  
-     #define OLD_WIRE_LIB   0  
-    ```
-
-  - `libraries/Adafruit_SH1106_STM32/Adafruit_SH1106_STM32.cpp` の修正
-
-    `OLD_ARDUINO_STM32`の値`1`を`0`に変更して下さい .
-
-    ```
-    #define OLD_ARDUINO_STM32 0  // Arduino STM32環境が R20170323:1、 それ以降 0
-    ```
-
-  - `libraries/Adafruit_SSD1306_STM32_TT/Adafruit_SSD1306_STM32_TT.cpp`の修正
-
-    `OLD_ARDUINO_STM32`の値`1`を`0`に変更して下さい .
-
-    ```
-    #define OLD_ARDUINO_STM32 0  // Arduino STM32環境が R20170323:1、 それ以降 0
-    ```
+**platform.local.txt**は本リポジトリに添付の[platform.local.txt](https://github.com/Tamakichi/ttbasic_arduino_stm32/blob/master/platform.local.txt) ファイルを修正して配置しても良いです。
 
 
-- システム構成別の修正
 
-  デフォルトでは、**基本4構成の②NTSC版(SDカードあり)の設定**となっています。
-  異なるシステム構成で利用する場合は、それぞれに必要な修正を行って下さい。
+#### システム構成別の修正
 
-  ①ターミナルコンソール版
+デフォルトでは、**基本4構成の②NTSC版(SDカードあり)の設定**となっています。
+異なるシステム構成で利用する場合は、それぞれに必要な修正を行って下さい。
 
-  `tconfig.h`の修正
+##### ①ターミナルコンソール版
 
-  - ` USE_SCREEN_MODE`の値`1`を`0`に変更して下さい.
+1. `tconfig.h`の修正
 
-    ```
-    #define USE_SCREEN_MODE 0 //※デバイススクリーン利用の場合、1を指定する (デフォルト:1)
-    ```
+- ` USE_SCREEN_MODE`の値`1`を`0`に変更して下さい.
 
-  - `USE_NTSC`の値`1`を`0`に変更して下さい.
+  ```
+  #define USE_SCREEN_MODE 0 //※デバイススクリーン利用の場合、1を指定する (デフォルト:1)
+  ```
 
-    ```
-    #define USE_NTSC  1  // 0:利用しない 1:利用する (デフォルト:1)
-    ```
+- `USE_NTSC`の値`1`を`0`に変更して下さい.
 
-  ③OLED版
+  ```
+  #define USE_NTSC  1  // 0:利用しない 1:利用する (デフォルト:1)
+  ```
 
-  `tconfig.h`の修正
+##### ②OLED版
 
-  - `USE_NTSC`の値`1`を`0`に変更して下さい.
+1. ###### `tconfig.h`の修正
 
-    ```
-    #define USE_NTSC  0  // 0:利用しない 1:利用する (デフォルト:1)
-    ```
+- `USE_NTSC`の値`1`を`0`に変更して下さい.  
+
+  ````
+  #define USE_NTSC  0  // 0:利用しない 1:利用する (デフォルト:1)
+  ````
+
+ - `USE_OLED`の値`0`を`1`に変更して下さい.  
+   `OLED_IFMODE`の値をI2C接続の場合`0`、SPI接続の場合`1`を指定して下さい.  
+   必要に応じて、画面の向き`OLED_RTMODE`を変更して下さい。  
+
+     ````cpp
+   #define USE_OLED     1 // 0:利用しない 1:利用する (デフォルト:0)
+                         // 利用時は USE_NTSC を0にすること
+   #define OLED_IFMODE 1 // OLED接続モード(0:I2C 1:SPI デオフォルト:1 )
+   #define OLED_SCMODE 1 // スクリーンモード(1～6 デオフォルト:1 )
+   #define OLED_RTMODE 0 // 画面の向き (0～3: デフォルト: 0)
+     ````
+
+2. ###### **コントローラの指定**
+
+   デフォルトでは、SH1106 対応となっています。  
+
+   コントローラ指定 定数 **OLED_DEV** にてコントローラの選択が出来ます。
+   SSD1306、SSD1309 を利用する場合は、次の設定を行って下さい。
+
+   インストールしたArduino STM32パッケージの **\hardware\Arduino_STM32\STM32F1\ **に  
+    **platform.local.txt**を配置し、次の定義を行って下さい。   
+    `OLED_DEV`の値をSH1106の場合は`0`、SSD1306、SSD1309の場合は`1`を指定して下さい.
+
+     ```TXT
+   compiler.c.extra_flags=-DOLED_DEV=1
+   compiler.cpp.extra_flags=-DOLED_DEV=1
+     ```
 
 
-  - `USE_OLED`の値`0`を`1`に変更して下さい.
-    `OLED_IFMODE`の値をI2C接続の場合`0`、SPI接続の場合`1`を指定して下さい.
-    必要に応じて、画面の向き`OLED_RTMODE`を変更して下さい。
 
-    ```
-    #define USE_OLED     1 // 0:利用しない 1:利用する (デフォルト:0)
-                           // 利用時は USE_NTSC を0にすること
-     #define OLED_IFMODE 1 // OLED接続モード(0:I2C 1:SPI デオフォルト:1 )
-     #define OLED_SCMODE 1 // スクリーンモード(1～6 デオフォルト:1 )
-     #define OLED_RTMODE 0 // 画面の向き (0～3: デフォルト: 0)
-    ```
+##### ③TFT(ILI9341 320x240ドット)版  
 
-  デバイス種類の指定：`libraries/TTBAS_LIB/tOLEDScreen.h`の修正
+  `USE_NTSC`の値`1`を`0`に変更して下さい.  
 
-  - `OLED_DEV`の値をSH1106の場合は`0`、SSD1306、SSD1309の場合は`1`を指定して下さい.
+  ```cpp
+#define USE_NTSC  0  // 0:利用しない 1:利用する (デフォルト:1)
+  ```
 
-    ```
-     #define OLED_DEV 0 // 0:SH1106 1:SSD1306/SSD1309
-    ```
-
-  ④TFT(ILI9341 320x240ドット)版
-
-  - `USE_NTSC`の値`1`を`0`に変更して下さい.
-
-    ```
-    #define USE_NTSC  0  // 0:利用しない 1:利用する (デフォルト:1)
-    ```
+  `USE_TFT`の値`0`を`1`に修正して下さい.  
+  必要に応じて、画面の向き`TFT_RTMODE`を変更して下さい。  
 
 
-  - `USE_TFT`の値`0`を`1`に修正して下さい.
-    必要に応じて、画面の向き`TFT_RTMODE`を変更して下さい。
+```CPP
+#define USE_TFT     1 // 0:利用しない 1:利用する (デフォルト:0)
+                      // 利用時は USE_NTSC を0にすること
+#define TFT_SCMODE 1  // スクリーンモード(1～6 デオフォルト:1 )
+#define TFT_RTMODE 3  // 画面の向き (0～3: デフォルト: 3)
+```
 
-  - ```
-    #define USE_TFT     1 // 0:利用しない 1:利用する (デフォルト:0)
-                          // 利用時は USE_NTSC を0にすること
-     #define TFT_SCMODE 1 // スクリーンモード(1～6 デオフォルト:1 )
-     #define TFT_RTMODE 3 // 画面の向き (0～3: デフォルト: 3)
-    ```
+
 
 #### スケッチの書込み
 
