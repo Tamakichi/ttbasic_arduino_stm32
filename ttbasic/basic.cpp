@@ -48,6 +48,7 @@
 // 2018/08/22 I2C 接続にてAM2320利用時、フルーズする不具合対応
 // 2018/08/23 SC_KEY_XXX をKEY_XXXに変更
 // 2018/08/23 シリアルコンソールで全角文字SJIS対応、プログラム保存本数を6に変更
+// 2018/08/24 Arduino STM32最新版でのDATEコマンドの曜日の開始変更の対応
 //
 
 #include <Arduino.h>
@@ -2886,7 +2887,7 @@ void idate() {
    putnum((int16_t)st->tm_sec, -2);
    newline();  
  #else
-  static const char *wday[] = {"Sun","Mon","Tue","Wed","Thr","Fri","Sat"};
+  static const char *wday[] = {"Mon","Tue","Wed","Thr","Fri","Sat","Sun"};
    struct tm_t st;
    rtc.getTime(st);      // 時刻取得  
    putnum(st.year+1970, -4);
