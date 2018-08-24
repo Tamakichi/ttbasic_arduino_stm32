@@ -14,6 +14,12 @@
  *---------------------------------------------------------------------------------------------------------------------------------------------------
  */
 
+//
+// 修正 2018/01/30 キーコードの変更（全角文字シフトJIS対応のため）
+// 修正 2018/02/14 Arduino(AVR)用SRAM利用消費軽減対応
+// 修正 2018/05/07 Arduino(AVR)以外の環境への対応‘
+//
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,6 +30,8 @@
 	#define PROGMEM
 	#define PSTR(x)                                 (x)
 	#define pgm_read_byte(s)                        (*s)
+	#define pgm_read_word(s)                        (*s)
+	#define strcmp_P(a, b)                          strcmp((a), (b))
 #endif 
 
 #include "mcurses.h"
@@ -191,25 +199,7 @@ mcurses_addch_or_insch (uint_fast8_t ch, uint_fast8_t insert)
 {
     static uint_fast8_t  charset = 0xff;
     static uint_fast8_t  insert_mode = FALSE;
-/* 2017/08/24 
-    if (ch >= 0x80 && ch <= 0x9F)
-    {
-        if (charset != CHARSET_G1)
-        {
-            mcurses_putc ('\016');                                              // switch to G1 set
-            charset = CHARSET_G1;
-        }
-        ch -= 0x20;                                                             // subtract offset to G1 characters
-    }
-    else
-    {
-        if (charset != CHARSET_G0)
-        {
-            mcurses_putc ('\017');                                              // switch to G0 set
-            charset = CHARSET_G0;
-        }
-    }
-*/
+
     if (insert)
     {
         if (! insert_mode)
@@ -557,47 +547,49 @@ halfdelay (uint_fast8_t tenths)
  * MCURSES: read key
  *---------------------------------------------------------------------------------------------------------------------------------------------------
  */
-#define MAX_KEYS                ((KEY_F1 + 12) - 0x80)
 
-static const char * function_keys[MAX_KEYS] =
-{
-    "B",                        // KEY_DOWN                 0x80                // Down arrow key
-    "A",                        // KEY_UP                   0x81                // Up arrow key
-    "D",                        // KEY_LEFT                 0x82                // Left arrow key
-    "C",                        // KEY_RIGHT                0x83                // Right arrow key
-    "1~",                       // KEY_HOME                 0x84                // Home key
-    "3~",                       // KEY_DC                   0x85                // Delete character key
-    "2~",                       // KEY_IC                   0x86                // Ins char/toggle ins mode key
-    "6~",                       // KEY_NPAGE                0x87                // Next-page key
-    "5~",                       // KEY_PPAGE                0x88                // Previous-page key
-    "4~",                       // KEY_END                  0x89                // End key
-    "Z",                        // KEY_BTAB                 0x8A                // Back tab key
-#if 1 // VT400: 2017/08/04  2017/08/04 by Tamalichi
-//#if 0 // VT400:
-    "11~",                      // KEY_F(1)                 0x8B                // Function key F1
-    "12~",                      // KEY_F(2)                 0x8C                // Function key F2
-    "13~",                      // KEY_F(3)                 0x8D                // Function key F3
-    "14~",                      // KEY_F(4)                 0x8E                // Function key F4
-    "15~",                      // KEY_F(5)                 0x8F                // Function key F5
-#else // Linux console
-    "[A",                       // KEY_F(1)                 0x8B                // Function key F1
-    "[B",                       // KEY_F(2)                 0x8C                // Function key F2
-    "[C",                       // KEY_F(3)                 0x8D                // Function key F3
-    "[D",                       // KEY_F(4)                 0x8E                // Function key F4
-    "[E",                       // KEY_F(5)                 0x8F                // Function key F5
-#endif
-    "17~",                      // KEY_F(6)                 0x90                // Function key F6
-    "18~",                      // KEY_F(7)                 0x91                // Function key F7
-    "19~",                      // KEY_F(8)                 0x92                // Function key F8
-    "20~",                      // KEY_F(9)                 0x93                // Function key F9
-    "21~",                      // KEY_F(10)                0x94                // Function key F10
-    "23~",                      // KEY_F(11)                0x95                // Function key F11
-    "24~"                       // KEY_F(12)                0x96                // Function key F12
+#define MAX_KEYS    (23)
+#define KW(k,s) const char k[] PROGMEM=s  // キーワード定義マクロ
+KW(k00,"B");  KW(k01,"A");  KW(k02,"D");  KW(k03,"C");  KW(k04,"1~"); 
+KW(k05,"3~"); KW(k06,"2~"); KW(k07,"6~"); KW(k08,"5~"); KW(k09,"4~");
+KW(k10,"Z");  KW(k11,"11~");KW(k12,"12~");KW(k13,"13~");KW(k14,"14~");
+KW(k15,"15~");KW(k16,"17~");KW(k17,"18~");KW(k18,"19~");KW(k19,"20~");
+KW(k20,"21~");KW(k21,"23~");KW(k22,"24~");
+
+const char* const function_keys[] PROGMEM = {
+  k00,k01,k02,k03,k04,k05,k06,k07,k08,k09,
+  k10,k11,k12,k13,k14,k15,k16,k17,k18,k19,
+  k20,k21,k22,
+};
+
+const char const function_keys_code[] PROGMEM = {
+  KEY_DOWN   ,                // Down arrow key
+  KEY_UP     ,                // Up arrow key
+  KEY_LEFT   ,                // Left arrow key
+  KEY_RIGHT  ,                // Right arrow key
+  KEY_HOME   ,               // Home key
+  KEY_DC     ,               // Delete character key
+  KEY_IC     ,               // Ins char/toggle ins mode key
+  KEY_NPAGE  ,               // Next-page key
+  KEY_PPAGE  ,               // Previous-page key
+  KEY_END    ,               // End key
+  KEY_BTAB   ,               // Back tab key
+  KEY_F1     ,               // Function key F1
+  KEY_F2     ,               // Function key F2
+  KEY_F3     ,               // Function key F3
+  KEY_F4     ,               // Function key F4
+  KEY_F5     ,               // Function key F5
+  KEY_F6     ,               // Function key F6
+  KEY_F7     ,               // Function key F7
+  KEY_F8     ,               // Function key F8
+  KEY_F9     ,               // Function key F9
+  KEY_F10    ,               // Function key F10
+  KEY_F11    ,               // Function key F11
+  KEY_F12    ,               // Function key F12
 };
 
 uint_fast8_t
-getch (void)
-{
+getch (void) {
     char    buf[4];
     uint_fast8_t ch;
     uint_fast8_t idx;
@@ -605,34 +597,22 @@ getch (void)
     refresh ();
     ch = mcurses_phyio_getc ();
 
-    if (ch == 0x7F)                                                             // BACKSPACE on VT200 sends DEL char
-    {
-        ch = KEY_BACKSPACE;                                                     // map it to '\b'
-    }
-    else if (ch == '\033')                                                      // ESCAPE
-    {
-        while ((ch = mcurses_phyio_getc ()) == ERR)
-        {
+    if (ch == 0x7F) {                                                           // BACKSPACE on VT200 sends DEL char
+          ch = KEY_BACKSPACE;                                                   // map it to '\b'
+    } else if (ch == '\033') {                                                  // ESCAPE   
+        while ((ch = mcurses_phyio_getc ()) == ERR)  {
             ;
         }
 
-        if (ch == '\033')                                                       // 2 x ESCAPE
-        {
+        if (ch == '\033') {                                                     // 2 x ESCAPE
             return KEY_ESCAPE;
-        }
-        else if (ch == '[')
-        {
-            for (idx = 0; idx < 3; idx++)
-            {
-                while ((ch = mcurses_phyio_getc ()) == ERR)
-                {
+        } else if (ch == '[') {
+            for (idx = 0; idx < 3; idx++) {
+                while ((ch = mcurses_phyio_getc ()) == ERR)  {
                     ;
                 }
-
                 buf[idx] = ch;
-
-                if ((ch >= 'A' && ch <= 'Z') || ch == '~')
-                {
+                if ((ch >= 'A' && ch <= 'Z') || ch == '~')  {
                     idx++;
                     break;
                 }
@@ -640,26 +620,20 @@ getch (void)
 
             buf[idx] = '\0';
 
-            for (idx = 0; idx < MAX_KEYS; idx++)
-            {
-                if (! strcmp (buf, function_keys[idx]))
-                {
-                    ch = idx + 0x80;
-                    break;
+            for (idx = 0; idx < MAX_KEYS; idx++)  {
+               if (!strcmp_P(buf,(char*)pgm_read_word(&function_keys[idx])))   {
+                  ch = pgm_read_byte(&function_keys_code[idx]);
+                  break;
                 }
             }
 
-            if (idx == MAX_KEYS)
-            {
+            if (idx == MAX_KEYS)  {
                 ch = ERR;
             }
-        }
-        else
-        {
+        }  else  {
             ch = ERR;
         }
     }
-
     return ch;
 }
 

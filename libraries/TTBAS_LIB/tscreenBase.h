@@ -4,6 +4,7 @@
 // 修正日 2017/09/15 IsCurs()  カーソル表示有無の取得の追加
 // 修正日 2017/10/15 定義競合のためKEY_F1、KEY_F(n)をKEY_Fn1、KEY_Fn(n)変更
 // 修正日 2018/01/07 [ENTER]キー処理用にKEY_LFを追加
+// 修正日 2018/08/23 キー文字コードをmcursesの定義に統合
 
 
 #ifndef __tscreenBase_h__
@@ -13,36 +14,9 @@
 
 #include <Arduino.h>
 #include "tSerialDev.h"
+#include "mcurses.h"
 
-// 編集キーの定義
-#define KEY_TAB       '\t'   // [TAB] key
-#define KEY_CR        0x0D   // [CR]
-#define KEY_LF        0x0A   // [LF]
-#define KEY_ENTER     '\r'   // [Enter] key
-#define KEY_BACKSPACE '\b'   // [Backspace] key
-#define KEY_ESCAPE    0x1B   // [ESC] key
-#define KEY_DOWN      0x80   // [↓] key
-#define KEY_UP        0x81   // [↑] key
-#define KEY_LEFT      0x82   // [←] key
-#define KEY_RIGHT     0x83   // [→] key
-#define KEY_HOME      0x84   // [Home] key
-#define KEY_DC        0x85   // [Delete] key
-#define KEY_IC        0x86   // [Insert] key
-#define KEY_NPAGE     0x87   // [PageDown] key
-#define KEY_PPAGE     0x88   // [PageUp] key
-#define KEY_END       0x89   // [End] key
-#define KEY_BTAB      0x8A   // [Back tab] key
-#define KEY_Fn1       0x8B   // Function key F1
-#define KEY_Fn(n)     (KEY_Fn1+(n)-1)  // Space for additional 12 function keys
-
-// コントロールキーコードの定義
-#define SC_KEY_CTRL_L   12  // 画面を消去
-#define SC_KEY_CTRL_R   18  // 画面を再表示
-#define SC_KEY_CTRL_X   24  // 1文字削除(DEL)
-#define SC_KEY_CTRL_C    3  // break
-#define SC_KEY_CTRL_D    4  // 行削除
-#define SC_KEY_CTRL_N   14  // 行挿入
-
+// VRAM参照マクロ定義
 #define VPEEK(X,Y)      (screen[width*(Y)+(X)])
 #define VPOKE(X,Y,C)    (screen[width*(Y)+(X)]=C)
 
@@ -107,7 +81,7 @@ protected:
     void moveLineEnd();                               // カーソルを行末に移動
     void moveBottom();                                // スクリーン表示の最終表示の行先頭に移動 
     void locate(uint16_t x, uint16_t y);              // カーソルを指定位置に移動
-    virtual uint8_t edit();                           // スクリーン編集
+    virtual uint8_t edit() = 0;                       // スクリーン編集
     uint8_t enter_text();                             // 行入力確定ハンドラ
     virtual void newLine();                           // 改行出力
     void Insert_newLine(uint16_t l);                  // 指定行に空白挿入 

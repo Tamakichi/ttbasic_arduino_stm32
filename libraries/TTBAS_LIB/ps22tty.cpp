@@ -5,6 +5,8 @@
 // 修正 2017/04/29, キーボード、NTSCの補正対応
 // 修正 2017/05/09, カナ入力対応
 // 修正 2017/05/18, ltu(ﾂ)が利用出来ない不具合の対応
+// 修正日 2018/08/22, キーコードマクロ名をKEY_XXXからPS2_XXXに変更(文字コードとの混乱回避のため）
+
 
 #include <string.h>
 #include <libmaple/ring_buffer.h>
@@ -292,12 +294,12 @@ uint8_t cnv2tty(keyEvent k) {
         rc = k.code - 'A' + 1;
       } else {
         switch(k.code) {
-          case KEY_AT:         rc = 0;    break;
-          case KEY_L_brackets: rc = 0x1b; break;
-          case KEY_Pipe2:      rc = 0x1c; break;
-          case KEY_R_brackets: rc = 0x1d; break;  
-          case KEY_Hat:        rc = 0x1e; break;  
-          case KEY_Ro:         rc = 0x1f; break;
+          case PS2_AT:         rc = 0;    break;
+          case PS2_L_brackets: rc = 0x1b; break;
+          case PS2_Pipe2:      rc = 0x1c; break;
+          case PS2_R_brackets: rc = 0x1d; break;  
+          case PS2_Hat:        rc = 0x1e; break;  
+          case PS2_Ro:         rc = 0x1f; break;
         }
       }
       if (rc == 11) {
@@ -320,26 +322,26 @@ uint8_t cnv2tty(keyEvent k) {
   
   // 特殊キーの場合
   switch(k.code) {
-    case KEY_Insert:     rc = KEY_IC;       break;
-    case KEY_Home:       rc = KEY_HOME;     break;
-    case KEY_PageUp:     rc = KEY_PPAGE;    break;
-    case KEY_PageDown:   rc = KEY_NPAGE;    break;
-    case KEY_End:        rc = KEY_END;      break;
-    case KEY_L_Arrow:    rc = KEY_LEFT;     break;
-    case KEY_Up_Arrow:   rc = KEY_UP;       break;
-    case KEY_R_Arrow:    rc = KEY_RIGHT;    break;
-    case KEY_Down_Arrow: rc = KEY_DOWN;     break;
-    case KEY_ESC:        rc = KEY_ESCAPE;   break;
-    case KEY_Tab:        rc = KEY_TAB;      break;
-    case KEY_Space:      rc = 32;           break;
-    case KEY_Backspace:  rc = KEY_BACKSPACE;break;
-    case KEY_Delete:     rc = KEY_DC;       break;
-    case KEY_Enter:      rc = KEY_CR;       break;
-    case 112:            rc = SC_KEY_CTRL_L;break;
-    case KEY_F2:         rc = SC_KEY_CTRL_D;break;
-    case KEY_F3:         rc = SC_KEY_CTRL_N;break;
-    case KEY_F5:         rc = SC_KEY_CTRL_R;break;
-    case KEY_Romaji: 
+    case PS2_Insert:     rc = KEY_IC;       break;
+    case PS2_Home:       rc = KEY_HOME;     break;
+    case PS2_PageUp:     rc = KEY_PPAGE;    break;
+    case PS2_PageDown:   rc = KEY_NPAGE;    break;
+    case PS2_End:        rc = KEY_END;      break;
+    case PS2_L_Arrow:    rc = KEY_LEFT;     break;
+    case PS2_Up_Arrow:   rc = KEY_UP;       break;
+    case PS2_R_Arrow:    rc = KEY_RIGHT;    break;
+    case PS2_Down_Arrow: rc = KEY_DOWN;     break;
+    case PS2_ESC:        rc = KEY_ESCAPE;   break;
+    case PS2_Tab:        rc = KEY_TAB;      break;
+    case PS2_Space:      rc = 32;           break;
+    case PS2_Backspace:  rc = KEY_BACKSPACE;break;
+    case PS2_Delete:     rc = KEY_DC;       break;
+    case PS2_Enter:      rc = KEY_CR;       break;
+    case PS2_F1:         rc = KEY_CTRL_L;   break;
+    case PS2_F2:         rc = KEY_CTRL_D;   break;
+    case PS2_F3:         rc = KEY_CTRL_N;   break;
+    case PS2_F5:         rc = KEY_CTRL_R;   break;
+    case PS2_Romaji: 
       if (flgKana) {
         flgKana = false;
       } else {

@@ -1,10 +1,12 @@
 // 
-// スクリーン制御基本クラス ヘッダーファイル
+// スクリーン制御基本クラス ヘッダーファイル(Arduino STM32)
 // 作成日 2017/06/27 by たま吉さん
 // 修正日 2017/08/05 ファンクションキーをNTSC版同様に利用可能対応
 // 修正日 2017/08/12 edit_scrollUp() で最終行が2行以上の場合の処理ミス修正
 // 修正日 2017/10/15 定義競合のためKEY_F1、KEY_F(n)をKEY_Fn1、KEY_Fn(n)変更
 // 修正日 2018/01/07 [ENTER]キー処理用にKEY_LFを追加
+// 修正日 2018/08/22, KEY_F(n)をKEY_F1,KEY_F2 .. の定義に変更対応
+// 修正日 2018/08/23, SC_KEY_XXX をKEY_XXXに変更
 
 #include "tscreenBase.h"
 
@@ -459,7 +461,7 @@ uint8_t tscreenBase::edit_scrollDown() {
 #endif
   return 0;
 }
-
+/*
 // スクリーン編集
 uint8_t tscreenBase::edit() {
   uint8_t ch = 0;       // 入力文字
@@ -481,8 +483,8 @@ uint8_t tscreenBase::edit() {
         }
         break;
       
-      case SC_KEY_CTRL_L:  // [CTRL+L] 画面クリア
-      case KEY_Fn(1):      // F1
+      //case SC_KEY_CTRL_L:  // [CTRL+L] 画面クリア
+      case KEY_F1:         // F1
         cls();
         locate(0,0);
         break;
@@ -507,8 +509,8 @@ uint8_t tscreenBase::edit() {
         }  
         break;
         
-      case SC_KEY_CTRL_R:  // [CTRL_R] 画面更新
-      case KEY_Fn(5):      // F5
+      //case SC_KEY_CTRL_R:  // [CTRL_R] 画面更新
+      case KEY_F5:         // F5
         //beep();
         refresh();  break;
 
@@ -526,7 +528,7 @@ uint8_t tscreenBase::edit() {
         break;        
 
       case KEY_DC:         // [Del]キー
-      case SC_KEY_CTRL_X:
+      case KEY_CTRL_X:
         delete_char();
         break;        
       
@@ -546,13 +548,13 @@ uint8_t tscreenBase::edit() {
         movePosPrevLineChar();
         break;
 
-      case SC_KEY_CTRL_N:  // 行挿入 
-      case KEY_Fn(3):      // F3
+      //case SC_KEY_CTRL_N:  // 行挿入 
+      case KEY_F3:         // F3
         Insert_newLine(pos_y);       
         break;
 
-      case SC_KEY_CTRL_D:  // 行削除
-      case KEY_Fn(2):      // F2
+      //case SC_KEY_CTRL_D:  // 行削除
+      case KEY_F2:         // F2
         clerLine(pos_y);
         break;
 
@@ -567,3 +569,4 @@ uint8_t tscreenBase::edit() {
   } while(1);
    show_curs(true);
 }
+*/
