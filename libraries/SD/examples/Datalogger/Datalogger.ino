@@ -39,7 +39,7 @@ void setup() {
   if (!SD.begin(chipSelect)) {
     Serial.println("Card failed, or not present");
     // don't do anything more:
-    while (1);
+    return;
   }
   Serial.println("card initialized.");
 }
