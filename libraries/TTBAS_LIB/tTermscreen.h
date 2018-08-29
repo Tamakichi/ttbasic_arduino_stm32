@@ -8,6 +8,7 @@
 //  修正日 2017/04/03, getScreenByteSize()の不具合対応
 //  修正日 2017/04/06, beep()の追加
 //  修正日 2017/06/27, 汎用化のための修正
+//  修正日 2018/08/29 editLine()（全角対応版）の追加
 //
 
 #ifndef __tTermscreen_h__
@@ -63,6 +64,7 @@ class tTermscreen : public tscreenBase  {
     void putwch(uint16_t c);                     // 文字の出力（シフトJIS対応)
     void Insert_char(uint16_t c);                // 文字の挿入
     uint8_t edit();                              // スクリーン編集
+    virtual uint8_t editLine();                  // ライン編集    
     void WRITE(uint8_t c) { addch(c);};          // 文字の表示
 };
 

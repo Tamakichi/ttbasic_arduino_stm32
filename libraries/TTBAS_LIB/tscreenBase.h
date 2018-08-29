@@ -5,6 +5,7 @@
 // 修正日 2017/10/15 定義競合のためKEY_F1、KEY_F(n)をKEY_Fn1、KEY_Fn(n)変更
 // 修正日 2018/01/07 [ENTER]キー処理用にKEY_LFを追加
 // 修正日 2018/08/23 キー文字コードをmcursesの定義に統合
+// 修正日 2018/08/29 editLine()（半角入力版）の追加
 
 
 #ifndef __tscreenBase_h__
@@ -82,6 +83,7 @@ protected:
     void moveBottom();                                // スクリーン表示の最終表示の行先頭に移動 
     void locate(uint16_t x, uint16_t y);              // カーソルを指定位置に移動
     virtual uint8_t edit() = 0;                       // スクリーン編集
+    virtual uint8_t editLine();                       // ライン編集（半角入力版）
     uint8_t enter_text();                             // 行入力確定ハンドラ
     virtual void newLine();                           // 改行出力
     void Insert_newLine(uint16_t l);                  // 指定行に空白挿入 
