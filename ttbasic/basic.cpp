@@ -16,6 +16,9 @@
 // 2018/08/24 Arduino STM32最新版でのDATEコマンドの曜日の開始変更の対応
 // 2018/08/24 CHR$() 、STR$()、ASC()、LEN()の全角対応、BYTE() 関数の追加
 // 2018/08/29 GETS()関数の追加,PLAY,TEMPOの追加
+// 2018/08/29 NTSCモードでDWBMPコマンドがで画像が表示出来ない不具合の対応
+// 2018/08/29 OLEDモードでDWBMPコマンドがフリーズする不具合対応
+// 2018/08/30 TFTモードでDWBMPコマンドで2色ビットマップ画像の対応
 //
 
 #include <Arduino.h>
@@ -2087,6 +2090,7 @@ void ifiles() {
 }
 
 // 画面クリア
+// CLS[モード]
 void icls() {
   int16_t mode = 0;
 #if USE_OLED || USE_TFT
@@ -2100,8 +2104,11 @@ void icls() {
     sc->locate(0,0);
   }
 #if USE_OLED || USE_TFT
-  else if (mode == 1) {
-    sc2.cls();
+  else if (!scmode && mode == 1) {
+    sc2.gcls(); // TFT版、OLED版でシリアルコンソールモードの場合、デバイスの表示のみをクリア
+  } else if (scmode && mode == 1) {
+    sc->cls(); // TFT版、OLED版でデバイスコンソールモードの場合、コンソールをクリア
+    sc->locate(0,0);    
   }
 #endif  
 }
@@ -3925,17 +3932,18 @@ rc = fs.loadBitmap(fname, ptr, x, y, w, h, mode);
 
 // DWBMP  "ファイル名" ,X,Y,BX,BY,W,H[,mode]
 void idwbmp() {
-#if USE_NTSC == 1 || USE_OLED == 1
-  int16_t x,y,bx,by,w, h, mode;
+#if (USE_SD_CARD ==1) && (USE_NTSC == 1 || USE_OLED == 1 || USE_TFT ==1)
+  int16_t x,y,bx,by,w, h, mode=0;
   uint8_t* ptr;
   uint8_t rc = 0; 
   int16_t bw;
   char* fname;
-  if (scmode||USE_OLED) { // コンソールがデバイスコンソールの場合
-    if(!(fname = getParamFname())) {
+
+  if (scmode||USE_OLED|| USE_TFT) { // コンソールがデバイスコンソールの場合
+    // 引数のファイル名を取得
+    if(!(fname = getParamFname())) 
       return;
-    }
-  
+
     if (*cip != I_COMMA) {
       err = ERR_SYNTAX;
       return;    
@@ -3943,85 +3951,40 @@ void idwbmp() {
     cip++;
   
     // 引数取得
-    if ( getParam(x,  0, sc2.getGWidth(), true) ) return;       // x
-    if ( getParam(y,  0, ((tGraphicScreen*)sc)->getGHeight(), true) ) return;      // y
-    if ( getParam(bx, 0, 32767, true) ) return;                // bx
-    if ( getParam(by, 0, 32767, true) ) return;                // by
-    if ( getParam(w,  0, sc2.getGWidth(), true) ) return;       // w
-    if ( getParam(h,  0, sc2.getGHeight(), false) ) return;     // h
+    if ( getParam(x,  0, sc2.getGWidth()-1, true) ) return;       // x  x表示位置
+    if ( getParam(y,  0, sc2.getGHeight()-1, false) ) return;     // y  y表示位置
     if (*cip == I_COMMA) {
-       cip++; if ( getParam(mode,  0, 1, false) ) return;      // mode     
+      cip++;
+      if ( getParam(bx, 0, 32767, true) ) return;                 // bx BITMAP画像取り出し位置x
+      if ( getParam(by, 0, 32767, true) ) return;                 // by BITMAP画像取り出し位置y
+      if ( getParam(w,  0, sc2.getGWidth(), true) ) return;       // w  BITMAP画像取り出し幅
+      if ( getParam(h,  0, sc2.getGHeight(), false) ) return;     // h  BITMAP画像取り出し高さ
+      if (*cip == I_COMMA) {
+         cip++; if ( getParam(mode,  0, 1, false) ) return;       // mode 0:通常 1:反転
+      }
+    } else {
+      bx = 0; by = 0; w = sc2.getGWidth()-x; h = sc2.getGHeight()-y;      
     }
-  
-    // サイズチェック
+
+    // サイズチェック( 画面に収まらいない場合はエラーとする）
     if (x + w > sc2.getGWidth() || y + h > sc2.getGHeight()) {
       err = ERR_RANGE;
       return;
     }
   
     // 画像のロード
-  #if USE_SD_CARD == 1
-   #if USE_TFT == 1
+   #if USE_NTSC == 1
     bw  = sc2.getGWidth()/8;
     ptr = sc2.getGRAM() + bw*y + x/8;
     rc  = fs.loadBitmapToGVRAM(fname, ptr, x, y, bw, bx, by, w, h, mode);
-   #elif USE_OLED == 1 
+   #elif USE_OLED == 1
     bw  = sc2.getGWidth();
     ptr = sc2.getGRAM();
     rc  = fs.loadBitmapToGVRAM(fname, ptr, x, y, bw, bx, by, w, h, mode,1);
     sc2.update();
+   #elif USE_TFT == 1
+    rc = sc2.bmpDraw(fname,x,y,bx,by,w,h,mode);
    #endif
-    if (rc == SD_ERR_INIT) {
-      err = ERR_SD_NOT_READY;
-    } else if (rc == SD_ERR_OPEN_FILE) {
-      err =  ERR_FILE_OPEN;
-    } else if (rc == SD_ERR_READ_FILE) {
-      err =  ERR_FILE_READ;
-    }
-  #endif
-
-  } else {
-   err = ERR_NOT_SUPPORTED;
-  }
-#elif USE_TFT ==1 && USE_SD_CARD == 1 
-  // DWBMP  "ファイル名" ,X,Y
-  int16_t x,y,bx,by,w, h;
-  uint8_t* ptr;
-  uint8_t rc; 
-  char* fname;
-  if (scmode||USE_TFT) { // コンソールがデバイスコンソールの場合
-    if(!(fname = getParamFname())) {
-      return;
-    }
-    if (*cip != I_COMMA) {
-      err = ERR_SYNTAX;
-      return;    
-    }
-    cip++;
-
-    // 引数取得
-    if ( getParam(x,  0, sc2.getGWidth()-1, true) ) return;       // x
-    if ( getParam(y,  0, sc2.getGHeight()-1, false) ) return;      // y
-    if (*cip == I_COMMA) {
-       cip++;
-       if ( getParam(bx, 0, 32767, true) ) return;   // bx
-       if ( getParam(by, 0, 32767, true) ) return;   // by
-       if ( getParam(w,  0, sc2.getGWidth(), true) ) return;       // w
-       if ( getParam(h,  0, sc2.getGHeight(), false) ) return;     // h
-    } else {
-      bx = 0; by = 0; w = sc2.getGWidth()-x; h = sc2.getGHeight()-y;
-    }
-    // サイズチェック
-    if (x+w  > sc2.getGWidth() || y+h > sc2.getGHeight()) {
-      err = ERR_RANGE;
-      return;
-    }
-    // 画像のロード
-#if USE_TFT == 1
-    rc = sc2.bmpDraw(fname,x,y,bx,by,w,h);
-#elif USE_OLED == 1
-    rc = sc2.bmpDraw(fname,x,y,bx,by,w,h);
-#endif    
     if (rc == SD_ERR_INIT) {
       err = ERR_SD_NOT_READY;
     } else if (rc == SD_ERR_OPEN_FILE) {
@@ -4035,7 +3998,8 @@ void idwbmp() {
    err = ERR_NOT_SUPPORTED;
   }
 #else
-  err = ERR_NOT_SUPPORTED;
+   err = ERR_NOT_SUPPORTED;
+//  }
 #endif
 }
 
@@ -4405,7 +4369,7 @@ void iconsole(uint8_t useParam=false, uint8_t paramArg=CON_MODE_DEVICE) {
   if (mode == CON_MODE_SERIAL) {     // デバイスコンソール => シリアルコンソール切り替え    
     prv_scrt = scrt;                 // 現在の画面向きを保存
     prv_scSizeMode = scSizeMode;     // 現時点の画面サイズモードを保存する
-    scSizeMode = SCSIZE_MODE_SERIAL; // 画面サイズモードに リアルコンソールをセッ
+    scSizeMode = SCSIZE_MODE_SERIAL; // 画面サイズモードに シリアルコンソールをセッ
     scmode = 0;                      // シリアルコンソールON
     sc->cls();                       // 画面クリア
    
