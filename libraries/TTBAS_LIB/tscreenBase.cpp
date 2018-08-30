@@ -7,6 +7,7 @@
 // 修正日 2018/01/07 [ENTER]キー処理用にKEY_LFを追加
 // 修正日 2018/08/22, KEY_F(n)をKEY_F1,KEY_F2 .. の定義に変更対応
 // 修正日 2018/08/23, SC_KEY_XXX をKEY_XXXに変更
+// 修正日 2018/08/29 editLine()（半角入力版）の追加
 
 #include "tscreenBase.h"
 
@@ -461,6 +462,78 @@ uint8_t tscreenBase::edit_scrollDown() {
 #endif
   return 0;
 }
+
+// ライン編集（半角入力版）
+// 中断の場合、0を返す
+uint8_t tscreenBase::editLine() {
+  uint16_t basePos_x = pos_x;
+  uint16_t basePos_y = pos_y;
+  uint16_t ch;  // 入力文字  
+  
+  show_curs(true);
+  for(;;) {
+    ch = get_ch();
+    switch(ch) {
+      case KEY_CR:          // [Enter]キー
+        show_curs(false);
+        text = &VPEEK(basePos_x, basePos_y);
+        return 1;
+        break;
+ 
+      case KEY_HOME:       // [HOMEキー] 行先頭移動
+        locate(basePos_x, basePos_y);
+        break;
+        
+      case KEY_F5:         // [F5],[CTRL_R] 画面更新
+        //beep();
+        refresh();  break;
+
+      case KEY_END:        // [ENDキー] 行の右端移動
+         moveLineEnd();
+         break;
+
+      case KEY_IC:         // [Insert]キー
+        flgIns = !flgIns;
+        break;        
+
+      case KEY_BACKSPACE:  // [BS]キー
+        if (pos_x > basePos_x) {
+          movePosPrevChar();
+          delete_char();
+        }
+        break;        
+
+      case KEY_RIGHT:      // [→]キー
+        if (pos_x < width-1) {
+          movePosNextChar();
+        }
+        break;
+
+      case KEY_LEFT:       // [←]キー
+        if (pos_x > basePos_x) {
+          movePosPrevChar();
+        }
+        break;
+
+      case KEY_DC:         // [Del]キー
+      case KEY_CTRL_X:
+        delete_char();
+        break;        
+    
+      case KEY_CTRL_C:   // [CTRL_C] 中断
+      case KEY_ESCAPE:
+        return 0;
+
+      default:               // その他
+      if (IS_PRINT(ch) && (pos_x <width-1) ) {
+          Insert_char(ch);
+        }  
+        break;
+    }
+  }
+}
+
+
 /*
 // スクリーン編集
 uint8_t tscreenBase::edit() {

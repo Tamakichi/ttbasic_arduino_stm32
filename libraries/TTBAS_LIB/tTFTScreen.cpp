@@ -7,6 +7,7 @@
 // 2017/08/28 スクリーン用メモリに確保済領域指定対応
 // 2017/11/05 デバッグ用出力消し忘れミスの対応
 // 2018/08/18 修正 init()に横位置補正、縦位置補正引数の追加（抽象クラスとのインタフェース互換のため）
+// 2018/08/30 修正 bmpDraw()でモノラルBMP暫定対応
 //
 
 #include <string.h>
@@ -314,8 +315,8 @@ static uint32_t read32(File &f) {
 // 本関数はAdafruit_ILI9341_STMライブラリのサンプルspitftbitmapを利用しています
 //
 
-uint8_t tTFTScreen::bmpDraw(char *filename, uint8_t x, uint16_t y, uint16_t bx, uint16_t by, uint16_t bw, uint16_t bh) {
-  File     bmpFile;
+uint8_t tTFTScreen::bmpDraw(char *filename, uint8_t x, uint16_t y, uint16_t bx, uint16_t by, uint16_t bw, uint16_t bh, uint8_t mode) {
+  File     bmpFile;               // ファイルディスクリプタ
   int      bmpWidth, bmpHeight;   // W+H in pixels
   uint8_t  bmpDepth;              // Bit depth (currently must be 24)
   uint32_t bmpImageoffset;        // Start of image data in file
@@ -328,32 +329,52 @@ uint8_t tTFTScreen::bmpDraw(char *filename, uint8_t x, uint16_t y, uint16_t bx, 
   uint8_t  r, g, b;
   uint32_t pos = 0;
   uint8_t rc = 0;
+  uint16_t bc,fc;
   
-  if((x >= this->tft->width()) || (y >= this->tft->height())) return 10;
+  // 2色BITMAP時の色の設定
+  if (mode) {
+    bc = fgcolor;
+    fc = bgcolor;
+  } else {
+    bc = bgcolor;
+    fc = fgcolor;
+  }
+    
+  //uint8_t pixelSize;               // ピクセルサイズ係数(1:1ビット、3:24ビット)
+  
+  if((x >= this->tft->width()) || (y >= this->tft->height())) 
+    return 10;               // 表示位置がＴＦＴ領域を超えている
+
+  // ファイルオープン
   if (SD_BEGIN() == false) 
-    return SD_ERR_INIT;
+    return SD_ERR_INIT;      // SDカードが初期化失敗
   if ((bmpFile = SD.open(filename)) == NULL) {
-    rc = SD_ERR_OPEN_FILE;
-  	goto ERROR;
+    rc = SD_ERR_OPEN_FILE;   // ファイルオープン失敗
+  	goto ERROR;              // SDカード利用終了処理へジャンプ
   }
   
-  // Parse BMP header
-  if(read16(bmpFile) == 0x4D42) { // BMP signature
+  // BMPヘッダーのチェック
+  if(read16(bmpFile) == 0x4D42) {     // BMP signature
   	read32(bmpFile);
   	(void)read32(bmpFile);            // Read & ignore creator bytes
     bmpImageoffset = read32(bmpFile); // Start of image data
 
-  	// Read DIB header
+  	// DIBヘッダーの読み込み
   	read32(bmpFile);
-    bmpWidth  = read32(bmpFile);  // ビットマップ画像横ドット数
-    bmpHeight = read32(bmpFile);  // ビットマック画像縦ドット数
-    if(read16(bmpFile) == 1) { // # planes -- must be '1'
-      bmpDepth = read16(bmpFile); // bits per pixel
-      if((bmpDepth == 24) && (read32(bmpFile) == 0)) { // 0 = uncompressed
-
-        goodBmp = true; // Supported BMP format -- proceed!
-      	
-        rowSize = (bmpWidth * 3 + 3) & ~3;
+    bmpWidth  = read32(bmpFile);      // ビットマップ画像横ドット数
+    bmpHeight = read32(bmpFile);      // ビットマック画像縦ドット数
+    if(read16(bmpFile) == 1) {        // プレーン数チェック  必ず1でなければならない
+      bmpDepth = read16(bmpFile);     // 1ピクセル当たりのビット数の取得
+      if((bmpDepth == 24 || bmpDepth == 1) && (read32(bmpFile) == 0)) { // 0 = uncompressed
+        goodBmp = true;               // サポート条件 true
+        // １ラインのバイト数の計算
+        if (bmpDepth == 24) {
+          rowSize = (bmpWidth * 3 + 3) & ~3;       // 24ビットの場合
+          //pixelSize = 3;
+        } else {
+          rowSize = (((bmpWidth+7)>>3) + 3) & ~3;  // 1ビットの場合
+          //pixelSize = 1;
+        } 
         if(bmpHeight < 0) {
           bmpHeight = -bmpHeight;
           flip      = false;
@@ -372,20 +393,29 @@ uint8_t tTFTScreen::bmpDraw(char *filename, uint8_t x, uint16_t y, uint16_t bx, 
        
         // Set TFT address window to clipped image bounds
         this->tft->setAddrWindow(x, y, x+bw-1, y+bh-1);
-        for (row = by; row < h; row++) {
+       
+        for (row = by; row < h; row++) { 
           // ビットマップ画像のライン毎のデータ処理
           
           // 格納画像の向きの補正
-          if(flip)
-            pos = bmpImageoffset + (bmpHeight - 1 - row) * rowSize + bx*3;
-          else 
-            pos = bmpImageoffset + row * rowSize + bx*3;
+          if(flip) {
+            if (bmpDepth == 24)
+              pos = bmpImageoffset + (bmpHeight - 1 - row) * rowSize + bx*3;
+            else
+              pos = bmpImageoffset + (bmpHeight - 1 - row) * rowSize + (bx>>3);
+          } else {
+            if (bmpDepth == 24)
+              pos = bmpImageoffset + row * rowSize + bx*3;
+            else
+              pos = bmpImageoffset + row * rowSize + (bx>>3);            
+          }
           if(bmpFile.position() != pos) {
             bmpFile.seek(pos);
             buffidx = sizeof(sdbuffer); 
           }
 
-          for (col=bx; col<w; col++) {
+          // 1ライン分のデータの処理
+          for ( col = bx; col < w; col++ ) {
             // ドット毎の処理
             // Time to read more pixel data?
             if (buffidx >= sizeof(sdbuffer)) { // Indeed
@@ -394,11 +424,25 @@ uint8_t tTFTScreen::bmpDraw(char *filename, uint8_t x, uint16_t y, uint16_t bx, 
             }
 
             // Convert pixel from BMP to TFT format, push to display
+            if (bmpDepth == 24) {
               b = sdbuffer[buffidx++];
               g = sdbuffer[buffidx++];
               r = sdbuffer[buffidx++];
               this->tft->pushColor(this->tft->color565(r,g,b));
+            } else {
+              uint8_t px = sdbuffer[buffidx++];
+              //Serial.print(px,HEX);Serial.write(',');
+              for ( uint8_t i = 0; i < 8; i++) {
+                  if (px & (0x80>>i)) {
+                      this->tft->pushColor(fc);
+                  }  else {
+                      this->tft->pushColor(bc);
+                  }
+              }
+              col+=7;
+            }
           } // end pixel
+          //Serial.println();
         } // end scanline
       } // end goodBmp
     }

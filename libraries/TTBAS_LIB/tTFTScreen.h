@@ -5,7 +5,7 @@
 // 2017/08/25 修正 グラフィック描画対応
 // 2017/08/28 スクリーン用メモリに確保済領域指定対応
 // 2018/08/18 修正 init()に横位置補正、縦位置補正引数の追加（抽象クラスとのインタフェース互換のため）
-//
+// 2018/08/30 修正 bmpDraw()でモノラルBMP暫定対応
 
 #ifndef __tTFTScreen_h__
 #define __tTFTScreen_h__
@@ -74,7 +74,7 @@ class tTFTScreen :public tGraphicScreen {
     int16_t  ginp(int16_t x, int16_t y, int16_t w, int16_t h, uint8_t c){return 0;};
     void     set_gcursor(uint16_t, uint16_t);
     void     gputch(uint8_t c);
-    uint8_t  bmpDraw(char *filename, uint8_t x, uint16_t y, uint16_t bx=0, uint16_t by=0, uint16_t bw=0, uint16_t bh=0);
+    uint8_t  bmpDraw(char *filename, uint8_t x, uint16_t y, uint16_t bx=0, uint16_t by=0, uint16_t bw=0, uint16_t bh=0,uint8_t mode=0);
 };
 
 #endif
