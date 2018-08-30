@@ -148,6 +148,7 @@ void iprint(uint8_t devno,uint8_t nonewln) ;
 unsigned char* iexe();
 short iexp(void);
 void error(uint8_t flgCmd);
+int isJMS( uint8_t *str, uint16_t nPos );
 
 // **** RTC用宣言 ********************
 #if USE_INNERRTC == 1
@@ -3748,7 +3749,7 @@ int16_t igets() {
   if (!rc) {
     // 入力中断
     adr[0] = 0; // 長さのセット
-    err = ERR_CTR_C;                  // エラー番号をセット
+    err = ERR_CTR_C;           // エラー番号をセット
     newline();
     return value;
   }
@@ -3760,9 +3761,10 @@ int16_t igets() {
        len = maxlen;
      strncpy((char*)&adr[1], text,len);
      adr[1+len] = 0;
-     tlimR((char*)&adr[1]); //文末の余分空白文字の削除
+     tlimR((char*)&adr[1]);   //文末の余分空白文字の削除
      len = strlen((char*)&adr[1]);   
-     if ( len> 0 && isZenkaku(adr[1+len-1])) {
+  
+     if ( len> 0 && isJMS(&adr[1],len-1) == 1) {
        // 最後の文字が全角1バイト目の場合は削除する
        adr[1+len-1] = 0;
        len--;
