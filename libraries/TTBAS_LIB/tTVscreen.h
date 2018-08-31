@@ -20,6 +20,7 @@
 //  修正日 2017/08/24, tone(),notone()の削除
 //  修正日 2017/11/08, 関数の一部のインライン化,init()の修正
 //  修正日 2018/08/18, init(),tv_init()に横位置補正、縦位置補正引数の追加
+//  修正日 2018/08/31, gpeek(),ginp()の戻り値、引数の型を変更
 //
 
 #ifndef __tTVscreen_h__
@@ -88,8 +89,8 @@ class tTVscreen : public tGraphicScreen {
     void     bitmap(int16_t x, int16_t y, uint8_t* adr, uint16_t index, uint16_t w, uint16_t h, uint16_t d, uint8_t rgb=0) 
              {tv_bitmap(x, y, adr, index, w, h, d);};
     void     gscroll(int16_t x, int16_t y, int16_t w, int16_t h, uint8_t mode);
-    int16_t  gpeek(int16_t x, int16_t y) {return b_adr[g_width*y+ (x&0xf8) +7 -(x&7)];};
-    int16_t  ginp(int16_t x, int16_t y, int16_t w, int16_t h, uint8_t c);
+    uint16_t gpeek(int16_t x, int16_t y) {return b_adr[g_width*y+ (x&0xf8) +7 -(x&7)];};
+    int16_t  ginp(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t c);
     void     set_gcursor(uint16_t x, uint16_t y) {TV.set_cursor(x,y);	} ; // グラフィック文字表示カーソル設定
     void     gputch(uint8_t c) {TV.write(c);}; // 文字のグラフィック表示
 

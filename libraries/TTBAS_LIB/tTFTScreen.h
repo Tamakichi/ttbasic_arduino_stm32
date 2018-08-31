@@ -6,6 +6,8 @@
 // 2017/08/28 スクリーン用メモリに確保済領域指定対応
 // 2018/08/18 修正 init()に横位置補正、縦位置補正引数の追加（抽象クラスとのインタフェース互換のため）
 // 2018/08/30 修正 bmpDraw()でモノラルBMP暫定対応
+// 2018/08/31 修正 Arduino STM32最新版（mastarブランチ）の場合、Adafruit_ILI9341_STM(修正版)利用に修正
+// 2018/08/31 修正 gpeek(),ginp()の戻り値、引数の型を変更
 
 #ifndef __tTFTScreen_h__
 #define __tTFTScreen_h__
@@ -14,7 +16,11 @@
 #include "tGraphicScreen.h"
 #include <SPI.h>
 #include <Adafruit_GFX_AS.h>      // Core graphics library, with extra fonts.
-#include <Adafruit_ILI9341_STM_TT.h> // STM32 DMA Hardware-specific library
+#ifdef STM32_R20170323
+ #include <Adafruit_ILI9341_STM_TT.h> // STM32 DMA Hardware-specific library
+#else
+ #include <Adafruit_ILI9341_STM.h>    // STM32 DMA Hardware-specific library
+#endif
 
 // PS/2キーボードの利用 0:利用しない 1:利用する
 #define PS2DEV     1  
@@ -22,7 +28,13 @@
 
 class tTFTScreen :public tGraphicScreen {
  private:
+#ifdef STM32_R20170323
   Adafruit_ILI9341_STM_TT* tft;
+#else
+  Adafruit_ILI9341_STM* tft;
+  SPIClass* pSPI;  
+#endif
+  
   uint16_t f_width;    // フォント幅(ドット)
   uint16_t f_height;   // フォント高さ(ドット)
   uint16_t fgcolor;
@@ -70,8 +82,8 @@ class tTFTScreen :public tGraphicScreen {
     void     bitmap(int16_t x, int16_t y, uint8_t* adr, uint16_t index, uint16_t w, uint16_t h, uint16_t d, uint8_t rgb=0);
     void     gscroll(int16_t x, int16_t y, int16_t w, int16_t h, uint8_t mode){};
     void     cscroll(int16_t x, int16_t y, int16_t w, int16_t h, uint8_t d) {};
-    int16_t  gpeek(int16_t x, int16_t y){return 0;};
-    int16_t  ginp(int16_t x, int16_t y, int16_t w, int16_t h, uint8_t c){return 0;};
+    uint16_t gpeek(int16_t x, int16_t y);
+    int16_t  ginp(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t c);
     void     set_gcursor(uint16_t, uint16_t);
     void     gputch(uint8_t c);
     uint8_t  bmpDraw(char *filename, uint8_t x, uint16_t y, uint16_t bx=0, uint16_t by=0, uint16_t bw=0, uint16_t bh=0,uint8_t mode=0);
