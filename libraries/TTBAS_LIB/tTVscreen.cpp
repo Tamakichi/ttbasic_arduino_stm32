@@ -22,6 +22,7 @@
 //  修正日 2017/08/19, tvutl,tGraphicDevの関数群の移行
 //  修正日 2017/08/24, tone(),notone()の削除,フォント指定方法の仕様変更（フォント汎用利用のため)
 //  修正日 2017/11/08, 関数の一部のインライン化,init()の修正
+//  修正日 2018/08/31, gpeek(),ginp()の戻り値、引数の型を変更
 //
 
 #include <string.h>
@@ -165,7 +166,7 @@ void tTVscreen::gscroll(int16_t x, int16_t y, int16_t w, int16_t h, uint8_t mode
 }
 
 // 指定領域のピクセル有無チェック
-int16_t tTVscreen::ginp(int16_t x, int16_t y, int16_t w, int16_t h, uint8_t c) {
+int16_t tTVscreen::ginp(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t c) {
   for (int16_t i = y ; i < y+h; i++) {
     for (int16_t j= x; j < x+w; j++) {
       if (this->b_adr[g_width*i+ (j&0xf8) +7 -(j&7)] == c) {

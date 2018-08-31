@@ -19,6 +19,8 @@
 // 2018/08/29 NTSCモードでDWBMPコマンドがで画像が表示出来ない不具合の対応
 // 2018/08/29 OLEDモードでDWBMPコマンドがフリーズする不具合対応
 // 2018/08/30 TFTモードでDWBMPコマンドで2色ビットマップ画像の対応
+// 2018/08/31 TFTモードでGPEEK,GINPのサポート(Arduino STM32最新版でのみ）
+// 2018/08/31 BIN$()の不具合対応
 //
 
 #include <Arduino.h>
@@ -724,6 +726,7 @@ void putHexnum(short value, uint8_t d, uint8_t devno=0) {
 //  dで桁指定時は0補完する
 //  符号は考慮しない
 // 
+/*
 void putBinnum(short value, uint8_t d, uint8_t devno=0) {
   uint16_t  bin = (uint16_t)value; // 符号なし16進数として参照利用する
   uint16_t  b;
@@ -740,6 +743,30 @@ void putBinnum(short value, uint8_t d, uint8_t devno=0) {
   if (d > dig)
     dig = d;
   c_puts(&lbuf[16-dig],devno);
+}
+*/
+void putBinnum(int16_t value, uint8_t d, uint8_t devno=0) {
+  uint16_t  bin = (uint16_t)value; // 符号なし16進数として参照利用する
+  uint16_t  b;                     // 指定ビット位置の値(0 or 1)
+  uint16_t  dig = 0;               // 先頭が1から始まる桁数
+
+  // 最初に1が現れる桁を求める
+  for (uint8_t i=0; i < 16; i++) {
+    if ( (0x8000>>i) & bin ) {
+      dig = 15 - i;
+      break;
+    }
+  }
+  dig++;
+  
+  // 実際の桁数が指定表示桁数を超える場合は、実際の桁数を採用する
+  if (d > dig) 
+    dig = d;
+
+  // ビット文字列の出力処理
+  for (int8_t i=dig-1; i>=0; i--)
+   c_putch((bin & (1<<i)) ? '1':'0', devno);
+
 }
 
 // 数値の入力
@@ -3578,7 +3605,7 @@ void iplay() {
 
 // GPEEK(X,Y)関数の処理
 int16_t igpeek() {
-#if USE_NTSC == 1 || USE_OLED == 1
+#if USE_NTSC == 1 || USE_OLED == 1 || USE_TFT == 1
   short x, y;  // 座標
   if (scmode||USE_OLED) { // コンソールがデバイスコンソールの場合
     if (checkOpen()) return 0;
@@ -3597,8 +3624,9 @@ int16_t igpeek() {
 
 // GINP(X,Y,H,W,C)関数の処理
 int16_t iginp() {
-#if USE_NTSC == 1 || USE_OLED == 1
-  int16_t x,y,w,h,c;
+#if USE_NTSC == 1 || USE_OLED == 1 || USE_TFT == 1
+  int16_t x,y,w,h;
+  uint16_t c;
   if (scmode||USE_OLED) { // コンソールがデバイスコンソールの場合
     if (checkOpen())  return 0;
     if ( getParam(x,true)||getParam(y,true)||getParam(w,true)||getParam(h,true)||getParam(c,false) ) return 0; 

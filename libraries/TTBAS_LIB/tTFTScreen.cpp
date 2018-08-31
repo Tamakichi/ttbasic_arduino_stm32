@@ -8,6 +8,8 @@
 // 2017/11/05 デバッグ用出力消し忘れミスの対応
 // 2018/08/18 修正 init()に横位置補正、縦位置補正引数の追加（抽象クラスとのインタフェース互換のため）
 // 2018/08/30 修正 bmpDraw()でモノラルBMP暫定対応
+// 2018/08/31 修正 Arduino STM32最新版（mastarブランチ）の場合、Adafruit_ILI9341_STM(修正版)利用に修正
+// 2018/08/31 修正 gpeek(),ginp()の実装
 //
 
 #include <string.h>
@@ -50,7 +52,12 @@ static const uint16_t tbl_color[]  =
 // 初期化
 void tTFTScreen::init(const uint8_t* fnt, uint16_t ln, uint8_t kbd_type, uint8_t* extmem, uint8_t vmode, int8_t rt, int8_t Hajst, int8_t Vajst,uint8_t ifmode) {
   this->font = (uint8_t*)fnt;
+#ifdef STM32_R20170323
   this->tft = new Adafruit_ILI9341_STM_TT(TFT_CS, TFT_DC, TFT_RST,2); // Use hardware SPI
+#else
+  pSPI = new SPIClass(2);
+  this->tft = new Adafruit_ILI9341_STM(TFT_CS, TFT_DC, TFT_RST, *pSPI); // Use hardware SPI
+#endif  
   this->tft->begin();
   setScreen(vmode, rt); // スクリーンモード,画面回転指定
   if (extmem == NULL) {
@@ -457,3 +464,26 @@ ERROR:
   }
  return rc;
 }
+
+// 指定座標の色コード取得
+uint16_t  tTFTScreen::gpeek(int16_t x, int16_t y) {
+#ifdef STM32_R20170323
+  return this->tft->readPixel(x,y);
+#else
+  return 0;
+#endif  
+}
+
+// 指定範囲の指定色コード有無のチェック
+int16_t  tTFTScreen::ginp(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t c) {
+#ifdef STM32_R20170323
+  for (int16_t i = y ; i < y+h; i++) {
+    for (int16_t j= x; j < x+w; j++) {
+      if (this->gpeek(x,y) == c) {
+          return 1;
+      }
+    }
+  }
+#endif
+  return 0;	
+}  

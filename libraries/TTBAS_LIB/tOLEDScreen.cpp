@@ -3,6 +3,7 @@
 // SH1106/SSD1306/SSD1309利用ターミナルスクリーン制御クラス
 // 2017/09/14 作成
 // 修正日 2018/08/18, init()に横位置補正、縦位置補正引数の追加（抽象クラスとのインタフェース互換のため）
+// 修正日 2018/08/31, gpeek(),ginp()の戻り値、引数の型を変更
 //
 
 #include <string.h>
@@ -303,12 +304,12 @@ void  tOLEDScreen::bitmap(int16_t x, int16_t y, uint8_t* adr, uint16_t index, ui
 }
 
 // 指定座標のドットの取得
-int16_t tOLEDScreen::gpeek(int16_t x, int16_t y) {
+uint16_t tOLEDScreen::gpeek(int16_t x, int16_t y) {
   return this->oled->getPixel(x, y);
 }
 
 // 指定領域のピクセル有無チェック
-int16_t tOLEDScreen::ginp(int16_t x, int16_t y, int16_t w, int16_t h, uint8_t c) {
+int16_t tOLEDScreen::ginp(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t c) {
   for (int16_t i = y ; i < y+h; i++) {
     for (int16_t j= x; j < x+w; j++) {
       if (this->gpeek(x,y) == c) {

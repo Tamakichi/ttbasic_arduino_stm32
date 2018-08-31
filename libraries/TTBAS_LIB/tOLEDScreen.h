@@ -3,6 +3,7 @@
 // SH1106/SSD1306/SSD1309利用ターミナルスクリーン制御クラス
 // 2017/09/14 作成
 // 修正日 2018/08/18, init()に横位置補正、縦位置補正引数の追加（抽象クラスとのインタフェース互換のため）
+// 修正日 2018/08/31, gpeek(),ginp()の戻り値、引数の型を変更
 //
 
 
@@ -78,8 +79,8 @@ class tOLEDScreen :public tGraphicScreen {
     void     circle(int16_t x, int16_t y, int16_t r, uint16_t c, int8_t f);
     void     rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t c, int8_t f);
     void     bitmap(int16_t x, int16_t y, uint8_t* adr, uint16_t index, uint16_t w, uint16_t h, uint16_t d, uint8_t rgb=0);
-    int16_t  gpeek(int16_t x, int16_t y);
-    int16_t  ginp(int16_t x, int16_t y, int16_t w, int16_t h, uint8_t c);
+    uint16_t gpeek(int16_t x, int16_t y);
+    int16_t  ginp(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t c);
     void     set_gcursor(uint16_t, uint16_t);
     void     gputch(uint8_t c);
     uint8_t  bmpDraw(char *filename, uint8_t x, uint16_t y, uint16_t bx=0, uint16_t by=0, uint16_t bw=0, uint16_t bh=0);
