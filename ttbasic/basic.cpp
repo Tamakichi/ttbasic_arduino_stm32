@@ -21,6 +21,7 @@
 // 2018/08/30 TFTモードでDWBMPコマンドで2色ビットマップ画像の対応
 // 2018/08/31 TFTモードでGPEEK,GINPのサポート(Arduino STM32最新版でのみ）
 // 2018/08/31 BIN$()の不具合対応
+// 2018/09/02 I2CCLKコマンドの追加（I2Cのバスクロックの設定）
 //
 
 #include <Arduino.h>
@@ -330,7 +331,7 @@ const char *kwtbl[] __FLASH__  = {
  "GETS", // 文字列入力
  "ABS", "MAP", "ASC", "FREE", "RND",  "INKEY", "LEN","BYTE",   // 数値関数(20)
  "TICK", "PEEK", "VPEEK", "GPEEK", "GINP", "RGB",
- "I2CW", "I2CR", "IN", "ANA", "SHIFTIN",
+ "I2CW", "I2CR", "IN", "ANA", "SHIFTIN","I2CCLK",
  "SREADY", "SREAD", "EEPREAD",
  "PSET","LINE","RECT","CIRCLE", "BITMAP", "GPRINT", "GSCROLL",  // グラフィック表示コマンド(7)
  "GPIO", "OUT", "POUT", "SHIFTOUT", "PULSEIN",                  // GPIO・入出力関連コマンド(5)
@@ -370,7 +371,7 @@ enum ICode:uint8_t {
  I_GETS, // 文字列入力
  I_ABS, I_MAP, I_ASC, I_FREE, I_RND, I_INKEY, I_LEN, I_BYTE,   // 数値関数(21)
  I_TICK, I_PEEK, I_VPEEK, I_GPEEK, I_GINP, I_RGB,
- I_I2CW, I_I2CR, I_DIN, I_ANA, I_SHIFTIN,
+ I_I2CW, I_I2CR, I_DIN, I_ANA, I_SHIFTIN, I_I2CCLK,
  I_SREADY, I_SREAD, I_EEPREAD,
  I_PSET, I_LINE, I_RECT, I_CIRCLE, I_BITMAP, I_GPRINT, I_GSCROLL, // グラフィック表示コマンド(7)
  I_GPIO, I_DOUT, I_POUT, I_SHIFTOUT, I_PULSEIN,                   // GPIO・入出力関連コマンド(5)
@@ -436,7 +437,7 @@ const uint8_t i_sf[]  = {
   I_LOAD,I_LOCATE,I_NEW,I_DOUT,I_POKE,I_PRINT,I_REFLESH,I_REM,I_RENUM,I_CLT,
   I_RETURN,I_RUN,I_SAVE,I_SETDATE,I_SHIFTOUT,I_WAIT,I_EEPFORMAT, I_EEPWRITE, 
   I_PSET, I_LINE, I_RECT, I_CIRCLE, I_BITMAP, I_SWRITE, I_SPRINT,  I_SOPEN, I_SCLOSE,I_SMODE,
-  I_TONE, I_NOTONE, I_PLAY, I_CSCROLL, I_GSCROLL,I_EXPORT,
+  I_TONE, I_NOTONE, I_PLAY, I_CSCROLL, I_GSCROLL,I_EXPORT, I_I2CCLK,
 };
 
 // 例外検索関数
@@ -726,28 +727,9 @@ void putHexnum(short value, uint8_t d, uint8_t devno=0) {
 //  dで桁指定時は0補完する
 //  符号は考慮しない
 // 
-/*
-void putBinnum(short value, uint8_t d, uint8_t devno=0) {
-  uint16_t  bin = (uint16_t)value; // 符号なし16進数として参照利用する
-  uint16_t  b;
-  uint16_t  dig = 0;
-  
-  for (uint8_t i = 0; i < 16; i++) {
-    b =(bin>>(15-i)) & 1;
-    lbuf[i] = b ? '1':'0';
-    if (!dig && b) 
-      dig = 16-i;
-  }
-  lbuf[16] = 0;
 
-  if (d > dig)
-    dig = d;
-  c_puts(&lbuf[16-dig],devno);
-}
-*/
 void putBinnum(int16_t value, uint8_t d, uint8_t devno=0) {
   uint16_t  bin = (uint16_t)value; // 符号なし16進数として参照利用する
-  uint16_t  b;                     // 指定ビット位置の値(0 or 1)
   uint16_t  dig = 0;               // 先頭が1から始まる桁数
 
   // 最初に1が現れる桁を求める
@@ -1578,7 +1560,6 @@ void ilist(uint8_t devno=0) {
   int16_t lineno = 0;          // 表示開始行番号
   int16_t endlineno = 32767;   // 表示終了行番号
   int16_t prnlineno;           // 出力対象行番号
-  int16_t c;
   
   //表示開始行番号の設定
   if (*cip != I_EOL && *cip != I_COLON) {
@@ -1843,7 +1824,6 @@ void isaveconfig() {
 void isave() {
   int16_t prgno = 0;
   int16_t ascii = 1;
-  uint32_t flash_adr[FLASH_PAGE_PAR_PRG];
   char* fname;
   uint8_t mode = 0;
   int8_t rc;
@@ -1894,7 +1874,6 @@ void isave() {
 // フラッシュメモリ上のプログラム消去 ERASE[プログラム番号[,プログラム番号]
 void ierase() {
   int16_t  s_prgno, e_prgno;
-  uint32_t flash_adr;
 
   if ( getParam(s_prgno, 0, FLASH_SAVE_NUM-1, false) ) return;
   e_prgno = s_prgno;
@@ -2694,6 +2673,26 @@ int16_t ii2cr() {
   return rc;
 }
 
+// I2Cクロックの設定
+// I2CCLK [100|400(デフォルト) ]
+void ii2cclk() {
+#ifndef STM32_R20170323
+  int16_t prm_clk = 400;
+  if (*cip != I_EOL && *cip != I_COLON) {
+    // 引数あり
+  if (getParam(prm_clk,100,400,false)) return; // モードの取得
+    if ( (prm_clk != 100) && (prm_clk != 400) ) {
+      err = ERR_VALUE;
+      return;          
+    }     
+  }
+  uint32_t frq = (uint32_t)prm_clk * 1000;
+  I2C_WIRE.setClock(frq);
+#else 
+  err = ERR_NOT_SUPPORTED;  
+#endif
+}
+
 uint8_t _shiftIn( uint8_t ulDataPin, uint8_t ulClockPin, uint8_t ulBitOrder, uint8_t lgc){
   uint8_t value = 0 ;
   uint8_t i ;
@@ -2754,7 +2753,7 @@ int16_t ipulseIn() {
 
 // LEN(文字列) 全角対応文字列長取得
 int16_t ilen(uint8_t flgZen=0) {
-  int16_t len;     // 文字列長
+  int16_t len = 0; // 文字列長
   int16_t index;   // 配列添え字
   uint8_t* str;    // 文字列先頭位置
   int16_t wlen = 0;
@@ -2784,6 +2783,7 @@ int16_t ilen(uint8_t flgZen=0) {
      cip+=len;
   } else {
     err = ERR_SYNTAX;
+    return 0;
   }
   checkClose();
   if (flgZen) {
@@ -4380,7 +4380,6 @@ void iconsole(uint8_t useParam=false, uint8_t paramArg=CON_MODE_DEVICE) {
 #if USE_SCREEN_MODE == 1 // <<< デバイスコンソール利用可能定義開始 >>>
 
   int16_t mode;        // コマンドライン引数  コンソールモード
-  int16_t rt = scrt;   // 画面の向き
 
   if (useParam == false) {
     // コマンドラインから引数：コンソールモード指定 を取得する
@@ -4417,7 +4416,7 @@ void iconsole(uint8_t useParam=false, uint8_t paramArg=CON_MODE_DEVICE) {
     sc->show_curs(true);  // カーソル表示
     sc->locate(0,0);      // ホームポジションに移動
     sc->end();            // 終了・資源開放
-    // カレントスクリーンをNTSCスクリーンにし、初期化
+    // カレントスクリーンをデバイススクリーンにし、初期化
     sc = &sc2;                                  // スクルーン切替
     scrt = prv_scrt;                            // 画面向きの設定
     scSizeMode = prv_scSizeMode;                // 前回の画面サーズモードをセット        
@@ -4472,7 +4471,7 @@ uint8_t ilrun() {
   char* fname;
   int16_t flgMerge = 0;    // マージモード
   uint8_t* ptr;
-  uint16_t sz;
+  uint16_t sz;            // ロードプログラムサイズ
   uint8_t flgPrm2 = 0;    // 第2引数の有無
   
   // コマンド識別
@@ -5307,7 +5306,6 @@ void iend() {
 // 中間コードの実行
 // 戻り値      : 次のプログラム実行位置(行の先頭)
 unsigned char* iexe() {
-  uint8_t c;               // 入力キー
   err = 0;
 
   while (*cip != I_EOL) { //行末まで繰り返す
@@ -5394,6 +5392,7 @@ unsigned char* iexe() {
     case I_WIDTH:      iwidth();      break;
     case I_SCREEN:     iscreen();     break;
     case I_CONSOLE:    iconsole();    break;
+    case I_I2CCLK:     ii2cclk();     break;
 
     case I_RUN:    // RUN
     case I_RENUM:  // RENUM

@@ -467,7 +467,7 @@ ERROR:
 
 // 指定座標の色コード取得
 uint16_t  tTFTScreen::gpeek(int16_t x, int16_t y) {
-#ifdef STM32_R20170323
+#ifndef STM32_R20170323
   return this->tft->readPixel(x,y);
 #else
   return 0;
@@ -476,7 +476,7 @@ uint16_t  tTFTScreen::gpeek(int16_t x, int16_t y) {
 
 // 指定範囲の指定色コード有無のチェック
 int16_t  tTFTScreen::ginp(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t c) {
-#ifdef STM32_R20170323
+#ifndef STM32_R20170323
   for (int16_t i = y ; i < y+h; i++) {
     for (int16_t j= x; j < x+w; j++) {
       if (this->gpeek(x,y) == c) {
