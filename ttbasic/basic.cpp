@@ -5,7 +5,7 @@
    2017/03/22, Modified by Tamakichi、for Arduino STM32
  */
 
-// 2017/08/13 豊四季Tiny BASIC for Arduino STM32 V0.85n/a リポジトリ分離
+// 2018/08/13 豊四季Tiny BASIC for Arduino STM32 V0.85n/a リポジトリ分離
 // 2018/08/13 Arduino_STM32安定版判定はSTM32_R20160323の定義の有無のみで判定するように修正
 // 2018/08/15 OLED,TFT利用時、CONFIGコマンドでキーボード設定が出来ない不具合の修正
 // 2018/08/19 CONFIG 0,n,n,n でNTSC信号の縦横位置補正が出来るように修正　
@@ -22,6 +22,7 @@
 // 2018/08/31 TFTモードでGPEEK,GINPのサポート(Arduino STM32最新版でのみ）
 // 2018/08/31 BIN$()の不具合対応
 // 2018/09/02 I2CCLKコマンドの追加（I2Cのバスクロックの設定）
+// 2018/09/02 TFTモードでCSCROLLのサポート(Arduino STM32最新版でのみ）
 //
 
 #include <Arduino.h>
@@ -2214,6 +2215,30 @@ int16_t ivpeek() {
   return value;
 }
 
+// TICK関数
+int16_t itick() {
+  int16_t value; // 値
+  if ((*cip == I_OPEN) && (*(cip + 1) == I_CLOSE)) {
+      // 引数無し
+      value = 0;
+      cip+=2;
+   } else {
+      value = getparam(); // 括弧の値を取得
+      if (err)
+        return 0;
+   }
+
+   if(value == 0) {
+        value = (millis()) & 0x7FFF;            // 0～32767msec(0～32767)
+   } else if (value == 1) {
+        value = (millis()/1000) & 0x7FFF;       // 0～32767sec(0～32767)
+   } else {
+      value = 0;                                // 引数が正しくない
+      err = ERR_VALUE;
+   }
+   return value; 
+}
+
 // ピンモード設定(タイマー操作回避版)
 //  この関数は、ArduinoSTM3 2R20170323のpinMode()不具合修正バージョンです。
 //  最新のバージョンでは対応されています。
@@ -3240,9 +3265,9 @@ void ibitmap() {
 // キャラクタスクロール CSCROLL X1,Y1,X2,Y2,方向
 // 方向 0: 上, 1: 下, 2: 右, 3: 左
 void  icscroll() {
-#if USE_NTSC == 1 || USE_OLED == 1
+#if USE_NTSC == 1 || USE_OLED == 1 || (USE_TFT == 1 && !defined(STM32_R20170323))
   int16_t  x1,y1,x2,y2,d;
-  if (scmode||USE_OLED) {  // コンソールがデバイスコンソールの場合 
+  if (scmode) {  // コンソールがデバイスコンソールの場合 
     if (getParam(x1,true)||getParam(y1,true)||getParam(x2,true)||getParam(y2,true)||getParam(d,false))
       return;
     if (x1 < 0 || y1 < 0 || x2 < x1 || y2 < y1 || x2 >= sc->getWidth() || y2 >= sc->getHeight())  {
@@ -3250,7 +3275,7 @@ void  icscroll() {
       return;      
     }
     if (d < 0 || d > 3) d = 0;
-    sc2.cscroll(x1, y1, x2-x1+1, y2-y1+1, d);
+     sc2.cscroll(x1, y1, x2-x1+1, y2-y1+1, d);
   } else {
    err = ERR_NOT_SUPPORTED;
   }
@@ -4737,7 +4762,8 @@ int16_t ivalue() {
   case I_RGB:   value = iRGB();    break; // 関数RGB(r,g,b)
   case I_BYTE:  value = ilen();    break; // 関数BYTE(文字列)   
   case I_LEN:   value = ilen(1);   break; // 関数LEN(文字列)
-  case I_PEEK: value = ipeek();    break; // PEEK()関数
+  case I_TICK:  value = itick();   break; // 関数itick()
+  case I_PEEK:  value = ipeek();   break; // PEEK()関数
   case I_I2CW:  value = ii2cw();   break; // I2CW()関数
   case I_I2CR:  value = ii2cr();   break; // I2CR()関数
   case I_SHIFTIN: value = ishiftIn(); break; // SHIFTIN()関数
