@@ -41,7 +41,7 @@ class tGraphicScreen : public tscreenBase , public tGraphicDev {
 	  void draw_cls_curs();                        // カーソルの消去
 	  uint8_t edit();                              // スクリーン編集
     void cscroll(int16_t x, int16_t y, int16_t w, int16_t h, uint8_t d); // キャラクタースクロール
-      void gcls() {CLEAR();};                   // グラフィック画面のクリア
+    void gcls() {CLEAR();};                   // グラフィック画面のクリア
 };
 
 #endif
