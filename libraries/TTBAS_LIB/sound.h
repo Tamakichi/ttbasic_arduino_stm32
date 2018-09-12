@@ -1,8 +1,9 @@
 //
 // file: sound.h
-// ƒTƒEƒ“ƒhÄ¶(Timer4 PWM’[q PB9‚ğ—˜—pj
+// ã‚µã‚¦ãƒ³ãƒ‰å†ç”Ÿ(Timer4 PWMç«¯å­ PB9ã‚’åˆ©ç”¨ï¼‰
 //
-// ì¬“ú 2017/10/25 by ‚½‚Ü‹g‚³‚ñ
+// ä½œæˆæ—¥ 2017/10/25 by ãŸã¾å‰ã•ã‚“
+// ä¿®æ­£æ—¥ 2018/09/12 by ãŸã¾å‰ã•ã‚“,éŸ³é‡å¯¾å¿œ
 //
   
 
@@ -11,9 +12,14 @@
 
 #include <Arduino.h>
 
-void dev_toneInit() ;                              // PWM’P‰¹o—Í‰Šúİ’è
-void dev_tone(uint16_t freq, uint16_t duration) ;  // ‰¹‚Ì’â~
-void dev_notone() ;                                // ‰¹‚Ì’â~
+// PWMå˜éŸ³å‡ºåŠ›åˆæœŸè¨­å®š
+void dev_toneInit() ;                              
+
+// éŸ³ã®å†ç”Ÿ
+void dev_tone(uint16_t freq, uint16_t duration, uint16_t vol = 15) ;  
+
+// éŸ³ã®åœæ­¢
+void dev_notone() ;                                
  
 #endif
   

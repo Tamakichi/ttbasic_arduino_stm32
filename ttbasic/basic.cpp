@@ -23,7 +23,8 @@
 // 2018/08/31 BIN$()の不具合対応
 // 2018/09/02 I2CCLKコマンドの追加（I2Cのバスクロックの設定）
 // 2018/09/02 TFTモードでCSCROLLのサポート(Arduino STM32最新版でのみ）
-// 2018/09/05 MML文でVnの対応、音の高さ、長さをグローバル変数化
+// 2018/09/05 MML文でVnの対応(スキップ)、音の高さ、長さをグローバル変数化
+// 2018/09/12 MML文でVnの簡易対応(デュティ比調整)、テンポをグローバル変数化
 //
 
 #include <Arduino.h>
@@ -166,12 +167,15 @@ int isJMS( uint8_t *str, uint16_t nPos );
 #define TIMER_DIV (F_CPU/1000000L)
 
 // **** サウンド再生 *****************
-uint16_t mml_Tempo   = 120; // テンポ(50～512)
-uint16_t mml_len     = 4;   // 長さ(1,2,4,8,16,32)
-uint8_t  mml_oct     = 4;   // 音の高さ(1～8)
+#define MML_tempo  120; // テンポ(50～512)
+#define MML_len    4;   // 長さ(1,2,4,8,16,32)
+#define MML_oct    4;   // 音の高さ(1～8)
+#define MML_vol    15;  // 音の大きさ(1～15)
 
-uint16_t global_len = mml_len ;    // 共通長さ
-uint8_t  global_oct = mml_oct ;    // 共通高さ
+uint16_t global_tempo = MML_tempo ;    // 共通テンポ
+uint16_t global_len   = MML_len   ;    // 共通長さ
+uint8_t  global_oct   = MML_oct   ;    // 共通高さ
+uint8_t  global_vol   = MML_vol   ;    // 音の大きさ
 
 // note定義
 const PROGMEM  uint16_t mml_scale[] = {
@@ -1544,8 +1548,10 @@ void irun(uint8_t* start_clp = NULL) {
   gstki = 0;         // GOSUBスタックインデクスを0に初期化
   lstki = 0;         // FORスタックインデクスを0に初期化
 
-  global_len = mml_len ;    // 共通長さ
-  global_oct = mml_oct ;    // 共通高さ
+//  global_tempo = MML_tempo;   // テンポ
+  global_len   = MML_len ;    // 共通長さ
+  global_oct   = MML_oct ;    // 共通高さ
+  global_vol   = MML_vol ;    // 音の大きさ
 
   if (start_clp != NULL) {
     clp = start_clp;
@@ -3413,17 +3419,22 @@ void isopen() {
   lfgSerial1Opened = true;
 }
 
-// TONE 周波数 [,音出し時間]
+// TONE 周波数 [,音出し時間 [,ボリューム]]
 void itone() {
-  int16_t freq;   // 周波数
-  int16_t tm = 0; // 音出し時間
+  int16_t freq ;   // 周波数
+  int16_t tm  = 0; // 音出し時間
+  int16_t vol =15; // 音出し時間
 
   if ( getParam(freq, 0, 32767, false) ) return;
   if(*cip == I_COMMA) {
     cip++;
     if ( getParam(tm, 0, 32767, false) ) return;
+    if(*cip == I_COMMA) {
+      cip++;
+      if ( getParam(vol, 0, 15, false) ) return;
+    }
   }
-  dev_tone(freq, tm);
+  dev_tone(freq, tm, vol);
 }
 
 //　NOTONE
@@ -3435,18 +3446,13 @@ void inotone() {
 void itempo() {
   int16_t tempo;  
   if ( getParam(tempo, 32, 500, false) ) return; // テンポの取得
-  mml_Tempo = tempo;
+  global_tempo = tempo;
 }
 
 // PLAY 文字列
 void iplay() {
   char* ptr = tbuf;
   uint16_t freq;              // 周波数
-
-  uint16_t local_len = mml_len ;    // 個別長さ
-  uint8_t  local_oct = mml_oct ;    // 個別高さ
-  
-  uint16_t tempo = mml_Tempo; // テンポ
   int8_t  scale = 0;          // 音階
   uint32_t duration;          // 再生時間(msec)
   uint8_t flgExtlen = 0;
@@ -3461,8 +3467,6 @@ void iplay() {
   // MMLの評価
   while(*ptr) {
     flgExtlen = 0;
-    local_len = global_len;
-    local_oct = global_oct;
 
     //強制的な中断の判定
     if (isBreak())
@@ -3488,9 +3492,9 @@ void iplay() {
         if (scale < MML_B_BASE) {
           scale++;
         } else {
-          if (local_oct < 8) {
+          if (global_oct < 8) {
             scale = MML_B_BASE;
-            local_oct++;
+            global_oct++;
           }
         }
         ptr++;
@@ -3499,9 +3503,9 @@ void iplay() {
         if (scale > MML_C_BASE) {
           scale--;
         } else {
-          if (local_oct > 1) {
+          if (global_oct > 1) {
             scale = MML_B_BASE;
-            local_oct--;
+            global_oct--;
           }
         }                
         ptr++;      
@@ -3518,7 +3522,7 @@ void iplay() {
       if (tmpPtr != ptr) {
         // 長さ引数ありの場合、長さを評価
         if ( (tmpLen==1)||(tmpLen==2)||(tmpLen==4)||(tmpLen==8)||(tmpLen==16)||(tmpLen==32)||(tmpLen==64) ) {
-          local_len = tmpLen;
+          global_len = tmpLen;
         } else {
           err = ERR_MML; // 長さ指定エラー
           return;
@@ -3532,12 +3536,12 @@ void iplay() {
       } 
 
       // 音階の再生
-      duration = 240000/tempo/local_len;  // 再生時間(msec)
+      duration = 240000/global_tempo/global_len;  // 再生時間(msec)
       if (flgExtlen)
         duration += duration>>1;
         
-      freq = pgm_read_word(&mml_scale[scale])>>(8-local_oct); // 再生周波数(Hz);  
-      dev_tone(freq, (uint16_t)duration);                     // 音の再生   
+      freq = pgm_read_word(&mml_scale[scale])>>(8-global_oct); // 再生周波数(Hz);  
+      dev_tone(freq, (uint16_t)duration,global_vol);          // 音の再生   
     } else if (*ptr == 'L') {  // 長さの指定     
       ptr++;
       uint16_t tmpLen =0;
@@ -3559,9 +3563,18 @@ void iplay() {
     } else if (*ptr == 'V') {  // ボリュームの指定     
       // 現時点では未サポートのため命令文をスキップする
       ptr++;
+      uint16_t tmpVol =0;
+      char* tmpPtr = ptr;
       while(isdigit(*ptr)) {
+         tmpVol*= 10;
+         tmpVol+= *ptr - '0';
          ptr++;
       }
+      if (tmpVol < 0 || tmpVol > 15) {
+        err = ERR_MML; 
+        return;       
+      }
+      global_vol = tmpVol;     
     } else if (*ptr == 'O') { // オクターブの指定
       ptr++;
       uint16_t tmpOct =0;
@@ -3588,7 +3601,7 @@ void iplay() {
       if (tmpPtr != ptr) {
         // 長さ引数ありの場合、長さを評価
         if ( (tmpLen==1)||(tmpLen==2)||(tmpLen==4)||(tmpLen==8)||(tmpLen==16)||(tmpLen==32)||(tmpLen==64) ) {
-          local_len = tmpLen;
+          global_len = tmpLen;
         } else {
           err = ERR_MML; // 長さ指定エラー
           return;
@@ -3600,7 +3613,7 @@ void iplay() {
       } 
 
       // 休符の再生
-      duration = 240000/tempo/local_len;    // 再生時間(msec)
+      duration = 240000/global_tempo/global_len;    // 再生時間(msec)
       if (flgExtlen)
         duration += duration>>1;
       delay(duration);
@@ -3632,7 +3645,7 @@ void iplay() {
         err = ERR_MML; 
         return;                
       }
-      tempo = tmpTempo;
+      global_tempo = tmpTempo;
     } else {
       err = ERR_MML; 
       return;              
