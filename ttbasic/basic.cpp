@@ -3453,6 +3453,10 @@ void itempo() {
 void iplay() {
   char* ptr = tbuf;
   uint16_t freq;              // 周波数
+  uint8_t  flgdbug = 0;       //デバッグフラグ
+  uint16_t local_len = global_len ;  // 個別長さ
+  uint8_t  local_oct = global_oct ;  // 個別高さ
+  
   int8_t  scale = 0;          // 音階
   uint32_t duration;          // 再生時間(msec)
   uint8_t flgExtlen = 0;
@@ -3466,8 +3470,13 @@ void iplay() {
 
   // MMLの評価
   while(*ptr) {
+    if (flgdbug)
+      c_putch(*ptr); // デバッグ
+    
     flgExtlen = 0;
-
+    local_len = global_len;
+    local_oct = global_oct;
+    
     //強制的な中断の判定
     if (isBreak())
       return;
@@ -3481,20 +3490,28 @@ void iplay() {
       ptr++;
       continue;
     }
+
+    // デバッグコマンド
+    if (*ptr == '?') {
+      flgdbug = 1;
+      ptr++;
+      continue;
+    }   
+    
     // 音階記号
     if (*ptr >= 'A' && *ptr <= 'G') {
       scale = pgm_read_byte(&mml_scaleBase[*ptr-'A']); // 音階コードの取得        
       ptr++;
 
-      // 半音上げ下げ
+      // 個別の音階半音上げ下げ
       if (*ptr == '#' || *ptr == '+') {
         // 半音上げる
         if (scale < MML_B_BASE) {
           scale++;
         } else {
-          if (global_oct < 8) {
+          if (local_oct < 8) {
             scale = MML_B_BASE;
-            global_oct++;
+            local_oct++;
           }
         }
         ptr++;
@@ -3503,15 +3520,15 @@ void iplay() {
         if (scale > MML_C_BASE) {
           scale--;
         } else {
-          if (global_oct > 1) {
+          if (local_oct > 1) {
             scale = MML_B_BASE;
-            global_oct--;
+            local_oct--;
           }
         }                
         ptr++;      
       } 
 
-      // 長さの指定
+      // 個別の長さの指定
       uint16_t tmpLen =0;
       char* tmpPtr = ptr;
       while(isdigit(*ptr)) {
@@ -3522,7 +3539,7 @@ void iplay() {
       if (tmpPtr != ptr) {
         // 長さ引数ありの場合、長さを評価
         if ( (tmpLen==1)||(tmpLen==2)||(tmpLen==4)||(tmpLen==8)||(tmpLen==16)||(tmpLen==32)||(tmpLen==64) ) {
-          global_len = tmpLen;
+          local_len = tmpLen;
         } else {
           err = ERR_MML; // 長さ指定エラー
           return;
@@ -3536,13 +3553,13 @@ void iplay() {
       } 
 
       // 音階の再生
-      duration = 240000/global_tempo/global_len;  // 再生時間(msec)
+      duration = 240000/global_tempo/local_len;  // 再生時間(msec)
       if (flgExtlen)
         duration += duration>>1;
         
-      freq = pgm_read_word(&mml_scale[scale])>>(8-global_oct); // 再生周波数(Hz);  
-      dev_tone(freq, (uint16_t)duration,global_vol);          // 音の再生   
-    } else if (*ptr == 'L') {  // 長さの指定     
+      freq = pgm_read_word(&mml_scale[scale])>>(8-local_oct); // 再生周波数(Hz);  
+      dev_tone(freq, (uint16_t)duration,global_vol);           // 音の再生   
+    } else if (*ptr == 'L') {  // グローバルな長さの指定     
       ptr++;
       uint16_t tmpLen =0;
       char* tmpPtr = ptr;
@@ -3551,16 +3568,24 @@ void iplay() {
          tmpLen+= *ptr - '0';
          ptr++;
       }
+
       if (tmpPtr != ptr) {
         // 長さ引数ありの場合、長さを評価
         if ( (tmpLen==1)||(tmpLen==2)||(tmpLen==4)||(tmpLen==8)||(tmpLen==16)||(tmpLen==32)||(tmpLen==64) ) {
           global_len = tmpLen;
+          local_len =  tmpLen;
         } else {
           err = ERR_MML; // 長さ指定エラー
           return;
         }
-      }   
-    } else if (*ptr == 'V') {  // ボリュームの指定     
+        // 半音伸ばし
+        if (*ptr == '.') {
+          ptr++;
+          global_len += global_len>>1;
+          local_len =  global_len;
+        } 
+      }         
+    } else if (*ptr == 'V') {  // グローバルなボリュームの指定     
       // 現時点では未サポートのため命令文をスキップする
       ptr++;
       uint16_t tmpVol =0;
@@ -3575,7 +3600,7 @@ void iplay() {
         return;       
       }
       global_vol = tmpVol;     
-    } else if (*ptr == 'O') { // オクターブの指定
+    } else if (*ptr == 'O') { // グローバルなオクターブの指定
       ptr++;
       uint16_t tmpOct =0;
       while(isdigit(*ptr)) {
@@ -3585,9 +3610,10 @@ void iplay() {
       }
       if (tmpOct < 1 || tmpOct > 8) {
         err = ERR_MML; 
-        return;       
+        return; 
       }
       global_oct = tmpOct;
+      local_oct = tmpOct;
     } else if (*ptr == 'R') { // 休符
       ptr++;      
       // 長さの指定
@@ -3601,7 +3627,7 @@ void iplay() {
       if (tmpPtr != ptr) {
         // 長さ引数ありの場合、長さを評価
         if ( (tmpLen==1)||(tmpLen==2)||(tmpLen==4)||(tmpLen==8)||(tmpLen==16)||(tmpLen==32)||(tmpLen==64) ) {
-          global_len = tmpLen;
+          local_len = tmpLen;
         } else {
           err = ERR_MML; // 長さ指定エラー
           return;
@@ -3613,21 +3639,21 @@ void iplay() {
       } 
 
       // 休符の再生
-      duration = 240000/global_tempo/global_len;    // 再生時間(msec)
+      duration = 240000/global_tempo/local_len;    // 再生時間(msec)
       if (flgExtlen)
         duration += duration>>1;
       delay(duration);
-    } else if (*ptr == '>') { // 1オクターブ上げる
+    } else if (*ptr == '>') { // グローバルな1オクターブ上げる
       if (global_oct < 8) {
         global_oct++;
       }
       ptr++;
-    } else if (*ptr == '<') { // 1オクターブ下げる
+    } else if (*ptr == '<') { // グローバルな1オクターブ下げる
       if (global_oct > 1) {
         global_oct--;
       }
       ptr++;
-    } else if (*ptr == 'T') { // テンポの指定
+    } else if (*ptr == 'T') { // グローバルなテンポの指定
       ptr++;      
       // 長さの指定
       uint32_t tmpTempo =0;
@@ -3645,7 +3671,7 @@ void iplay() {
         err = ERR_MML; 
         return;                
       }
-      global_tempo = tmpTempo;
+      global_tempo = tmpTempo;      
     } else {
       err = ERR_MML; 
       return;              
