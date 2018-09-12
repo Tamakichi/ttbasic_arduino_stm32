@@ -23,6 +23,7 @@
 // 2018/08/31 BIN$()の不具合対応
 // 2018/09/02 I2CCLKコマンドの追加（I2Cのバスクロックの設定）
 // 2018/09/02 TFTモードでCSCROLLのサポート(Arduino STM32最新版でのみ）
+// 2018/09/05 MML文でVnの対応、音の高さ、長さをグローバル変数化
 //
 
 #include <Arduino.h>
@@ -168,6 +169,9 @@ int isJMS( uint8_t *str, uint16_t nPos );
 uint16_t mml_Tempo   = 120; // テンポ(50～512)
 uint16_t mml_len     = 4;   // 長さ(1,2,4,8,16,32)
 uint8_t  mml_oct     = 4;   // 音の高さ(1～8)
+
+uint16_t global_len = mml_len ;    // 共通長さ
+uint8_t  global_oct = mml_oct ;    // 共通高さ
 
 // note定義
 const PROGMEM  uint16_t mml_scale[] = {
@@ -1539,6 +1543,9 @@ void irun(uint8_t* start_clp = NULL) {
   uint8_t*   lp;     // 行ポインタの一時的な記憶場所
   gstki = 0;         // GOSUBスタックインデクスを0に初期化
   lstki = 0;         // FORスタックインデクスを0に初期化
+
+  global_len = mml_len ;    // 共通長さ
+  global_oct = mml_oct ;    // 共通高さ
 
   if (start_clp != NULL) {
     clp = start_clp;
@@ -3435,8 +3442,6 @@ void itempo() {
 void iplay() {
   char* ptr = tbuf;
   uint16_t freq;              // 周波数
-  uint16_t len = mml_len ;    // 共通長さ
-  uint8_t  oct = mml_oct ;    // 共通高さ
 
   uint16_t local_len = mml_len ;    // 個別長さ
   uint8_t  local_oct = mml_oct ;    // 個別高さ
@@ -3445,6 +3450,7 @@ void iplay() {
   int8_t  scale = 0;          // 音階
   uint32_t duration;          // 再生時間(msec)
   uint8_t flgExtlen = 0;
+  uint8_t flgAnpa = 0;        // '&':結合フラグ
   
   // 引数のMMLをバッファに格納する
   cleartbuf();
@@ -3455,8 +3461,8 @@ void iplay() {
   // MMLの評価
   while(*ptr) {
     flgExtlen = 0;
-    local_len = len;
-    local_oct = oct;
+    local_len = global_len;
+    local_oct = global_oct;
 
     //強制的な中断の判定
     if (isBreak())
@@ -3524,7 +3530,7 @@ void iplay() {
         ptr++;
         flgExtlen = 1;
       } 
-    
+
       // 音階の再生
       duration = 240000/tempo/local_len;  // 再生時間(msec)
       if (flgExtlen)
@@ -3544,12 +3550,18 @@ void iplay() {
       if (tmpPtr != ptr) {
         // 長さ引数ありの場合、長さを評価
         if ( (tmpLen==1)||(tmpLen==2)||(tmpLen==4)||(tmpLen==8)||(tmpLen==16)||(tmpLen==32)||(tmpLen==64) ) {
-          len = tmpLen;
+          global_len = tmpLen;
         } else {
           err = ERR_MML; // 長さ指定エラー
           return;
         }
       }   
+    } else if (*ptr == 'V') {  // ボリュームの指定     
+      // 現時点では未サポートのため命令文をスキップする
+      ptr++;
+      while(isdigit(*ptr)) {
+         ptr++;
+      }
     } else if (*ptr == 'O') { // オクターブの指定
       ptr++;
       uint16_t tmpOct =0;
@@ -3562,7 +3574,7 @@ void iplay() {
         err = ERR_MML; 
         return;       
       }
-      oct = tmpOct;
+      global_oct = tmpOct;
     } else if (*ptr == 'R') { // 休符
       ptr++;      
       // 長さの指定
@@ -3592,14 +3604,14 @@ void iplay() {
       if (flgExtlen)
         duration += duration>>1;
       delay(duration);
-    } else if (*ptr == '<') { // 1オクターブ上げる
-      if (oct < 8) {
-        oct++;
+    } else if (*ptr == '>') { // 1オクターブ上げる
+      if (global_oct < 8) {
+        global_oct++;
       }
       ptr++;
-    } else if (*ptr == '>') { // 1オクターブ下げる
-      if (oct > 1) {
-        oct--;
+    } else if (*ptr == '<') { // 1オクターブ下げる
+      if (global_oct > 1) {
+        global_oct--;
       }
       ptr++;
     } else if (*ptr == 'T') { // テンポの指定
