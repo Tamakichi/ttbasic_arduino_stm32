@@ -27,6 +27,7 @@
 // 2018/09/12 MML文でVnの簡易対応(デュティ比調整)、テンポをグローバル変数化
 // 2018/09/14 MML文でデバッグ指定?コマンドの追加
 // 2018/09/14 CLSをダイレクトで実行する場合に:による継続コマンドが実行されない不具合の対応
+// 2018/09/14 曜日コードを安定板と最新版で統一(安定板仕様に統一)
 //
 
 #include <Arduino.h>
@@ -2893,7 +2894,7 @@ void isetDate() {
 #endif
 }
 
-// GETDATEコマンド  SETDATE 年格納変数,月格納変数, 日格納変数, 曜日格納変数
+// GETDATE 年格納変数,月格納変数, 日格納変数, 曜日格納変数
 void igetDate() {
 #if USE_INNERRTC == 1
  #if OLD_RTC_LIB == 1 || defined(STM32_R20170323) // <<< RTClock R20170323安定版対応 >>>
@@ -2940,6 +2941,11 @@ void igetDate() {
   int16_t index;  
   struct tm_t st;
   rtc.getTime(st);   // 時刻取得
+  // 曜日コードを安定板仕様に補正
+  st.weekday++;
+  if (st.weekday == 7)
+    st.weekday = 0;
+
   int16_t v[] = {
     st.year+1970, 
     st.month,
@@ -2979,7 +2985,7 @@ void igetDate() {
 #endif 
 }
 
-// GETDATEコマンド  SETDATE 時格納変数,分格納変数, 秒格納変数
+// GETTIME 時格納変数,分格納変数, 秒格納変数
 void igetTime() {
 #if USE_INNERRTC == 1
  #if OLD_RTC_LIB == 1 || defined(STM32_R20170323) // <<< RTClock R20170323安定版対応 >>>
@@ -3088,9 +3094,15 @@ void idate() {
    putnum((int16_t)st->tm_sec, -2);
    newline();  
  #else
-  static const char *wday[] = {"Mon","Tue","Wed","Thr","Fri","Sat","Sun"};
+  static const char *wday[] = {"Sun","Mon","Tue","Wed","Thr","Fri","Sat"};
+  // static const char *wday[] = {"Mon","Tue","Wed","Thr","Fri","Sat","Sun"};
    struct tm_t st;
-   rtc.getTime(st);      // 時刻取得  
+   rtc.getTime(st);  // 時刻取得  
+   // 曜日コードを安定板仕様に補正
+   st.weekday++;
+   if (st.weekday == 7)
+     st.weekday = 0;
+    
    putnum(st.year+1970, -4);
    c_putch('/');
    putnum(st.month, -2);

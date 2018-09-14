@@ -6,7 +6,7 @@
 // 修正日 2018/01/07 [ENTER]キー処理用にKEY_LFを追加
 // 修正日 2018/08/23 キー文字コードをmcursesの定義に統合
 // 修正日 2018/08/29 editLine()（半角入力版）の追加
-
+// 修正日 2018/09/14 子tTermscreenクラスのsplitLine()、margeLine() を本クラス実装に移行
 
 #ifndef __tscreenBase_h__
 #define __tscreenBase_h__
