@@ -296,7 +296,7 @@ void tOLEDScreen::rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t c, i
 }
 
 // ビットマップの描画
-void  tOLEDScreen::bitmap(int16_t x, int16_t y, uint8_t* adr, uint16_t index, uint16_t w, uint16_t h, uint16_t d, uint8_t rgb) {
+void  tOLEDScreen::bitmap(int16_t x, int16_t y, uint8_t* adr, uint16_t index, uint16_t w, uint16_t h, uint16_t d, uint16_t rgb,uint8_t mode) {
   uint8_t*bmp;
   bmp = adr + ((w + 7) / 8) * h * index;
   this->drawBitmap_x2(x, y, (const uint8_t*)bmp, w, h, fgcolor, d, 1);

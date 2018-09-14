@@ -99,6 +99,8 @@ protected:
     inline uint16_t getHeight() { return height;};    // スクリーン縦幅取得
     inline uint16_t getScreenByteSize() {return width*height;}; // スクリーン領域バイトサイズ
     int16_t getLineNum(int16_t l);                    // 指定行の行番号の取得
+    void splitLine();                                 // カーソル位置で行を分割する
+    void margeLine();                                 // 現在行の末尾に次の行を結合する
 };
 
 #endif

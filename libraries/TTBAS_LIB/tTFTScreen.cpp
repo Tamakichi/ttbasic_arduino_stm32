@@ -12,6 +12,7 @@
 // 2018/08/31 修正 gpeek(),ginp()の実装
 // 2018/09/03 修正 WRITE(),drawCus()の高速化（v0.85より2.75倍)
 // 2018/09/03 修正 drawFont()の追加、refresh_line()の高層化（V0.85よりスクロール速度10倍),cscroll()のサポート
+// 2018/09/14 修正 revt()で色コード0～8が利用できない不具合を対応
 //
 
 #include <string.h>
@@ -398,6 +399,8 @@ void tTFTScreen::circle(int16_t x, int16_t y, int16_t r, uint16_t c, int8_t f) {
 
 // 四角の描画
 void tTFTScreen::rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t c, int8_t f) {
+  if (c<=8)
+    c = tbl_color[c];
  if(f)
    this->tft->fillRect(x, y, w, h, c);
  else
@@ -405,12 +408,14 @@ void tTFTScreen::rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t c, in
 }
 
 // ビットマップの描画
-void  tTFTScreen::bitmap(int16_t x, int16_t y, uint8_t* adr, uint16_t index, uint16_t w, uint16_t h, uint16_t d, uint8_t rgb) {
+void  tTFTScreen::bitmap(int16_t x, int16_t y, uint8_t* adr, uint16_t index, uint16_t w, uint16_t h, uint16_t d, uint16_t rgb,uint8_t mode) {
   uint8_t*bmp;
-  if (rgb == 0) {
+  if (mode == 0) {
     // モノラルビットマップ画像の描画
+    if (rgb <= 8)
+      rgb = tbl_color[rgb];
     bmp = adr + ((w + 7) / 8) * h * index;
-    this->drawBitmap_x2(x, y, (const uint8_t*)bmp, w, h, fgcolor, d, 1);
+    this->drawBitmap_x2(x, y, (const uint8_t*)bmp, w, h, rgb, d, 1);
   } else {
     // 16ビット色ビットマップ画像の描画
     bmp = adr + w * h * index;

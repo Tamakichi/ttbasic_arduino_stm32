@@ -3,6 +3,7 @@
 // 2017/07/19 by たま吉さん
 // 修正日 2017/08/19, 抽象化に移行、実体はハード依存の各スクリーンクラスにて実装
 // 修正日 2018/08/31, gpeek(),ginp()の戻り値、引数の型を変更(TFT対応のため）
+// 修正日 2018/09/12, bitmap()の16ビット色指定対応
 //
 
 #ifndef __tGraphicDev_h__
@@ -28,7 +29,7 @@ class tGraphicDev {
     virtual void line(int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t c) = 0;
     virtual void circle(int16_t x, int16_t y, int16_t r, uint16_t c, int8_t f) = 0;
     virtual void rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t c, int8_t f)  = 0;
-    virtual void bitmap(int16_t x, int16_t y, uint8_t* adr, uint16_t index, uint16_t w, uint16_t h, uint16_t d, uint8_t rgb=0)  = 0;
+    virtual void bitmap(int16_t x, int16_t y, uint8_t* adr, uint16_t index, uint16_t w, uint16_t h, uint16_t d, uint16_t rgb=0, uint8_t mode=0)  = 0;
     virtual void gscroll(int16_t x, int16_t y, int16_t w, int16_t h, uint8_t mode)  = 0;
     virtual void cscroll(int16_t x, int16_t y, int16_t w, int16_t h, uint8_t d) = 0; 
     virtual uint16_t gpeek(int16_t x, int16_t y)  = 0;

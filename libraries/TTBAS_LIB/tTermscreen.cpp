@@ -9,7 +9,7 @@
 //  修正日 2018/08/23, SC_KEY_XXX をKEY_XXXに変更
 //  修正日 2018/08/23, 全角文字(SJIS)対応
 //  修正日 2018/08/29 editLine()（全角対応版）の追加
-
+//  修正日 2018/09/14 edit() [F1]でのクリア時、ホーム戻り追加
 
 #include <string.h>
 #include "tTermscreen.h"
@@ -399,72 +399,6 @@ void tTermscreen::refresh_line(uint16_t l) {
   }
 }
 
-// 現在行の末尾に次の行を結合する
-void tTermscreen::margeLine() {
-  if (pos_y >= height-1)
-    return;
-  
-  uint8_t* start_adr = &VPEEK(0,pos_y);       // 現在位置のアドレス取得
-  uint8_t* top = start_adr;                   // 行末の先頭
-  uint16_t ln = 0;                            // 結合先文字列長さ
-  while( *top ) { ln++; top++; }              // 行端,長さ調査
-  
-  if (ln > width)
-    return;
-  
-  uint8_t* next_start_adr = &VPEEK(0,pos_y+1);   // 次の行の先頭のアドレス取得
-  uint8_t* next_top = next_start_adr;            // 次の行の行末の先頭
-  uint16_t next_ln = 0;                          // 次の行の結合する文字列長さ
-  while( *next_top ) { next_ln++; next_top++; }  // 行端,長さ調査
-  uint16_t offset = 0;
-  if (ln + next_ln >= width) {
-    offset = width - ln ;
-  }  
-    
-  // 行の結合
-  memmove(top, next_start_adr, next_ln);
-  
-  // 結合元のデータ消去
-  if (offset)
-    memset(next_start_adr+next_ln-offset, 0,offset);
-  else
-    memset(next_start_adr, 0,+next_ln);
-  refresh(); 
-}
-
-// カーソル位置で行を分割する
-void tTermscreen::splitLine() {
-  uint8_t* start_adr = &VPEEK(pos_x,pos_y); // 現在位置のアドレス取得
-  uint8_t* top = start_adr;                 // 分割する文字列の先頭
-  uint16_t ln = 0;                          // 分割する文字列長さ
-  uint16_t insLine = 0;                     // 挿入する行数
-  
-  if (!*top) // 0文字分割不能
-    return;
-  
-  while( *top ) { ln++; top++; } // 行端,長さ調査
-  if (pos_x+ln > width-1) 
-    ln = width - pos_x;
-  
-  insLine = ln/width + 1;        // 下に挿入する行数
-  if (pos_y + insLine > height-1) {
-    return; // 分割不能
-  }
-  
-  // 下の行に空白挿入
-  for (uint8_t i = 0; i < insLine; i++) {
-    Insert_newLine(pos_y);
-  }
-  
-  // 分割行の移動
-  memmove(&VPEEK(0,pos_y+1), start_adr, ln);
-  
-  // 移動元の消去
-  memset(start_adr,0,ln);
-  
-  refresh(); 
-}  
-
 // 文字の出力
 void tTermscreen::putch(uint8_t c) {
   VPOKE(pos_x, pos_y, c); // VRAMへの書込み
@@ -627,7 +561,7 @@ uint8_t tTermscreen::edit() {
 
       case KEY_F1:        // [F1],[CTRL+L] 画面クリア
         cls();
-        //locate(0,0);
+        locate(0,0);
         break;
  
       case KEY_HOME:      // [HOME]キー 行先頭移動

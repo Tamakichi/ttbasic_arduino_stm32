@@ -26,6 +26,7 @@
 // 2018/09/05 MML文でVnの対応(スキップ)、音の高さ、長さをグローバル変数化
 // 2018/09/12 MML文でVnの簡易対応(デュティ比調整)、テンポをグローバル変数化
 // 2018/09/14 MML文でデバッグ指定?コマンドの追加
+// 2018/09/14 CLSをダイレクトで実行する場合に:による継続コマンドが実行されない不具合の対応
 //
 
 #include <Arduino.h>
@@ -3146,10 +3147,10 @@ void ipset() {
  int16_t x,y,c;
  if (scmode||USE_TFT||USE_OLED) { // コンソールがデバイスコンソールの場合
     if (getParam(x,true)||getParam(y,true)||getParam(c,false)) 
-    if (x < 0) x =0;
-    if (y < 0) y =0;
-    if (x >= sc2.getGWidth())  x = sc2.getGWidth()-1;
-    if (y >= sc2.getGHeight()) y = sc2.getGHeight()-1;
+    if ( (x < 0) || (y < 0) || (x >= sc2.getGWidth()) || (y >= sc2.getGHeight())) {
+       // 描画範囲外
+       return;
+    }
   #if USE_NTSC == 1 || USE_OLED == 1
     if (c < 0 || c > 2) c = 1;
   #endif
@@ -3234,10 +3235,10 @@ void irect() {
 #endif
 }
 
-// ビットマップの描画 BITMAP 横座標, 縦座標, アドレス, インデックス, 幅, 高さ [,倍率]
+// ビットマップの描画 BITMAP 横座標, 縦座標, アドレス, インデックス, 幅, 高さ [,倍率[,色コード[,モード]]]
 void ibitmap() {
 #if USE_NTSC == 1 || USE_TFT == 1 || USE_OLED == 1
-  int16_t  x,y,w,h,d = 1,rgb = 0;
+  int16_t  x,y,w,h,d = 1,rgb = 7, mode = 0;
   int16_t  index;
   int16_t  vadr;
   uint8_t* adr;
@@ -3246,11 +3247,18 @@ void ibitmap() {
       return;
     if (*cip == I_COMMA) {
       cip++;
+      // 倍率の取得
       if (getParam(d,false)) return;
     }
     if (*cip == I_COMMA) {
       cip++;
-      if (getParam(rgb,0,1,false)) return;
+      // 色の取得
+      if (getParam(rgb,false)) return;
+    }
+    if (*cip == I_COMMA) {
+      cip++;
+      // モードの取得
+      if (getParam(mode,0,1,false)) return;
     }
 
     adr = v2realAddr(vadr);
@@ -3267,7 +3275,7 @@ void ibitmap() {
     if (w < 0) w =1;
     if (h < 0) h =1; 
     if (d < 0) d = 1;
-    sc2.bitmap(x, y, (uint8_t*)adr, index, w, h, d, rgb);
+    sc2.bitmap(x, y, (uint8_t*)adr, index, w, h, d, rgb, mode);
   } else {
    err = ERR_NOT_SUPPORTED;
   }
@@ -5535,7 +5543,7 @@ uint8_t icom() {
   case I_RUN:   sc->show_curs(0); irun();  sc->show_curs(1);   break; // RUN命令
   case I_RENUM: irenum(); break; // I_RENUMの場合
   case I_DELETE:idelete();  break;
-  case I_CLS:icls();
+  //case I_CLS:icls();
   case I_REM:
   case I_SQUOT:    
   case I_OK:    rc = 0;     break; // I_OKの場合

@@ -9,6 +9,7 @@
 //  修正日 2017/04/06, beep()の追加
 //  修正日 2017/06/27, 汎用化のための修正
 //  修正日 2018/08/29 editLine()（全角対応版）の追加
+//  修正日 2018/09/14 splitLine()、margeLine() を親クラスtscreenBase実装に移行
 //
 
 #ifndef __tTermscreen_h__
@@ -58,8 +59,6 @@ class tTermscreen : public tscreenBase  {
     void deleteLine(uint16_t l);                 // 指定行を削除(全角対応)
     void delete_char();                          // 現在のカーソル位置の文字削除(全角対応)
     uint16_t get_wch();                          // 文字の取得（シフトJIS対応)
-    void splitLine();                            // カーソル位置で行を分割する
-    void margeLine();                            // 現在行の末尾に次の行を結合する
     void putch(uint8_t c);                       // 文字の出力
     void putwch(uint16_t c);                     // 文字の出力（シフトJIS対応)
     void Insert_char(uint16_t c);                // 文字の挿入
