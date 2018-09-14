@@ -78,7 +78,7 @@ class tOLEDScreen :public tGraphicScreen {
     void     line(int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t c);
     void     circle(int16_t x, int16_t y, int16_t r, uint16_t c, int8_t f);
     void     rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t c, int8_t f);
-    void     bitmap(int16_t x, int16_t y, uint8_t* adr, uint16_t index, uint16_t w, uint16_t h, uint16_t d, uint8_t rgb=0);
+    void     bitmap(int16_t x, int16_t y, uint8_t* adr, uint16_t index, uint16_t w, uint16_t h, uint16_t d, uint16_t rgb=0,uint8_t mode=0);
     uint16_t gpeek(int16_t x, int16_t y);
     int16_t  ginp(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t c);
     void     set_gcursor(uint16_t, uint16_t);

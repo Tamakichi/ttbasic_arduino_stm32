@@ -6,7 +6,7 @@
 // 修正日 2018/01/07 [ENTER]キー処理用にKEY_LFを追加
 // 修正日 2018/08/23 キー文字コードをmcursesの定義に統合
 // 修正日 2018/08/29 editLine()（半角入力版）の追加
-
+// 修正日 2018/09/14 子tTermscreenクラスのsplitLine()、margeLine() を本クラス実装に移行
 
 #ifndef __tscreenBase_h__
 #define __tscreenBase_h__
@@ -99,6 +99,8 @@ protected:
     inline uint16_t getHeight() { return height;};    // スクリーン縦幅取得
     inline uint16_t getScreenByteSize() {return width*height;}; // スクリーン領域バイトサイズ
     int16_t getLineNum(int16_t l);                    // 指定行の行番号の取得
+    void splitLine();                                 // カーソル位置で行を分割する
+    void margeLine();                                 // 現在行の末尾に次の行を結合する
 };
 
 #endif

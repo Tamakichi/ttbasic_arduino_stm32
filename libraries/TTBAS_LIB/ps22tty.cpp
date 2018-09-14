@@ -6,7 +6,7 @@
 // 修正 2017/05/09, カナ入力対応
 // 修正 2017/05/18, ltu(ﾂ)が利用出来ない不具合の対応
 // 修正日 2018/08/22, キーコードマクロ名をKEY_XXXからPS2_XXXに変更(文字コードとの混乱回避のため）
-
+// 修正日 2018/09/14, F7,F8キーの対応
 
 #include <string.h>
 #include <libmaple/ring_buffer.h>
@@ -341,6 +341,8 @@ uint8_t cnv2tty(keyEvent k) {
     case PS2_F2:         rc = KEY_CTRL_D;   break;
     case PS2_F3:         rc = KEY_CTRL_N;   break;
     case PS2_F5:         rc = KEY_CTRL_R;   break;
+    case PS2_F7:         rc = KEY_F7;       break;
+    case PS2_F8:         rc = KEY_F8;       break;
     case PS2_Romaji: 
       if (flgKana) {
         flgKana = false;

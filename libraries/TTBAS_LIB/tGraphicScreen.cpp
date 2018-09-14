@@ -1,5 +1,6 @@
 // 修正日 2018/01/07 [ENTER]キー処理用にKEY_LFを追加
 // 修正日 2018/08/23 SC_KEY_XXX をKEY_XXXに変更
+// 修正日 2018/09/14 [F7],[F8]の編集追加
 
 #include "tGraphicScreen.h"
 
@@ -158,7 +159,7 @@ uint8_t tGraphicScreen::edit() {
           }
           break;
   
-        case KEY_CTRL_L:    // [CTRL+L] 画面クリア
+        case KEY_CTRL_L:    // [F1],[CTRL+L] 画面クリア
           cls();
           locate(0,0);
           Serial_Ctrl(KEY_CTRL_L);
@@ -221,16 +222,24 @@ uint8_t tGraphicScreen::edit() {
         case KEY_UP:         // [↑]キー
           this->movePosPrevLineChar();
           break;
-  
-        case KEY_CTRL_N:     // 行挿入 
+
+        case KEY_F7:        // [F7] 行の分割
+        splitLine();
+        break;
+
+        case KEY_F8:        // [F8] 行の結合
+        margeLine();
+        break;
+      
+        case KEY_CTRL_N:    // [F3],[CTRL+N] 行挿入 
           this->Insert_newLine(pos_y);       
           break;
   
-        case KEY_CTRL_D:     // 行削除
+        case KEY_CTRL_D:    // [F2],[CTRL+D] 行削除
           this->clerLine(pos_y);
           break;
         
-        default:             // その他
+        default:            // その他
         
         if (IS_PRINT(ch)) {
           this->Insert_char(ch);

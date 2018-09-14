@@ -26,6 +26,8 @@
 // 2018/09/05 MML文でVnの対応(スキップ)、音の高さ、長さをグローバル変数化
 // 2018/09/12 MML文でVnの簡易対応(デュティ比調整)、テンポをグローバル変数化
 // 2018/09/14 MML文でデバッグ指定?コマンドの追加
+// 2018/09/14 CLSをダイレクトで実行する場合に:による継続コマンドが実行されない不具合の対応
+// 2018/09/14 曜日コードを安定板と最新版で統一(安定板仕様に統一)
 //
 
 #include <Arduino.h>
@@ -2892,7 +2894,7 @@ void isetDate() {
 #endif
 }
 
-// GETDATEコマンド  SETDATE 年格納変数,月格納変数, 日格納変数, 曜日格納変数
+// GETDATE 年格納変数,月格納変数, 日格納変数, 曜日格納変数
 void igetDate() {
 #if USE_INNERRTC == 1
  #if OLD_RTC_LIB == 1 || defined(STM32_R20170323) // <<< RTClock R20170323安定版対応 >>>
@@ -2939,6 +2941,11 @@ void igetDate() {
   int16_t index;  
   struct tm_t st;
   rtc.getTime(st);   // 時刻取得
+  // 曜日コードを安定板仕様に補正
+  st.weekday++;
+  if (st.weekday == 7)
+    st.weekday = 0;
+
   int16_t v[] = {
     st.year+1970, 
     st.month,
@@ -2978,7 +2985,7 @@ void igetDate() {
 #endif 
 }
 
-// GETDATEコマンド  SETDATE 時格納変数,分格納変数, 秒格納変数
+// GETTIME 時格納変数,分格納変数, 秒格納変数
 void igetTime() {
 #if USE_INNERRTC == 1
  #if OLD_RTC_LIB == 1 || defined(STM32_R20170323) // <<< RTClock R20170323安定版対応 >>>
@@ -3087,9 +3094,15 @@ void idate() {
    putnum((int16_t)st->tm_sec, -2);
    newline();  
  #else
-  static const char *wday[] = {"Mon","Tue","Wed","Thr","Fri","Sat","Sun"};
+  static const char *wday[] = {"Sun","Mon","Tue","Wed","Thr","Fri","Sat"};
+  // static const char *wday[] = {"Mon","Tue","Wed","Thr","Fri","Sat","Sun"};
    struct tm_t st;
-   rtc.getTime(st);      // 時刻取得  
+   rtc.getTime(st);  // 時刻取得  
+   // 曜日コードを安定板仕様に補正
+   st.weekday++;
+   if (st.weekday == 7)
+     st.weekday = 0;
+    
    putnum(st.year+1970, -4);
    c_putch('/');
    putnum(st.month, -2);
@@ -3146,10 +3159,10 @@ void ipset() {
  int16_t x,y,c;
  if (scmode||USE_TFT||USE_OLED) { // コンソールがデバイスコンソールの場合
     if (getParam(x,true)||getParam(y,true)||getParam(c,false)) 
-    if (x < 0) x =0;
-    if (y < 0) y =0;
-    if (x >= sc2.getGWidth())  x = sc2.getGWidth()-1;
-    if (y >= sc2.getGHeight()) y = sc2.getGHeight()-1;
+    if ( (x < 0) || (y < 0) || (x >= sc2.getGWidth()) || (y >= sc2.getGHeight())) {
+       // 描画範囲外
+       return;
+    }
   #if USE_NTSC == 1 || USE_OLED == 1
     if (c < 0 || c > 2) c = 1;
   #endif
@@ -3234,10 +3247,10 @@ void irect() {
 #endif
 }
 
-// ビットマップの描画 BITMAP 横座標, 縦座標, アドレス, インデックス, 幅, 高さ [,倍率]
+// ビットマップの描画 BITMAP 横座標, 縦座標, アドレス, インデックス, 幅, 高さ [,倍率[,色コード[,モード]]]
 void ibitmap() {
 #if USE_NTSC == 1 || USE_TFT == 1 || USE_OLED == 1
-  int16_t  x,y,w,h,d = 1,rgb = 0;
+  int16_t  x,y,w,h,d = 1,rgb = 7, mode = 0;
   int16_t  index;
   int16_t  vadr;
   uint8_t* adr;
@@ -3246,11 +3259,18 @@ void ibitmap() {
       return;
     if (*cip == I_COMMA) {
       cip++;
+      // 倍率の取得
       if (getParam(d,false)) return;
     }
     if (*cip == I_COMMA) {
       cip++;
-      if (getParam(rgb,0,1,false)) return;
+      // 色の取得
+      if (getParam(rgb,false)) return;
+    }
+    if (*cip == I_COMMA) {
+      cip++;
+      // モードの取得
+      if (getParam(mode,0,1,false)) return;
     }
 
     adr = v2realAddr(vadr);
@@ -3267,7 +3287,7 @@ void ibitmap() {
     if (w < 0) w =1;
     if (h < 0) h =1; 
     if (d < 0) d = 1;
-    sc2.bitmap(x, y, (uint8_t*)adr, index, w, h, d, rgb);
+    sc2.bitmap(x, y, (uint8_t*)adr, index, w, h, d, rgb, mode);
   } else {
    err = ERR_NOT_SUPPORTED;
   }
@@ -5535,7 +5555,7 @@ uint8_t icom() {
   case I_RUN:   sc->show_curs(0); irun();  sc->show_curs(1);   break; // RUN命令
   case I_RENUM: irenum(); break; // I_RENUMの場合
   case I_DELETE:idelete();  break;
-  case I_CLS:icls();
+  //case I_CLS:icls();
   case I_REM:
   case I_SQUOT:    
   case I_OK:    rc = 0;     break; // I_OKの場合
