@@ -1,2 +1,1 @@
-git clone git://github.com/rogerclarkmelbourne/Arduino_STM32.git
-
+git clone https://github.com/Tamakichi/Arduino_STM32.git
