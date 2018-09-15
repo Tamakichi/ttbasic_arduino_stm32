@@ -1,0 +1,310 @@
+= 豊四季Tiny BASIC for Arduino STM32 コンパイル環境の構築
+たま吉さん 
+v1.00 2018/9/15
+// 属性定義
+:experimental:
+:prduct:    豊四季Tiny BASIC for Arduino STM32
+:Author:    たま吉さん
+:Email:     tamacat2014@gmail.com
+:Date:      2018/09/15
+:Revision:  V0.86
+:lang: ja
+:doctype: Article
+:description:
+:docname: 豊四季Tiny BASIC for Arduino STM32 コンパイル環境の構築
+// ラベルの日本語設定
+:toc-title: 目次
+:preface-title: はじめに
+:appendix-caption: 付録
+:caution-caption: 注意
+:example-caption: 例
+:figure-caption: 図
+:important-caption: 重要
+:last-update-label: 最終更新
+//:listing-caption: リスト
+:manname-title: 名前
+:note-caption: 注記
+:preface-title: まえがき
+:table-caption: 表
+:tip-caption: ヒント
+:toc-title: 目次
+:untitled-label: 無題
+:version-label: バージョン
+:warning-caption: 警告
+// フォルダ定義
+:imagesdir: ./images_install
+// 見出し設定
+:sectnums:
+:chapter-label: 
+// 目次作成
+:toc: 
+:toclevels: 3
+
+== はじめに
+「豊四季Tiny BASIC for Arduino STM32 V0.86」を利用するための、 +
+プロジェクトのダウンロード、ファイルの配置の手順です.  +
+Windows 10環境での利用を前提としています. 
+
+*方針*
+
+- プロジェクトのダウンロードおよび配置は、gitコマンドにて行います. 
+- 他のArduino開発環境とのライブラリの競合を避けるため、 +
+  スケッチ、ライブラリ、Arduino STM32パッケージは +
+  独立した別の「スケッチブックの保管場所」にて管理します.
+
+== 事前準備
+プロジェクト及び不随パッケージのインストールのツールとしてgitを利用します. +
+gitのインストールは link:install_git.html[「git for Windowsのインストール手順」]を参考にして導入して下さい. 
+
+以降の説明では、gitコマンドを使用した手順となります.
+
+== 「豊四季Tiny BASIC for Arduino STM32」プロジェクトのインストール
+=== プロジェクトを配置するフォルダの作成
+「豊四季Tiny BASIC for Arduino STM32」 プロジェクトを配置するためのフォルダを作成します.  +
+ここでは、*D:\project* とします. 
+
+.プロジェクト用フォルダ
+image::01.png[width="500"]
+
+=== コマンドプロンプトを起動
+作業を行うために、コマンドプロンプトを起動します. +
+ディレクトリ *D:\project* に移動します.
+
+一番簡単な手順は、 +
+フォルダの menu:ファイル[Windows PowerShellを開く] にてPowerShellを起動し、 +
+`cmd` kbd:[Enter] でコマンドプロンプトを実行します. +
+
+.フォルダのメニューからPowerShellを起動
+image::02.png[width="500"]
+
+.PowerShell上でcmdを実行
+image::03.png[width="500"]
+
+.コマンドプロンプト起動画面
+image::04.png[width="500"]
+
+=== 「豊四季Tiny BASIC for Arduino STM32」プロジェクトのダウンロード
+次のコマンドを実行し、プロジェクト一式をダウンロードします.
+
+----
+git clone https://github.com/Tamakichi/ttbasic_arduino_stm32.git
+----
+
+
+.「豊四季Tiny BASIC for Arduino STM32」 プロジェクトのダウンロード
+image::05.png[width="500"]
+
+*D:\project*  の下に フォルダ *ttbasic_arduino_stm32* が作成されます.  +
+*D:\project\ttbasic_arduino_stm32\ttbasic* がスケッチの本体となります.
+
+=== Arduino STM32パッケージ(修正版)のインストール
+次のコマンドを実行して、プロジェクト下に +
+Arduino STM32パッケージをインストールします. +
+----
+cd ttbasic_arduino_stm32\hardware
+stm32Clone.bat
+----
+
+.Arduino STM32パッケージ(修正版)のダウンロード
+image::06.png[width="500"]
+
+これにより、 +
+*D:\project\ttbasic_arduino_stm32\hardware* の下に +
+Arduino STM32パッケージがインストールます.
+
+==== ドライバのインストール
+Arduino STM32用のドライバをインストールします. +
+フォルダ *D:\project\ttbasic_arduino_stm32\hardware\Arduino_STM32\drivers\win* を開きます.
+
+.ドライバのインストール
+image::14.png[width="500"]
+
+フォルダ内の *install_drivers.bat* を実行してドライバをインストールします.
+
+== Java(jre:実行環境)のインストール
+Arduino STM32のスケッチの書き込みにおいて、javaの実行環境が必要となります. +
+インストールしていない場合は、ダウンロードしてインストールして下さい.
+
+無料Javaのダウンロード https://java.com/ja/download/
+
+image::15.png[width="500"]
+
+btn:[無料のJavaのダウンロード] をクリックしてダウンロードし、インストールして下さい.
+
+== Arduino IDEのインストール
+Arduinoをインストールしていない場合はインストールして下さい. +
+Download the Arduino IDE https://www.arduino.cc/en/Main/Software
+
+.Arduino IDEダウンロードサイト
+image::07.png[width="500"]
+
+Windows 10用には3つの形式でインストールすることが出来ます. 
+
+- Windows Installer
+- Windows ZIP file
+- Windows app
+
+各自の好み、目的に合わせてインストールして下さい. +
+ここでは、Windows app版の利用を前提に解説します.
+
+== Arduino IDEの環境設定
+
+「豊四季Tiny BASIC for Arduino STM32」のスケッチをコンパイルするための設定方法について説明します.
+
+=== スケッチ保存場所の設定
+Arduino IDEを起動します. +
+ menu:ファイル[環境設定] をクリックし、環境設定画面を開きます.
+
+環境設定画面の「スケッチの保存場所」に +
+*D:\project\ttbasic_arduino_stm32* を 指定し、btn:[OK] ボタンを押して登録します.
+
+.環境設定画面
+image::08.png[width="500"]
+
+設定を反映させるために、一旦 Arduino IDEを終了し(menu:ファイル[終了] )、再度起動します.
+
+=== Arduino SAMD Boardsパッケージのインストール
+ARM Cortex-M用のコンパイラの利用のためにインストールします. 
+
+menu:ツール[ボード > ボードマネージャ] から ボードマネージャを開きます.
+
+.ボードマネージャの起動
+image::12.png[width="500"]
+
+ボードマネージャのフィルタ指定に *SAMD* と入力して絞り込み、 +
+「Arduino SAMD Boards (32-bits ARM Coetex-M0+) by Arduino」の最新版をインストールします.
+
+.ボードマネージャ画面
+image::13.png[width="500"]
+
+
+=== 「豊四季Tiny BASIC for Arduino STM32」スケッチの読み込み
+メニュー menu:ファイル[開く] から +
+*D:\project\ttbasic_arduino_stm32\ttbasic\ttbasic.ino* +
+を指定してスケッチを開きます.
+
+.Arduinoのスケッチを開く
+image::09.png[width="500"]
+
+.スケッチを読み込んだ画面
+image::10.png[width="500"]
+
+=== ボードの設定
+Arduinoのメニューでボードの設定を行います. 
+
+- menu:ツール[ボード > Generic STM32F103C series]
+- menu:ツール[Variant > Generic STM32F103C8(20k RAM 128k Flash)]
+- menu:ツール[Upload method > STM32duino bootloader]
+
+.ボートの設定
+image::11.png[width="500"]
+
+=== スケッチのコンパイル確認
+Arduino IDEのメニュー menu:スケッチ[検証・コンパイル] にて +
+コンパイル出来ることを確認します.
+
+.コンパイルの検証
+image::16.png[width="500"]
+
+コンパイルが正常終了することを確認します.
+
+== BluePillボードへのブートローダの書き込み
+新しく購入したBluePillボードには、Arduino STM32用のブートローダが書き込まれていません。 +
+Arduino IDEからスケッチを書き込むには、ブートローダの書き込みが必要となります。
+
+ここでは、*ST-Link* を使った書き込み方法について説明します.
+
+=== STM32 ST-LINK utilityのインストール
+ST社が公開している *ST-LINK utility* をダウンロードしてインストールします. +
+ダウンロードにはアカウントの登録が必要となります. 
+
+下記のリンク先のページ下部の btn:[ソフトウェア入手] をクリックし、 +
+*STM32 ST-LINK utility* をダウンロードします. +
+STM32 ST-LINK utility: 
+https://www.st.com/ja/development-tools/stsw-link004.html
+
+ダウンロードしたインストーラを使って、インストールします. +
+この時、USBドライバもインストールされます.
+
+=== ST-LINKのファームウェアアップデート
+ST-LINKのファームウェアのバージョンを確認し、古い場合はアップデートします.
+
+*STM32 ST-LINK utility* を起動します.  +
+*ST-LINK* をパソコンに接続します. +
+*STM32 ST-LINK utility* のメニュー menu:ST-LINK[Firmware update] から +
+ST-Link Update画面を開きます. +
+
+btn:[Device Connect] ボタンをクリックし、ファームウェアのバージョンを確認します. +
+もし、古い場合は btn:[Yes >>>>] ボタンをクリックしてファームウェアをアップデートします.
+
+.ST-Link Update画面
+image::18.png[]
+
+
+=== ブートローダのダウンロード
+ここでは、gitを使ったダウンロードを行います. 
+
+下記の公開サイトから直接ダウンロードしてもよいです. +
+Bootloader for STM32F103 boards, for use with the Arduino_STM32 repo and the Arduino IDE +
+https://github.com/rogerclarkmelbourne/STM32duino-bootloader
+
+フォルダ *D:\project* にダウンロードします. +
+コマンドプロンプト上で次のコマンドを実行します.
+
+----
+git clone https://github.com/rogerclarkmelbourne/STM32duino-bootloader.git
+----
+
+.ブートローダのダウンロード
+image::17.png[width="500"]
+
+=== ブートローダの書き込み
+*STM32 ST-LINK utility* を起動します. +
+*ST-LINK* をパソコンに接続します. +
+*ST-LINK* に *BluePill* ボードを接続します.
+
+.結線
+[options="autowidth",cols="^.^,^.^"]
+|===
+|ST-Link |BluePill
+|3.3V    |3.3V
+|SWCLK V |CLK
+|GND     |GND
+|SWIO    |DIO
+|===
+
+*BluePill* ボードのBOOTビンのBOOT0を1に設定します. +
+
+.BOOTピン
+image::boot_sw.jpg[]
+
+*BluePill* のリセットボタンを押します.
+
+*STM32 ST-LINK utility* の メニュー menu:File[Open file] から +
+書き込むブートローダのを読み込みます. +
+*D:\project\STM32duino-bootloader\bootloader_only_binaries\* にある +
+*generic_boot20_pc13.bin* を指定します.
+
+.ブートローダの読み込み
+image::19.png[width="500"]
+
+BluePillボードに接続します. +
+メニュー menu:Target[Connect] をクリックします.
+
+.ブートローダを読み込だ状態
+image::20.png[width="500"]
+
+メニュー menu:Target[Program&Verify] をクリックしてDownload画面を開きます. 
+
+.Download画面
+image::21.png[]
+
+btn:[Start]ボタンを押して、書き込みを開始します.
+
+.書き込み完了画面
+image::22.png[width="500"]
+
+*BluePill* ボードのBOOTビンのBOOT0を0に戻します.
+
+以上で環境構築作業は完了です.
+

@@ -1,0 +1,104 @@
+= git for Windowsのインストール手順
+たま吉さん 
+v1.00 2018/9/15
+// 属性定義
+:experimental:
+:prduct:    豊四季Tiny BASIC for Arduino STM32
+:Author:    たま吉さん
+:Email:     tamacat2014@gmail.com
+:Date:      2018/09/15
+:Revision:  V0.86
+:lang: ja
+:doctype: book
+:description:
+:docname: git for Windowsのインストール手順
+// フォルダ定義
+:imagesdir: ./images_git
+// 見出し設定
+:sectnums:
+:chapter-label: 
+// 目次作成
+:toc:
+:toclevels: 3
+
+Windows 10パソコンにgitをインストールする手順です. +
+この手順でインストールした場合、gitコマンドをWindowsのコマンドプロンプト上で直接実行することが出来ます.
+
+本手順は、バージョン2.19の場合の手順です.バージョンにより異なる場合があります.
+
+== git for Windowsのダウンロード
+ダウンロードサイト https://gitforwindows.org/
+
+- ダウンロードサイトのページを開き、btn:[Download] をクリックします.  +
+  ファイル名 Git-2.xx.0-64-bit.exe(xxはバージョン)がダウンロード出来ます. +
+image:download_page.png[公式ダウンロードサイト,width="500"]
+
+== インストール
+- ダウンロードした Git-2.xx.0-64-bit.exe をクリックして実行します.
+- ステップ1 +
+  image:inst_01.png[ステップ1] +
+  btn:[Next >] をクリックします. +
+
+- ステップ2 +
+  image:inst_02.png[ステップ2] +
+  btn:[Next >] をクリックします.
+
+- ステップ3 +
+  image:inst_03.png[ステップ3] +
+  何もせず btn:[Next >] をクリックします. 
+
+- ステップ4 +
+  image:inst_04.png[ステップ4] +
+  何もせず btn:[Next >] をクリックします.  
+  
+- ステップ5 +
+  image:inst_05.png[ステップ5-1] +
+  デフォルトのエディタを指定します. 好みで選択して下さい. +
+  image:inst_05_2.png[ステップ5-1] +
+  デフォルトのエディタを指定します. 好みで選択して下さい. +
+  Vim(vi)を使ったことがない方は、Notepadd++ を選択が無難です. +
+  選択後 btn:[Next >] をクリックします.  
+
+- ステップ6 +
+  image:inst_06.png[ステップ6] +
+  「Use Git from Windows Prompt」を選択します. +
+   btn:[Next >] をクリックします.  
+
+- ステップ7 +
+  image:inst_07.png[ステップ7] +
+  何もせず btn:[Next >] をクリックします.  
+
+- ステップ8 +
+  image:inst_08.png[ステップ8] +
+  何もせず btn:[Next >] をクリックします.  
+
+- ステップ9 +
+  image:inst_09.png[ステップ9] +
+  何もせず btn:[Next >] をクリックします.  
+
+- ステップ10 +
+  image:inst_10.png[ステップ10] +
+  何もせず btn:[Next >] をクリックします.  
+
+- ステップ11 +
+  image:inst_11.png[ステップ11] +
+  何もせず btn:[Next >] をクリックします.  +
+  
+- ステップ12 +
+  image:inst_12.png[ステップ12] +
+  インストールが開始されます. +
+
+- ステップ13 +
+  image:inst_13.png[ステップ13] +
+  インストールの完了です. +
+  btn:[Finish] をクリックして終了します. +
+  インストールするとスタートメニューにGitが追加されます.
+  image:inst_14.png[ステップ14,width="500"] 
+
+- ステップ15 +
+  image:inst_15.png[ステップ15,width="500"] +
+  コマンドプロンプトを起動し、gitコマンドを実行します. +
+  image:inst_15_2.png[ステップ15_2,width="500"] +
+  usgae(使い方) が表示されればインストール完了です.
+
+以上です.
