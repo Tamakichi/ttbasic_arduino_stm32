@@ -50,14 +50,9 @@ static const uint16_t tbl_color[]  =
 // 初期化
 void tTFTScreen::init(const uint8_t* fnt, uint16_t ln, uint8_t kbd_type, uint8_t* extmem, uint8_t vmode, int8_t rt, int8_t Hajst, int8_t Vajst,uint8_t ifmode) {
   this->font = (uint8_t*)fnt; // フォントテーブル
-#ifdef STM32_R20170323
-  // Arduino STM32安定版利用の場合のオブジェクト作成
-  this->tft = new Adafruit_ILI9341_STM_TT(TFT_CS, TFT_DC, TFT_RST,2); // Use hardware SPI
-#else
   // Arduino STM32 マスタブランチ利用の場合のオブジェクト作成
   pSPI = new SPIClass(2);
   this->tft = new Adafruit_ILI9341_STM(TFT_CS, TFT_DC, TFT_RST, *pSPI); // Use hardware SPI
-#endif  
   this->tft->begin();   // TFT利用開始
   setScreen(vmode, rt); // スクリーンモード,画面回転指定
   // コンソールの初期化
@@ -112,7 +107,7 @@ void tTFTScreen::setScreen(uint8_t mode, uint8_t rt) {
 //  gbcolor: 背景色
 // 
 //
-#ifndef STM32_R20170323 
+
 void  tTFTScreen::drawFont(int16_t cx, int16_t cy, uint8_t code, uint16_t _fgcolor, uint16_t _bgcolor) {
   int16_t gx = cx*f_width;                       // フォント描画開始位置x
   int16_t gy = cy*f_height;                      // フォント描画開始位置y
@@ -147,12 +142,10 @@ void  tTFTScreen::drawFont(int16_t cx, int16_t cy, uint8_t code, uint16_t _fgcol
     tft->pushColors(buf, bpos, 0);
   }
 }
-#endif
   
 // 行のリフレッシュ表示
 // 引数 
 //  l : テキスト行 0 ～
-#ifndef STM32_R20170323
   void tTFTScreen::refresh_line(uint16_t l) {
   int16_t bf_w = *(font+0);                      // ベース横フォントドット数
   int16_t bf_h = *(font+1);                      // ベース縦フォントドット数
@@ -185,7 +178,6 @@ void  tTFTScreen::drawFont(int16_t cx, int16_t cy, uint8_t code, uint16_t _fgcol
   } // フォントライン毎のルー
   while ((dma_get_isr_bits(DMA1, DMA_CH5) & DMA_ISR_TCIF1)==0); // DMA転送待ち(SPI2 DMA1 CH5)
 }
-#endif
 
 // キャラクタ画面スクロール
 // x: スクロール開始位置 x
@@ -195,10 +187,8 @@ void  tTFTScreen::drawFont(int16_t cx, int16_t cy, uint8_t code, uint16_t _fgcol
 // d:方向
 
 void tTFTScreen::cscroll(int16_t x, int16_t y, int16_t w, int16_t h, uint8_t d) {
-#ifndef STM32_R20170323
   tGraphicScreen::cscroll(x, y, w,h,d);
   //refresh();
-#endif
 }
 
   
@@ -209,17 +199,7 @@ void tTFTScreen::cscroll(int16_t x, int16_t y, int16_t w, int16_t h, uint8_t d) 
 //
 uint8_t tTFTScreen::drawCurs(uint8_t x, uint8_t y) {
   uint8_t c= VPEEK(x, y);                                        // カーソル位置のキャラクターコード取得
-#ifdef STM32_R20170323
-  tft->fillRect(x*f_width,y*f_height,f_width,f_height,fgcolor);  // カーソル位置矩形塗りつぶし
-  if (fontEx == 1) 
-     // 1倍サイズのフォント描画
-     tft->drawBitmap(x*f_width,y*f_height,font+3+((uint16_t)c)*8,f_width,f_height, bgcolor);
-  else
-     // 2倍サイズ以上のフォント描画
- 	   drawBitmap_x2(x*f_width,y*f_height,font+3+((uint16_t)c)*8,f_width/fontEx, f_height/fontEx, bgcolor, fontEx);
-#else
   drawFont(x, y, c, bgcolor, fgcolor);
-#endif
   return 0;
 }
 
@@ -230,15 +210,7 @@ uint8_t tTFTScreen::drawCurs(uint8_t x, uint8_t y) {
 //  c : キャラクターコード
 //
 void tTFTScreen::WRITE(uint8_t x, uint8_t y, uint8_t c) {
-#ifdef STM32_R20170323
-  tft->fillRect(x*f_width,y*f_height,f_width,f_height, bgcolor);
-  if (fontEx == 1)
-    tft->drawBitmap(x*f_width,y*f_height,font+3+((uint16_t)c)*8,f_width,f_height, fgcolor);
-  else
-    drawBitmap_x2(x*f_width,y*f_height,font+3+((uint16_t)c)*8,f_width/fontEx,f_height/fontEx, fgcolor, fontEx);
-#else
   drawFont(x, y, c, fgcolor, bgcolor);
-#endif
 }
 
 // グラフィックカーソル設定
@@ -595,16 +567,11 @@ ERROR:
 
 // 指定座標の色コード取得
 uint16_t  tTFTScreen::gpeek(int16_t x, int16_t y) {
-#ifndef STM32_R20170323
   return this->tft->readPixel(x,y);
-#else
-  return 0;
-#endif  
 }
 
 // 指定範囲の指定色コード有無のチェック
 int16_t  tTFTScreen::ginp(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t c) {
-#ifndef STM32_R20170323
   for (int16_t i = y ; i < y+h; i++) {
     for (int16_t j= x; j < x+w; j++) {
       if (this->gpeek(x,y) == c) {
@@ -612,6 +579,5 @@ int16_t  tTFTScreen::ginp(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t c
       }
     }
   }
-#endif
   return 0;	
 }  

@@ -28,6 +28,7 @@
 // 2018/09/14 MML文でデバッグ指定?コマンドの追加
 // 2018/09/14 CLSをダイレクトで実行する場合に:による継続コマンドが実行されない不具合の対応
 // 2018/09/14 曜日コードを安定板と最新版で統一(安定板仕様に統一)
+// 2018/09/16 Arduino STM32 R20170323の非サポートに変更
 //
 
 #include <Arduino.h>
@@ -44,11 +45,7 @@ uint8_t err;// Error message index
 #include "ttbasic_error.h"
 
 #define STR_EDITION "Arduino STM32"
-#ifdef STM32_R20170323
- #define STR_VARSION "Edition V0.86a"
-#else
- #define STR_VARSION "Edition V0.86n"
-#endif
+#define STR_VARSION "Edition V0.86"
 
 // TOYOSHIKI TinyBASIC プログラム利用域に関する定義
 #define SIZE_LINE 128    // コマンドライン入力バッファサイズ + NULL
@@ -108,26 +105,15 @@ tTermscreen sc1;   // ターミナルスクリーン
 //#define KEY_ENTER 13
 
 // **** I2Cライブラリの利用設定 ****
-#if defined(STM32_R20170323)
-  // Wireライブラリ変更前の場合
-  #if I2C_USE_HWIRE == 0
-    #include <Wire.h>
-    #define I2C_WIRE  Wire
-  #else
-    #include <HardWire.h>
-    HardWire HWire(1, I2C_FAST_MODE); // I2C1を利用
-    #define I2C_WIRE  HWire
-  #endif
-#else 
-  // Wireライブラリ変更ありの場合
-  #if I2C_USE_HWIRE == 0
-    #include <SoftWire.h>
-    TwoWire SWire(SCL, SDA, SOFT_STANDARD);
-    #define I2C_WIRE  SWire
-  #else
-    #include <Wire.h>
-    #define I2C_WIRE  Wire
-  #endif
+#if I2C_USE_HWIRE == 0 
+  // Wire ソフトエミュレーション版
+  #include <SoftWire.h>
+  TwoWire SWire(SCL, SDA, SOFT_STANDARD);
+  #define I2C_WIRE  SWire
+#else
+  // Wire ハードウェア版
+  #include <Wire.h>
+  #define I2C_WIRE  Wire
 #endif
 
 // *** SDカード管理 *****************
@@ -2717,7 +2703,6 @@ int16_t ii2cr() {
 // I2Cクロックの設定
 // I2CCLK [100|400(デフォルト) ]
 void ii2cclk() {
-#ifndef STM32_R20170323
   int16_t prm_clk = 400;
   if (*cip != I_EOL && *cip != I_COLON) {
     // 引数あり
@@ -2729,9 +2714,6 @@ void ii2cclk() {
   }
   uint32_t frq = (uint32_t)prm_clk * 1000;
   I2C_WIRE.setClock(frq);
-#else 
-  err = ERR_NOT_SUPPORTED;  
-#endif
 }
 
 uint8_t _shiftIn( uint8_t ulDataPin, uint8_t ulClockPin, uint8_t ulBitOrder, uint8_t lgc){
@@ -2847,28 +2829,6 @@ int16_t ilen(uint8_t flgZen=0) {
 // SETDATEコマンド  SETDATE 年,月,日,時,分,秒
 void isetDate() {
 #if USE_INNERRTC == 1
- #if defined(STM32_R20170323) // <<< RTClock R20170323安定版対応 >>>
-  struct tm t;
-  int16_t p_year, p_mon, p_day;
-  int16_t p_hour, p_min, p_sec;
-
-  if ( getParam(p_year, 1900,2036, true) ) return; // 年 
-  if ( getParam(p_mon,     1,  12, true) ) return; // 月
-  if ( getParam(p_day,     1,  31, true) ) return; // 日
-  if ( getParam(p_hour,    0,  23, true) ) return; // 時
-  if ( getParam(p_min,     0,  59, true) ) return; // 分
-  if ( getParam(p_sec,     0,  61, false)) return; // 秒
-
-  // RTCの設定
-  t.tm_isdst = 0;             // サーマータイム [1:あり 、0:なし]
-  t.tm_year  = p_year - 1900; // 年   [1900からの経過年数]
-  t.tm_mon   = p_mon - 1;     // 月   [0-11] 0から始まることに注意
-  t.tm_mday  = p_day;         // 日   [1-31]
-  t.tm_hour  = p_hour;        // 時   [0-23]
-  t.tm_min   = p_min;         // 分   [0-59]  
-  t.tm_sec   = p_sec;         // 秒   [0-61] うるう秒考慮
-  rtc.setTime(&t);            // 時刻の設定
- #else // <<< RTClock 更新版対応 >>>
   struct tm_t t;
   int16_t p_year, p_mon, p_day;
   int16_t p_hour, p_min, p_sec;
@@ -2888,7 +2848,6 @@ void isetDate() {
   t.minute   = p_min;         // 分   [0-59]  
   t.second   = p_sec;         // 秒   [0-61] うるう秒考慮
   rtc.setTime(t);             // 時刻の設定
- #endif
 #else
   err = ERR_SYNTAX; return;
 #endif
@@ -2897,47 +2856,6 @@ void isetDate() {
 // GETDATE 年格納変数,月格納変数, 日格納変数, 曜日格納変数
 void igetDate() {
 #if USE_INNERRTC == 1
- #if OLD_RTC_LIB == 1 || defined(STM32_R20170323) // <<< RTClock R20170323安定版対応 >>>
-  int16_t index;  
-  time_t tt; 
-  struct tm* st;
-  tt = rtc.getTime();   // 時刻取得
-  st = localtime(&tt);  // 時刻型変換
-
-  int16_t v[] = {
-   (int16_t)st->tm_year+1900, 
-   (int16_t)st->tm_mon+1,
-   (int16_t)st->tm_mday,
-   (int16_t)st->tm_wday
-  };
-
-  for (uint8_t i=0; i <4; i++) {    
-    if (*cip == I_VAR) {          // 変数の場合
-      cip++; index = *cip;        // 変数インデックスの取得
-      var[index] = v[i];          // 変数に格納
-      cip++;
-    } else if (*cip == I_ARRAY) { // 配列の場合      
-      cip++;
-      index = getparam();         // 添え字の取得
-      if (err) return;  
-      if (index >= SIZE_ARRY || index < 0 ) {
-         err = ERR_SOR;
-         return; 
-      }
-      arr[index] = v[i];          // 配列に格納
-    } else {
-      err = ERR_SYNTAX;           // 変数・配列でない場合はエラーとする
-      return;   
-    }     
-    if(i != 3) {
-      if (*cip != I_COMMA) {      // ','のチェック
-         err = ERR_SYNTAX;
-         return; 
-      }
-      cip++;
-    }
-  }
- #else  // <<< RTClock 更新版対応 >>>
   int16_t index;  
   struct tm_t st;
   rtc.getTime(st);   // 時刻取得
@@ -2979,7 +2897,6 @@ void igetDate() {
       cip++;
     }
   }
- #endif
 #else
   err = ERR_SYNTAX;
 #endif 
@@ -2988,46 +2905,6 @@ void igetDate() {
 // GETTIME 時格納変数,分格納変数, 秒格納変数
 void igetTime() {
 #if USE_INNERRTC == 1
- #if OLD_RTC_LIB == 1 || defined(STM32_R20170323) // <<< RTClock R20170323安定版対応 >>>
-  int16_t index;  
-  time_t tt; 
-  struct tm* st;
-  tt = rtc.getTime();   // 時刻取得
-  st = localtime(&tt);  // 時刻型変換
-
-  int16_t v[] = {
-    (int16_t)st->tm_hour,        // 時
-    (int16_t)st->tm_min,         // 分
-    (int16_t)st->tm_sec          // 秒
-  };
-
-  for (uint8_t i=0; i <3; i++) {    
-    if (*cip == I_VAR) {          // 変数の場合
-      cip++; index = *cip;        // 変数インデックスの取得
-      var[index] = v[i];          // 変数に格納
-      cip++;
-    } else if (*cip == I_ARRAY) { // 配列の場合      
-      cip++;
-      index = getparam();         // 添え字の取得
-      if (err) return;  
-      if (index >= SIZE_ARRY || index < 0 ) {
-         err = ERR_SOR;
-         return; 
-      }
-      arr[index] = v[i];          // 配列に格納
-    } else {
-      err = ERR_SYNTAX;           // 変数・配列でない場合はエラーとする
-      return;   
-    }     
-    if(i != 2) {
-      if (*cip != I_COMMA) {      // ','のチェック
-         err = ERR_SYNTAX;
-         return; 
-      }
-      cip++;
-    }
-  }
- #else  // <<< RTClock 更新版対応 >>>
   int16_t index;  
   struct tm_t st;
   rtc.getTime(st);      // 時刻取得
@@ -3063,7 +2940,6 @@ void igetTime() {
       cip++;
     }
   }
- #endif
 #else
   err = ERR_SYNTAX;
 #endif  
@@ -3072,30 +2948,7 @@ void igetTime() {
 // DATEコマンド
 void idate() {
 #if USE_INNERRTC == 1
- #if OLD_RTC_LIB == 1 || defined(STM32_R20170323) // <<< RTClock R20170323安定版対応 >>>
   static const char *wday[] = {"Sun","Mon","Tue","Wed","Thr","Fri","Sat"};
-   time_t tt; 
-   struct tm* st;
-   tt = rtc.getTime();   // 時刻取得
-   st = localtime(&tt);  // 時刻型変換
-   
-   putnum((int16_t)st->tm_year+1900, -4);
-   c_putch('/');
-   putnum((int16_t)st->tm_mon+1, -2);
-   c_putch('/');
-   putnum((int16_t)st->tm_mday, -2);
-   c_puts(" [");
-   c_puts(wday[(int16_t)st->tm_wday]);
-   c_puts("] ");
-   putnum((int16_t)st->tm_hour, -2);
-   c_putch(':');
-   putnum((int16_t)st->tm_min, -2);
-   c_putch(':');
-   putnum((int16_t)st->tm_sec, -2);
-   newline();  
- #else
-  static const char *wday[] = {"Sun","Mon","Tue","Wed","Thr","Fri","Sat"};
-  // static const char *wday[] = {"Mon","Tue","Wed","Thr","Fri","Sat","Sun"};
    struct tm_t st;
    rtc.getTime(st);  // 時刻取得  
    // 曜日コードを安定板仕様に補正
@@ -3117,7 +2970,6 @@ void idate() {
    c_putch(':');
    putnum(st.second, -2);
    newline();
- #endif 
 #else
   err = ERR_SYNTAX;
 #endif  
@@ -3299,7 +3151,7 @@ void ibitmap() {
 // キャラクタスクロール CSCROLL X1,Y1,X2,Y2,方向
 // 方向 0: 上, 1: 下, 2: 右, 3: 左
 void  icscroll() {
-#if USE_NTSC == 1 || USE_OLED == 1 || (USE_TFT == 1 && !defined(STM32_R20170323))
+#if USE_NTSC == 1 || USE_OLED == 1 || USE_TFT == 1 
   int16_t  x1,y1,x2,y2,d;
   if (scmode) {  // コンソールがデバイスコンソールの場合 
     if (getParam(x1,true)||getParam(y1,true)||getParam(x2,true)||getParam(y2,true)||getParam(d,false))

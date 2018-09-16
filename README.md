@@ -1,14 +1,13 @@
-## 豊四季タイニーBASIC for Arduino STM32V0.86a/n
+## 豊四季タイニーBASIC for Arduino STM32V0.86β
 
-（注意）V0.85β版までは、下記のリポジトリにて管理しています。  
+（注意）  
+オリジナル版からリポジトリ管理を切り離しました。  
+V0.85β版までは、下記のリポジトリにて管理しています。  
 Tamakichi/ttbasic_arduino  https://github.com/Tamakichi/ttbasic_arduino  
-
-Issues、Projects機能利用のため、本家からリポジトリ管理を切り離しました。  
 
 ![サンプル画像](./image/03.jpg)  ![サンプル画像](./image/10.jpg) ![サンプル画像](./image/11.jpg)  
 
 本プログラムは、下記オリジナル版を[Arduino STM32](https://github.com/rogerclarkmelbourne/Arduino_STM32) 向けに移植・機能拡張版です.  
-
 - オリジナル版配布サイト  
    https://github.com/vintagechips/ttbasic_arduino  
     関連情報 [電脳伝説 Vintagechips - 豊四季タイニーBASIC確定版](https://vintagechips.wordpress.com/2015/12/06/%E8%B1%8A%E5%9B%9B%E5%AD%A3%E3%82%BF%E3%82%A4%E3%83%8B%E3%83%BCbasic%E7%A2%BA%E5%AE%9A%E7%89%88/)
@@ -20,10 +19,7 @@ Issues、Projects機能利用のため、本家からリポジトリ管理を切
 著作権者の同意なしに経済的な利益を得てはいけません.  
 この条件のもとで、利用、複写、改編、再配布を認めます.    
 
-
-
 ### システム構成
-
 ![システム構成図](./image/04.png)  
 
 #### 構成組み合わせパターン
@@ -69,13 +65,9 @@ RTC用バックアップ電池、SDカードモジュールも必要に応じて
 
 ![RTC用電池](./image/02_1.png)  
 
-    
-
 #### ピン利用構成  
 
 ![ピン割り付け](./image/05.png)  
-
-
 
 #### ボート上のピン一覧
 
@@ -119,86 +111,136 @@ RTC用バックアップ電池、SDカードモジュールも必要に応じて
 
 ![TFT](./image/14.jpg) 
 
-### ファームウェア書込み手順(Windows 10の場合)  
-プロジェクトファイルの**binフォルダ**に次の２つのタイプのファームウェアを用意しています。
+
+### 本パッケージ・必要パッケージのダウンロードとインストール・配置
+#### 本パッケージのダウンロードと配置
+下記のリンクより直接ダウンロードして解凍、またはgitコマンドを使ってダウンロードして下さい。  
+
+* ダウンロードリンク  
+  https://github.com/Tamakichi/ttbasic_arduino_stm32/archive/master.zip
+
+* gitを使ったダウンロード(複製のダウンロード)  
+   ```
+   git clone https://github.com/Tamakichi/ttbasic_arduino_stm32.git
+   ```
+  Windows 10へのgitの導入は、下記の手順を参考にして下さい。  
+  * [git for Windowsのインストール手順](https://tamakichi.github.io/ttbasic_arduino_stm32/install_git.html)
+
+ダウンロードした本パッケージのトップフォルダを 📁ttbasic_arduino_stm32\ とします。  
+（解凍直後の *tbasic_arduino_stm32-master* から変更して下さい)  
+トップフォルダを任意の場所に配置して下さい。  
+
+#### 本パッケージの構成
+📁ttbasic_arduino_stm32\  ・・・・ 本パッケージのトップフォルダ  
+　📁bin\  ・・・・・・・・・・・・・ コンパイル済みスケッチ(ファームウェア)  
+　📁docs\  ・・・・・・・・・・・・ドキュメント類(作成中)  
+　📁hardware\    ・・・・・・・・・・Arduino STM32パッケージ配置場所  
+　📁libraries\   ・・・・・・・・・・・ スケッチ用ライブラリ  
+　📁ttbasic\  ・・・・・・・・・・・ スケッチ本体  
+　📄manual.pdf  ・・・・・・・・・・ マニュアル(旧)    
+　📄platform.local.txt  ・・・・・・・ コンパイルオプション定義(OLEDコントローラ指定用)  
+　📄README.md    ・・・・・・・・・ 本ドキュメント  
+　📄TinyBASIC早見表.pdf  ・・・・・・ チートシート(旧)  
+
+Arduino IDEでスケッチをコンパイルする場合は、  
+Arduino IDEの環境設定の **スケッチブックの保存場所** に 📁ttbasic_arduino_stm32\ を
+設定して下さい。  
+これにより、既存の環境・ライブラリとの干渉減らすことが出来ます。  
+
+#### Arduino STM32パッケージのダウンロードと配置
+Arduino STM32パッケージは、随時更新されているため動作確認した時点のスナップショットに  
+不具合修正を行った、下記のパッケージをダウンロードして利用して下さい。  
+
+* ダウンロードリンク  
+  https://github.com/Tamakichi/Arduino_STM32/archive/master.zip
+
+* gitを使ったダウンロード(複製のダウンロード)  
+   ```
+   git clone https://github.com/Tamakichi/Arduino_STM32.git
+   ```
+
+ダウンロードしたArduino STM32パッケージのトップフォルダを 📁Arduino_STM32\ とします。  
+（解凍直後の *Arduino_STM32-master* から変更して下さい)  
+
+Arduino STM32パッケージのトップフォルダは、📁hardware\の下に配置して下さい。    
+　📁ttbasic_arduino_stm32\  
+　　📁hardware\  
+　　　📁Arduino_STM32\
+
+#### STM32用USBドライバのインストール(Windows10環境)
+Arduino STM32パッケージに添付のUSBドライバをインストールします。  
+
+下記の📁win\📄install_drivers.basをクリックしてドライバをインストールします。    
+　📁ttbasic_arduino_stm32\  
+　　📁hardware\  
+　　　📁Arduino_STM32\  
+　　　　📁drivers\  
+　　　　　📁win\  
+　　　　　　📄install_drivers.bas
+
+#### Java(JRE)実行環境のインストール
+Arduino STM32パッケージのボート書き込みツールはJavaの実行環境が必要です。  
+Javaをインストールしていない場合は、インストールして下さい。  
+* 無料Javaのダウンロード https://java.com/ja/download/
+
+### コンパイル済みスケッチ(ファームウェア) の利用
+コンパイル済みスケッチ(ファームウェア) を用意しています。  
+ファームウェアを直接マイコンボードに書き込んで利用することが出来ます。  
+
+ファームウェア書込み手順(Windows 10の場合)  
+プロジェクトファイルの**binフォルダ**に２つのタイプのファームウェアを用意しています。
 
 1. ブートローダー無しファームウェア(バイナリー形式)  
-  📁bin\  
-  ◾black_medium_small_square:ttbasic_NTSC.bin				・・・ NTSCビデオ出力版  
-  ◾black_medium_small_square:ttbasic_OLED_SH1106_I2C.bin	・・・ OLED(SH1106 I2C接続)版  
-  ◾black_medium_small_square:ttbasic_OLED_SH1106_SPI.bin	・・・ OLED(SH1106 SPI接続)版  
-  ◾black_medium_small_square:ttbasic_OLED_SSD1306_I2C.bin	・・・ OLED(SSD1306/SSD1309 I2C接続)版  
-  ◾black_medium_small_square:ttbasic_OLED_SSD1306_SPI.bin	・・・ OLED(SSD1306/SSD1309 SPI接続)版  
-  ◾black_medium_small_square:ttbasic_Serial.bin				・・・ ターミナルコンソール版  
-  ◾black_medium_small_square:ttbasic_TFT.bin					・・・ TFT(ILI9341))版  
+📁ttbasic_arduino_stm32\  
+　📁bin\  
+　　📄black_medium_small_square:ttbasic_NTSC.bin	(NTSCビデオ出力版)  
+　　📄black_medium_small_square:ttbasic_OLED_SH1106_I2C.bin	(OLED SH1106 I2C版)  
+　　📄black_medium_small_square:ttbasic_OLED_SH1106_SPI.bin	(OLED SH1106 SPI版)  
+　　📄black_medium_small_square:ttbasic_OLED_SSD1306_I2C.bin (OLEDSSD1306/SSD1309 I2C版)  
+　　📄black_medium_small_square:ttbasic_OLED_SSD1306_SPI.bin (OLED SSD1306/SSD1309 SPI版)  
+　　📄black_medium_small_square:ttbasic_Serial.bin (シリアルコンソール版)  
+　　📄black_medium_small_square:ttbasic_TFT.bin	(TFT ILI9341版)  
 
 2. ブートローダー付きファームウェア(バイナリー形式)  
-  📁bin\PlusBootloader\  
-  ◾boot_ttbasic_NTSC.bin			・・・ NTSCビデオ出力版  
-  ◾boot_ttbasic_OLED_SH1106_I2C.bin・・・ OLED(SH1106 I2C接続)版  
-  ◾boot_ttbasic_OLED_SH1106_SPI.bin・・・ OLED(SH1106 SPI接続)版  
-  ◾boot_ttbasic_OLED_SSD1306_I2C.bin・・・ OLED(SSD1306/SSD1309 I2C接続)版  
-  ◾boot_ttbasic_OLED_SSD1306_SPI.bin・・・ OLED(SSD1306/SSD1309 SPI接続)版  
-  ◾boot_ttbasic_Serial.bin			・・・ ターミナルコンソール版  
-  ◾boot_ttbasic_TFT.bin			・・・ TFT(ILI9341))版  
+📁ttbasic_arduino_stm32\  
+　📁bin\PlusBootloader\  
+　　📄boot_ttbasic_NTSC.bin	(NTSCビデオ出力版)  
+　　📄boot_ttbasic_OLED_SH1106_I2C.bin (OLED SH1106 I2C版)  
+　　📄boot_ttbasic_OLED_SH1106_SPI.bin (OLED SH1106 SPI版)  
+　　📄boot_ttbasic_OLED_SSD1306_I2C.bin (OLED SSD1306/SSD1309 I2C版)  
+　　📄boot_ttbasic_OLED_SSD1306_SPI.bin (OLED SSD1306/SSD1309 SPI版)  
+　　📄boot_ttbasic_Serial.bin	(ターミナルコンソール版)  
+　　📄boot_ttbasic_TFT.bin (TFT ILI9341版)  
 
-この書き込み方法について説明します.  
+#### ブートローダー無しファームウェア(バイナリー形式)の書込み手順(Windows10環境)
+利用するマイコンボードにArduino STM32用のブートローダーが書き込まれている必要があります。  
+BluePillボードへの書き込みは下記の記事等を参考して行って下さい。  
 
+* [BluePillボードへのブートローダの書き込み(本パッケージ添付ドキュメント)](https://tamakichi.github.io/ttbasic_arduino_stm32/install.html#_bluepillボードへのブートローダの書き込み)
+* DEKOのアヤシいお部屋-「STM32F103C8T6」http://ht-deko.com/arduino/stm32f103c8t6.html  
 
-#### ブートローダー無しファームウェア(バイナリー形式)の書込み手順
-
-ブートローダーを利用したUSB経由によるファームウェアの書込みを行います。  
-利用するマイコンボードにはArduino STM32用のブートローダーが書き込まれている必要があります。  
-
-##### 事前準備
-
-「豊四季Tiny BASIC for Arduino STM32」ファームウェアの書込みには、  
-
-- **事前にArduino STM32環境を導入し、付随するUSBドライバをインストール等が必要です.**  
-
-- **Blue Pillボード(または他のSTM32F103C8T6ボード)ブートローダを書きこんでおく必要があります.**  
-
-  このあたりの設定は、DEKOさんがまとめました記事が参考になると思います.  
-  (素晴らしいまとめの公開に感謝!!)  
-  DEKOのアヤシいお部屋-「STM32F103C8T6」 - http://ht-deko.com/arduino/stm32f103c8t6.html  
-
-
-- **Arduino STM32モジュールは下記の安定版 を使って下さい**  
-  https://github.com/rogerclarkmelbourne/Arduino_STM32/releases/tag/R20170323  
-
-##### 書込み作業
-
-1. ブロジェクト一式のダウンロード  
-
-   プロジェクト一式をダウンロードし、解凍した中のフォルダ**bin**内のフォルダを開いて下さい.  
-   ![binフォルダ](./image/08.png)  
-
-2. `ttwrite.bat`の修正  
-
+##### ファームウェア書込み手順
+1. `ttwrite.bat`の修正  
    ```
-   set arduino_stm32="E:\Arduino\IDE\arduino-1.8.3"
    set dev=COM4
    ・・・
    ```
+   `dev`にマイコンボードのUSBポートが利用するシリアルポートを指定します。  
+   `COM`は必ず半角大文字で記述して下さい。  
 
-   `arduino_stm32`にArduino IDEのインストールパスを指定します。  
-   Javaをインストールしている場合は、ブランク指定：`set arduino_stm32=`でも可能です。  
-
-   `dev`にマイコンボードのUSBポートが利用するシリアルポートを指定します。`COM`は必ず半角大文字で記述して下さい。  
-
-
-3. コマンドプロンプト上でコマンド実行  
-
-   コマンドプロンプトを実行します。  
-   上記のフォルダ**bin**に移動し、次のコマンドを実行します。  
+2. コマンドプロンプト上でコマンド実行  
+   コマンドプロンプトを起動します。  
+   📁ttbasic_arduino_stm32\📁bin\ に移動し、次のコマンドを実行します。  
 
    ```
    ttwrite ブートローダー無しファームウェアファイル
    ```
-
-    指定する **ブートローダー無しファームウェアファイル** は各自の利用環境に合うものを指定して下さい。  
+    指定する **ブートローダー無しファームウェアファイル** は各自の利用目的に応じてで選択して下さい。  
 
    `ttwrite ttbasic_TFT.bin`を実行した例：  
+   ```
+   ttwrite ttwrite ttbasic_TFT.bin
+   ```
 
    ![コマンドプロンプト](./image/09.png)  
 
@@ -208,39 +250,35 @@ RTC用バックアップ電池、SDカードモジュールも必要に応じて
 
    別の方法として、エクスプローラー上で`ttwrite.bat`アイコン上に**ブートローダー無しファームウェアファイル**のアイコンをドラック＆ドロップすることで書き込むことが出来ます。  
 
-   ![コマンドプロンプト](./image/15.png)   
+   ![ドラッグ＆ドロップ](./image/15.png)   
 
 #### ブートローダー付きファームウェア(バイナリー形式) の書込み手順
 
-ブートローダーと同じ方法で書き込みます。  
-ここではstm32flash.exeコマンドを使ったシリアル接続による方法を説明します。  
+ブートローダーと同じ方法で書き込むこと出来ます。  
+(プログラマST-LINKのを使って、STM32 ST-LINK Utilityで書き込み)  
 
-![コマンドプロンプト](./image/16.jpg) 
-
-本方法及び本方法以外の方法、Windows以外の環境での書き込み方法については、  
-下記のサイト掲載の手順を参考にして下さい。  
-　DEKOのアヤシいお部屋-「STM32F103C8T6」 - http://ht-deko.com/arduino/stm32f103c8t6.html  
+ここでは添付のttbtwrite.batコマンドを使ったシリアル接続による方法を説明します。  
 
 ##### 事前準備
+![シリアル接続](./image/16.jpg) 
 
 1. USB-シリアル変換モジュールを用意して下さい。  
+  パソコンに接続して接続するシリアルポートを確認します。  
+  ここでは、COM5とします。
 
 2. 添付の書込み用バッチファイルttbtwrite.batを各自の環境に合わせて修正します。  
-   📁bin\PlusBootloader  
-    　◾stm32flash.exe      ・・・  stm32flash(Arduino STM32に付属のもとの同じプログラムです)  
-   　 ◾ttbtwrite.bat 　      ・・・  書込み用バッチファイル  
+📁bin\PlusBootloader\  
+　📄stm32flash.exe ・・ stm32flash(Arduino STM32に付属のもとの同じプログラムです)  
+　📄ttbtwrite.bat   ・・・ 書込み用バッチファイル  
 
    ```
    set dev=COM5
    stm32flash.exe -b 115200 -f -v -w %1 %dev%
    ```
-
    devのシリアルポートの指定を各自の環境に合わせて変更して下さい。  
 
-
-3. USBケーブルは電源供給を兼ねてパソコンに接続します。  
-
-4. USB-シリアル変換モジュールとBlue Pillボードの結線  
+3. BluePillボードのUSBポートを電源供給を兼ねてパソコンに接続します。  
+4. USB-シリアル変換モジュールとBlue Pillボード結線します。  　
 
    | USB-シリアル変換モジュール | Blue Pillボード |
    | :-------------: | :----------: |
@@ -248,119 +286,85 @@ RTC用バックアップ電池、SDカードモジュールも必要に応じて
    |       TXD       |     A10      |
    |       RXD       |      A9      |
 
-
 5. ジャンパースイッチの設定ボード上のBOOT0ジャンパを1に設定します。  
-
-   ![コマンドプロンプト](./image/17.jpg) 
-
+   ![コマンドプロンプト](./image/17.jpg)   
    **BOOT0**：1  
    **BOOT1**：0  
 
-
-
 ##### 書込み作業
-
 コマンドプロンプトを実行します。  
-**ttbtwrite.bat**のあるフォルダ**bin\PlusBootloader**に移動し、次のコマンドを実行します。  
-
+**ttbtwrite.bat**のある📁bin\PlusBootloader\ に移動し、次のコマンドを実行します。  
 ```
 ttbtwrite ブートローダー付きファームウェアファイル
 ```
-
 **ブートローダー付きファームウェアファイル**は同じフォルダ内にあります。  
 各自の用途に合わせて指定して下さい。  
 
 `ttbtwrite boot_ttbasic_Serial.bin` を実行した例：  
-
+```
+ttbtwrite ttbtwrite boot_ttbasic_Serial.bin
+```
 ![コマンドプロンプト](./image/18.png) 
 
 書込みはエクスプローラー上で**ブートローダー付きファームウェアファイル**のアイコンを**ttbtwrite.bat**のアイコンにドラック＆ドロップする操作でも行うことが出来ます。  
-
 ![コマンドプロンプト](./image/19.png)   
 
 書込みが完了したら、BOOT0ジャンバを0に戻して下さい。  
 
-
-
 ### スケッチの書込み手順
-
 スケッチをコンパイルして書き込む場合の手順です。  
-    
+スケッチは下記のフォルダのttbasic.inoが本体です。      
+　📁ttbasic_arduino_stm32\
+　　📁ttbasic\
+　　　📄ttbasic.ino
 
 #### 事前準備
+1. Arduino IDEのスケッチ保存場所の設定  
+  Arduino IDEの環境設定の **スケッチブックの保存場所** に 
+  📁ttbasic_arduino_stm32\ を設定して下さい。  
+  設定反映のため一旦Arduino IDE終了し、再度Arduino IDEを起動して下さい。
 
-1. 「ファームウェア書込み手順(Windows 10の場合)」の「事前準備」と同じ準備を行って下さい.  
+2. Arduino IDEのボードマネージャにて  
+「Arduino SAMD Boards (32-bits ARM Coetex-M0+) by Arduino」の  
+最新版をインストールして下さい。
 
-2. プロジェクトファイルのダウンロードと配置  
+3. Arduino IDEのボードの設定  
+Arduinoのメニューでボードの設定を行います。  
+    * ボード： Generic STM32F103C series  
+    * Variant： Generic STM32F103C8(20k RAM 128k Flash)  
+    * Upload method： STM32duino bootloader  
+    * CPU Speed： 72MHz
+    * Optimize： Smallest
+    * Upload method: "STM32duino bootloader" ※各自環境に合わせて任意  
+    * シリアルポート: ※各自環境に合わせて任意  
 
-  1) プロジェクト一式をダウンロードし、解凍した中の、フォルダ**libraries**内のフォルダを  
-  各自のArduino環境のライブラリ配置ディレクトリ**libraries**に配置して下さい.  
-  ![ディレクトリ構成](./image/06.png)  
+4. STM32用USBドライバをインストールしているものとします。
 
-  添付のSDライブラリは既存のSDライブラリの修正版です.  
-  Arduino STM32環境でのみ利用する場合は、STM32F1\librariesの方に配置して下さい.  
-
-  添付ライブラリは、Arduino STM32環境に依存するライブラリを含むため、  
-  下記のディレクトリの配置でも良いです.  
-  (古いバージョンのArduino IDEと共存利用している環境では競合等回避のためここへの配置を推奨）  
-  \hardware\Arduino_STM32\STM32F1\libraries  
-  添付ライブラリの個別利用・入手は下記のリンクを参照して下さい.      
-
-  2)スケッチ本体のフォルダ**ttbasic**を各自のスケッチ配置フォルダの配置  
-
-3. Arduino STM32に関する設定  
-
-   安定版と最新版に対応しています。  
-
-   - 安定版 ：https://github.com/rogerclarkmelbourne/Arduino_STM32/releases/tag/R20170323 
-   - 最新版（オリジナル版）：https://github.com/rogerclarkmelbourne/Arduino_STM32  
-   - 最新版（動作確認時スナップショット＋修正）： https://github.com/Tamakichi/Arduino_STM32  
-
-   デフォルトでは、最新版に対応しています。  
-   安定版を利用する場合は、条件付きコンパイル指定の**STM32_R20170323**の定義が必要となります。  
-   インストールしたArduino STM32パッケージの **\hardware\Arduino_STM32\STM32F1\ **に  
-   **platform.local.txt**を配置し、次の定義を行って下さい。  
-
-````TXT
-compiler.c.extra_flags=-DSTM32_R20170323
-compiler.cpp.extra_flags=-DSTM32_R20170323
-````
-
-**platform.local.txt**は本リポジトリに添付の[platform.local.txt](https://github.com/Tamakichi/ttbasic_arduino_stm32/blob/master/platform.local.txt) ファイルを修正して配置しても良いです。
-
-
+上記の設定の詳細については、本パッケージ添付の下記のドキュメントも参照下さい。
+* [Arduino IDEの環境設定](https://tamakichi.github.io/ttbasic_arduino_stm32/install.html#_arduino_ide%E3%81%AE%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9A)
 
 #### システム構成別の修正
 
-デフォルトでは、**基本4構成の②NTSC版(SDカードあり)の設定**となっています。
+デフォルトでは、**基本4構成の②NTSC版(SDカードあり)の設定**となっています。  
 異なるシステム構成で利用する場合は、それぞれに必要な修正を行って下さい。
 
 ##### ①ターミナルコンソール版
-
 1. `tconfig.h`の修正
-
 - ` USE_SCREEN_MODE`の値`1`を`0`に変更して下さい.
-
   ```
   #define USE_SCREEN_MODE 0 //※デバイススクリーン利用の場合、1を指定する (デフォルト:1)
   ```
-
 - `USE_NTSC`の値`1`を`0`に変更して下さい.
-
   ```
   #define USE_NTSC  1  // 0:利用しない 1:利用する (デフォルト:1)
   ```
 
 ##### ②OLED版
-
-1. ###### `tconfig.h`の修正
-
+1. `tconfig.h`の修正
 - `USE_NTSC`の値`1`を`0`に変更して下さい.  
-
   ````
   #define USE_NTSC  0  // 0:利用しない 1:利用する (デフォルト:1)
   ````
-
  - `USE_OLED`の値`0`を`1`に変更して下さい.  
    `OLED_IFMODE`の値をI2C接続の場合`0`、SPI接続の場合`1`を指定して下さい.  
    必要に応じて、画面の向き`OLED_RTMODE`を変更して下さい。  
@@ -373,63 +377,53 @@ compiler.cpp.extra_flags=-DSTM32_R20170323
    #define OLED_RTMODE 0 // 画面の向き (0～3: デフォルト: 0)
      ````
 
-2. ###### **コントローラの指定**
-
+2. **コントローラの選択**  
    デフォルトでは、SH1106 対応となっています。  
+   利用するコントローラをSSD1306/SSD1309に変更する場合、  
+   利用するライブラリを切り替える必要があります。  
+   この切り替えは、Arduinoのコンパイル条件指定を行う **platform.local.txt**
+   ファイルにて指定します。
 
-   コントローラ指定 定数 **OLED_DEV** にてコントローラの選択が出来ます。
-   SSD1306、SSD1309 を利用する場合は、次の設定を行って下さい。
+   本パッケージ添付の  **platform.local.txt** ファイル   
+  📁ttbasic_arduino_stm32\   
+  　📄platform.local.txt
 
-   インストールしたArduino STM32パッケージの **\hardware\Arduino_STM32\STM32F1\ **に  
-    **platform.local.txt**を配置し、次の定義を行って下さい。   
-    `OLED_DEV`の値をSH1106の場合は`0`、SSD1306、SSD1309の場合は`1`を指定して下さい.
-
+   を下記のフォルダに配置して下さい(STM32F1の下)  
+  📁ttbasic_arduino_stm32\  
+  　📁hardware\  
+  　　📁Arduino_STM32\  
+  　　　📁STM32F1\  
+  　　　　📄platform.local.txt
+  
+    **platform.local.txt** は次のような定義となっています。  
      ```TXT
-   compiler.c.extra_flags=-DOLED_DEV=1
-   compiler.cpp.extra_flags=-DOLED_DEV=1
+    # These can be overridden in platform.local.txt
+    # OLED_DEV: 0 SH1106、 1 SSD1306/SSD1309
+    compiler.c.extra_flags=-DOLED_DEV=1
+    compiler.cpp.extra_flags=-DOLED_DEV=1
      ```
-
-
+    OLED_DEVの値を変更することでもSH1106、SSD1306/SSD1309の切り替えを行うことが出来ます。  
 
 ##### ③TFT(ILI9341 320x240ドット)版  
-
+1. `tconfig.h`の修正  
   `USE_NTSC`の値`1`を`0`に変更して下さい.  
+      ```cpp
+    #define USE_NTSC  0  // 0:利用しない 1:利用する (デフォルト:1)
+      ```
 
-  ```cpp
-#define USE_NTSC  0  // 0:利用しない 1:利用する (デフォルト:1)
-  ```
+    `USE_TFT`の値`0`を`1`に修正して下さい.  
+    必要に応じて、画面の向き`TFT_RTMODE`を変更して下さい。  
 
-  `USE_TFT`の値`0`を`1`に修正して下さい.  
-  必要に応じて、画面の向き`TFT_RTMODE`を変更して下さい。  
-
-
-```CPP
-#define USE_TFT     1 // 0:利用しない 1:利用する (デフォルト:0)
-                      // 利用時は USE_NTSC を0にすること
-#define TFT_SCMODE 1  // スクリーンモード(1～6 デオフォルト:1 )
-#define TFT_RTMODE 3  // 画面の向き (0～3: デフォルト: 3)
-```
-
-
+    ```CPP
+    #define USE_TFT     1 // 0:利用しない 1:利用する (デフォルト:0)
+                          // 利用時は USE_NTSC を0にすること
+    #define TFT_SCMODE 1  // スクリーンモード(1～6 デオフォルト:1 )
+    #define TFT_RTMODE 3  // 画面の向き (0～3: デフォルト: 3)
+    ```
 
 #### スケッチの書込み
-
-1. Arduino IDE(Arduino STM32環境インストール済み)の起動
-
-2.   Arduino IDEのターゲットボード設定  
-
-   ・ボード指定:"Generic STM32F103C series"  
-
-   ・Variant:"STM32F103CB(20k RAM, 128k Flash)"  
-
-   ・CPU Speed(MHz): "72Mhz(Normal)"  
-
-   ・Upload method: "STM32duino bootloader" ※各自環境に合わせて任意  
-
-   ・シリアルポート: ※各自環境に合わせて任意  
-
-3. コンパイル&スケッチ書込み
-
+Arduno IDEの「⇒」アイコンまたは、メニュー [スケッチ] > [マイコンボードに書き込む]にて  
+スケッチを書き込みます。
 
 ### サンプルプログラム
 #### ボード上のLEDの点滅  
