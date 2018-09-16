@@ -124,7 +124,7 @@ RTC用バックアップ電池、SDカードモジュールも必要に応じて
    git clone https://github.com/Tamakichi/ttbasic_arduino_stm32.git
    ```
   Windows 10へのgitの導入は、下記の手順を参考にして下さい。  
-  * [git for Windowsのインストール手順](./docs/install_git.html)
+  * [git for Windowsのインストール手順](https://tamakichi.github.io/ttbasic_arduino_stm32/install_git.html)
 
 ダウンロードした本パッケージのトップフォルダを 📁ttbasic_arduino_stm32\ とします。  
 （解凍直後の *tbasic_arduino_stm32-master* から変更して下さい)  
@@ -216,7 +216,7 @@ Javaをインストールしていない場合は、インストールして下�
 利用するマイコンボードにArduino STM32用のブートローダーが書き込まれている必要があります。  
 BluePillボードへの書き込みは下記の記事等を参考して行って下さい。  
 
-* [BluePillボードへのブートローダの書き込み(本パッケージ添付ドキュメント)](./docs/install.html#_bluepillボードへのブートローダの書き込み)
+* [BluePillボードへのブートローダの書き込み(本パッケージ添付ドキュメント)](https://tamakichi.github.io/ttbasic_arduino_stm32/install.html#_bluepillボードへのブートローダの書き込み)
 * DEKOのアヤシいお部屋-「STM32F103C8T6」http://ht-deko.com/arduino/stm32f103c8t6.html  
 
 ##### ファームウェア書込み手順
@@ -341,7 +341,7 @@ Arduinoのメニューでボードの設定を行います。
 4. STM32用USBドライバをインストールしているものとします。
 
 上記の設定の詳細については、本パッケージ添付の下記のドキュメントも参照下さい。
-* [Arduino IDEの環境設定](./docs/install.html#_arduino_ide%E3%81%AE%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9A)
+* [Arduino IDEの環境設定](https://tamakichi.github.io/ttbasic_arduino_stm32/install.html#_arduino_ide%E3%81%AE%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9A)
 
 #### システム構成別の修正
 
