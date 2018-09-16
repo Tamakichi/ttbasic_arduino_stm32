@@ -12,20 +12,11 @@
 // 修正日 2017/11/10 platform.local.txtに-DSTM32_R20170323定義がある場合、
 //                   OLD_RTC_LIB、OLD_WIRE_LIBより優先して安定版利用と判断してコンパイル
 // 修正日 2018/08/18 OLEDのデバイス指定をplatform.local.txtでも指定出来るように修正
+// 修正日 2018/09/16 Arduino STM32 R20170323の非サポートに変更
 //
 
 #ifndef __ttconfig_h__
 #define __ttconfig_h__
-
-// ※1 ArduinoSTM32モジュール安定版を利用している場合、
-//     次の定義の修正が必要です。
-//     \hardware\Arduino_STM32\STM32F1\platform.local.txt  に下記の定義
-//      # These can be overridden in platform.local.txt
-//      compiler.c.extra_flags=-DSTM32_R20170323 -DOLED_DEV=X
-//      compiler.cpp.extra_flags=-DSTM32_R20170323  -DOLED_DEV=X
-//      
-//    -DOLED_DEVのXは、利用するOLEDタイプを指定
-//
 
 // ** (1)デフォルトスクリーンモード 0:シリアルターミナル 1:NTSC・OLED・TFTデバイススクリーン
 #define USE_SCREEN_MODE 1  // ※デバイススクリーン利用の場合、1を指定する (デフォルト:1)
@@ -52,10 +43,9 @@
 //       または、
 //          \hardware\Arduino_STM32\STM32F1\platform.local.txt  に下記の定義
 //           # These can be overridden in platform.local.txt
-//           compiler.c.extra_flags=-DSTM32_R20170323 -DOLED_DEV=1
-//           compiler.cpp.extra_flags=-DSTM32_R20170323  -DOLED_DEV=1
+//           compiler.c.extra_flags=-DOLED_DEV=1
+//           compiler.cpp.extra_flags=-DOLED_DEV=1
 //         
-
 
 // ** (4)TFTILI9341 SPI)液晶モジュール利用有無 *******************************
 #define USE_TFT     0 // 0:利用しない 1:利用する (デフォルト:0)

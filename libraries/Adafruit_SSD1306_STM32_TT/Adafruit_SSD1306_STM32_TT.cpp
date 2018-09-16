@@ -19,14 +19,8 @@ All text above, and the splash screen below must be included in any redistributi
 #include "Adafruit_SSD1306_STM32_TT.h"
 #define USESPLASH  0
 
-// 2018/08/18 修正
-#if defined(STM32_R20170323)
-  #include <HardWire.h>
-  HardWire HWIRE(1, I2C_FAST_MODE);
-#else 
-  #include <Wire.h>
-  #define HWIRE Wire
-#endif 
+#include <Wire.h>
+#define HWIRE Wire
 
 #ifndef swap
 #define swap(a, b) { int16_t t = a; a = b; b = t; }
@@ -237,9 +231,7 @@ void Adafruit_SSD1306::begin(uint8_t vccstate, uint8_t i2caddr, bool reset) {
   else
   {
     // I2C Init
-#if !defined(STM32_R20170323)
     HWIRE.setClock(400000);
-#endif
     HWIRE.begin();
   }
 

@@ -9,6 +9,7 @@
 // 2018/08/31 修正 Arduino STM32最新版（mastarブランチ）の場合、Adafruit_ILI9341_STM(修正版)利用に修正
 // 2018/08/31 修正 gpeek(),ginp()の戻り値、引数の型を変更
 // 2018/09/03 修正 drawFont()の追加、refresh_line()の高層化（V0.85よりスクロール速度10倍),cscroll()のサポート
+// 2018/09/16 修正 Arduino STM32安定板を不非サポート
 
 #ifndef __tTFTScreen_h__
 #define __tTFTScreen_h__
@@ -16,12 +17,8 @@
 //#include <Arduino.h>
 #include "tGraphicScreen.h"
 #include <SPI.h>
-#include <Adafruit_GFX_AS.h>      // Core graphics library, with extra fonts.
-#ifdef STM32_R20170323
- #include <Adafruit_ILI9341_STM_TT.h> // STM32 DMA Hardware-specific library
-#else
- #include <Adafruit_ILI9341_STM.h>    // STM32 DMA Hardware-specific library
-#endif
+#include <Adafruit_GFX_AS.h>         // Core graphics library, with extra fonts.
+#include <Adafruit_ILI9341_STM.h>    // STM32 DMA Hardware-specific library
 
 #define PS2DEV        1     // PS/2キーボードの利用 0:利用しない 1:利用する
 #define TV_FONT_EX    1     // フォント倍率
@@ -29,12 +26,8 @@
 
 class tTFTScreen :public tGraphicScreen {
  private:
-#ifdef STM32_R20170323
-  Adafruit_ILI9341_STM_TT* tft;
-#else
   Adafruit_ILI9341_STM* tft;
   SPIClass* pSPI;  
-#endif
   
   uint16_t f_width;         // フォント幅(ドット)
   uint16_t f_height;        // フォント高さ(ドット)
@@ -89,10 +82,8 @@ class tTFTScreen :public tGraphicScreen {
     void     set_gcursor(uint16_t, uint16_t);
     void     gputch(uint8_t c);
     uint8_t  bmpDraw(char *filename, uint8_t x, uint16_t y, uint16_t bx=0, uint16_t by=0, uint16_t bw=0, uint16_t bh=0,uint8_t mode=0);
-#ifndef STM32_R20170323
     void     drawFont(int16_t cx, int16_t cy, uint8_t code, uint16_t fgcolor, uint16_t bgcolor);
     void     refresh_line(uint16_t l); // 行のリフレッシュ表示
-#endif
 };
 
 #endif

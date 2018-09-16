@@ -2,6 +2,7 @@
   TOYOSHIKI Tiny BASIC for Arduino
  (C)2012 Tetsuya Suzuki
   2017/03/22 Modified by Tamakichi、for Arduino STM32
+  2018/09/16 修正,Arduino STM32 R20170323の非サポートに変更
  */
 
 #include "ttconfig.h"
@@ -23,11 +24,7 @@ void setup(void){
   nvic_irq_set_priority(NVIC_TIMER2,2);
 
 #if defined (__STM32F1__)   
-#ifdef STM32_R20170323
-  for(uint8_t tm=0; tm <15 && !Serial.isConnected(); tm++) {
-#else
   for(uint8_t tm=0; tm <15 && !Serial; tm++) {
-#endif
     delay(100);
   }
 #endif
