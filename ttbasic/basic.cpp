@@ -29,6 +29,7 @@
 // 2018/09/14 CLSをダイレクトで実行する場合に:による継続コマンドが実行されない不具合の対応
 // 2018/09/14 曜日コードを安定板と最新版で統一(安定板仕様に統一)
 // 2018/09/16 Arduino STM32 R20170323の非サポートに変更
+// 2018/09/24 NTSC、OLED、TFT版で起動直後シリアルコンソールを利用する条件コンパイル指定の対応
 //
 
 #include <Arduino.h>
@@ -4287,7 +4288,7 @@ void iwidth() {
 
 // スクリーンモード指定 SCREEN M
 void iscreen() {
-#if USE_SCREEN_MODE == 1 // <<< デバイスコンソール利用可能定義開始 >>>
+#if USE_NTSC|USE_OLED|USE_TFT // <<< デバイスコンソール利用可能定義開始 >>>
   int16_t mode;            // スクリーンサイズモード
   int16_t rt = DEV_RTMODE; // 画面向きのデフォルト指定
 
@@ -4351,7 +4352,7 @@ void iscreen() {
 //
 
 void iconsole(uint8_t useParam=false, uint8_t paramArg=CON_MODE_DEVICE) {
-#if USE_SCREEN_MODE == 1 // <<< デバイスコンソール利用可能定義開始 >>>
+#if USE_NTSC|USE_OLED|USE_TFT // <<< デバイスコンソール利用可能定義開始 >>>
 
   int16_t mode;        // コマンドライン引数  コンソールモード
 
@@ -5462,10 +5463,10 @@ void basic() {
 #endif
 
   // デバイススクリーンの初期化設定
-#if USE_SCREEN_MODE== 0 // シリアルコンソール利用
+#if !(USE_NTSC|USE_OLED|USE_TFT)  // シリアルコンソール利用
   sc = &sc1;
   ((tTermscreen*)sc)->init(TERM_W,TERM_H,SIZE_LINE, workarea); // スクリーン初期設定
-#elif USE_NTSC == 1 || USE_TFT == 1 || USE_OLED == 1 // デバイスコンソール利用
+#else // デバイスコンソール利用
   sc = &sc2;
   scSizeMode = DEV_SCMODE;
   scrt = DEV_RTMODE;
@@ -5475,7 +5476,7 @@ void basic() {
   sc->Serial_mode(serialMode, defbaud); // デバイススクリーンのシリアル出力の設定
   prv_scSizeMode = scSizeMode;
   prv_scrt = scrt;
-#if USE_SCREEN_MODE== 1
+#if USE_NTSC|USE_OLED|USE_TFT
  // 起動時の設定がコンソール指定の場合、切り替える
  if (scmode == 0) {
    iconsole(true, CON_MODE_SERIAL);
