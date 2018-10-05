@@ -30,6 +30,7 @@
 // 2018/09/14 曜日コードを安定板と最新版で統一(安定板仕様に統一)
 // 2018/09/16 Arduino STM32 R20170323の非サポートに変更
 // 2018/09/24 NTSC、OLED、TFT版で起動直後シリアルコンソールを利用する条件コンパイル指定の対応
+// 2018/10/04 仮想アドレスPRG2の追加、BANK、FWRITEコマンドの追加
 //
 
 #include <Arduino.h>
@@ -46,7 +47,7 @@ uint8_t err;// Error message index
 #include "ttbasic_error.h"
 
 #define STR_EDITION "Arduino STM32"
-#define STR_VARSION "Edition V0.86"
+#define STR_VARSION "Edition V0.87"
 
 // TOYOSHIKI TinyBASIC プログラム利用域に関する定義
 #define SIZE_LINE 128    // コマンドライン入力バッファサイズ + NULL
@@ -135,7 +136,10 @@ tFlashMan FlashMan(FLASH_PAGE_NUM,FLASH_PAGE_SIZE, FLASH_SAVE_NUM, FLASH_PAGE_PA
 
 // システム環境設定値
 SystemConfig CONFIG;
-  
+
+// プログラム保存領域参照バンク
+uint16_t BankNo = 0; // 0 ～　FLASH_SAVE_NUM-1
+
 // プロトタイプ宣言
 char* getParamFname();
 int16_t getNextLineNo(int16_t lineno);
@@ -209,6 +213,7 @@ const uint8_t mml_scaleBase[] = {
 #define V_MEM_TOP   0x2BA0 // V0.84で変更
 #define V_FNT_TOP   0x2FA0 // V0.84で変更
 #define V_GRAM_TOP  0x37A0 // V0.84で変更
+#define V_PRG2_TOP  0x4F40 // V0.86で追加
 
 // 定数
 #define CONST_HIGH   1
@@ -342,7 +347,7 @@ const char *kwtbl[] __FLASH__  = {
  "PB0", "PB1", "PB2", "PB3", "PB4", "PB5", "PB6", "PB7", "PB8", "PB9",
  "PB10","PB11", "PB12", "PB13","PB14","PB15", "PC13", "PC14","PC15", 
  "CW", "CH","GW","GH", "LSB", "MSB",
- "MEM", "VRAM", "VAR", "ARRAY","PRG","FNT","GRAM",
+ "MEM", "VRAM", "VAR", "ARRAY","PRG","FNT","GRAM","PRG2",
  "UP", "DOWN", "RIGHT", "LEFT",
  "OUTPUT_OD", "OUTPUT", "INPUT_PU", "INPUT_PD", "ANALOG", "INPUT_FL", "PWM",
  "TONE", "NOTONE","PLAY","TEMPO",          // サウンドコマンド(4)
@@ -351,6 +356,7 @@ const char *kwtbl[] __FLASH__  = {
  "LOAD", "SAVE", "BLOAD", "BSAVE", "LIST", "NEW", "REM", "LET", "CLV",  // プログラム関連 コマンド(16)
  "LRUN", "FILES","EXPORT", "CONFIG", "SAVECONFIG", "ERASE", "SYSINFO",
  "SCREEN", "WIDTH", "CONSOLE", // 表示切替
+ "BANK","FWRITE", // プログラム保存領域利用用
  "RENUM", "RUN", "DELETE", "OK",           // システムコマンド(4)
 };
 
@@ -383,7 +389,7 @@ enum ICode:uint8_t {
  I_PB10,  I_PB11, I_PB12, I_PB13,I_PB14,I_PB15, I_PC13, I_PC14,I_PC15,
  I_CW, I_CH, I_GW, I_GH,
  I_LSB, I_MSB, 
- I_MEM, I_VRAM, I_MVAR, I_MARRAY,I_MPRG,I_MFNT,I_GRAM,
+ I_MEM, I_VRAM, I_MVAR, I_MARRAY,I_MPRG,I_MFNT,I_GRAM,I_MPRG2,
  I_UP, I_DOWN, I_RIGHT, I_LEFT,
  I_OUTPUT_OPEN_DRAIN, I_OUTPUT, I_INPUT_PULLUP, I_INPUT_PULLDOWN, I_INPUT_ANALOG, I_INPUT_F,  I_PWM,  
  I_TONE, I_NOTONE, I_PLAY, I_TEMPO,        // サウンドコマンド(4)
@@ -392,6 +398,7 @@ enum ICode:uint8_t {
  I_LOAD, I_SAVE, I_BLOAD, I_BSAVE, I_LIST, I_NEW, I_REM, I_LET, I_CLV,  // プログラム関連 コマンド(16)
  I_LRUN, I_FILES, I_EXPORT, I_CONFIG, I_SAVECONFIG, I_ERASE, I_INFO,
  I_SCREEN, I_WIDTH, I_CONSOLE, // 表示切替
+ I_BANK, I_FWRITE, // プログラム保存領域利用用
  I_RENUM, I_RUN, I_DELETE, I_OK,  // システムコマンド(4)
 
 // 内部利用コード
@@ -418,7 +425,7 @@ const uint8_t i_nsa[] = {
   I_PB0, I_PB1, I_PB2, I_PB3, I_PB4, I_PB5, I_PB6, I_PB7, I_PB8, 
   I_PB9, I_PB10, I_PB11, I_PB12, I_PB13,I_PB14,I_PB15,
   I_PC13, I_PC14,I_PC15,
-  I_LSB, I_MSB, I_MEM, I_VRAM, I_MVAR, I_MARRAY, I_EEPREAD, I_MPRG, I_MFNT,I_GRAM,
+  I_LSB, I_MSB, I_MEM, I_VRAM, I_MVAR, I_MARRAY, I_EEPREAD, I_MPRG, I_MFNT,I_GRAM, I_MPRG2,
   I_SREAD, I_SREADY, I_GPEEK, I_GINP,I_RGB,
 };
 
@@ -437,6 +444,7 @@ const uint8_t i_sf[]  = {
   I_RETURN,I_RUN,I_SAVE,I_SETDATE,I_SHIFTOUT,I_WAIT,I_EEPFORMAT, I_EEPWRITE, 
   I_PSET, I_LINE, I_RECT, I_CIRCLE, I_BITMAP, I_SWRITE, I_SPRINT,  I_SOPEN, I_SCLOSE,I_SMODE,
   I_TONE, I_NOTONE, I_PLAY, I_CSCROLL, I_GSCROLL,I_EXPORT, I_I2CCLK,
+  I_BANK, I_FWRITE,
 };
 
 // 例外検索関数
@@ -520,14 +528,15 @@ uint8_t* v2realAddr(uint16_t vadr) {
   } else if ((vadr >= V_FNT_TOP) && (vadr < V_GRAM_TOP)) {  // フォント領域
     radr = vadr - V_FNT_TOP + getFontAdr()+3;
   } else if ((vadr >= V_GRAM_TOP) && (vadr < V_GRAM_TOP+6048)) { // グラフィク表示用メモリ領域
-//    if ( (scmode >= 1) && (scmode <= 3) )
-      if ( scmode ) // 2017/10/27
+    if ( scmode ) // 2017/10/27
 #if USE_NTSC == 1 || USE_OLED == 1
       radr = vadr - V_GRAM_TOP + ((tGraphicScreen*)sc)->getGRAM();
 #else
       radr = NULL;
 #endif
-    else
+  } else if ((vadr >= V_PRG2_TOP) && (vadr < V_PRG2_TOP+4096)) { // フラッシュメモリプログラム領域
+    radr = FlashMan.getPrgAddress(BankNo) + vadr - V_PRG2_TOP;   // プログラム保存領域のアドレス参照
+  } else {
       radr = NULL;
   }
   return radr;
@@ -2611,8 +2620,8 @@ void ipoke() {
   vadr = iexp(); if(err) return ; 
   if (vadr < 0 ) { err = ERR_VALUE; return; }
   if(*cip != I_COMMA) { err = ERR_SYNTAX; return; }
-  if(vadr>=V_FNT_TOP && vadr < V_GRAM_TOP) { err = ERR_RANGE; return; }
-  
+  if(vadr>=V_FNT_TOP && vadr < V_GRAM_TOP) { err = ERR_RANGE; return; }       // フォント領域
+  if(vadr>=V_PRG2_TOP && vadr < V_PRG2_TOP+4096) { err = ERR_RANGE; return; } // プログラム保存領域
   // 例: 1,2,3,4,5 の連続設定処理
   do {
     adr = v2realAddr(vadr);
@@ -3190,6 +3199,31 @@ void igscroll() {
 #else
   err = ERR_NOT_SUPPORTED;
 #endif
+}
+
+// プログラム保存領域参照用バンク切り替え
+// BANK n
+void ibank() {
+  int16_t bnk; 
+  if ( getParam(bnk, 0, FLASH_SAVE_NUM, false) ) return;  
+  BankNo = bnk;
+}
+
+// 内部フラッシュメモリ1ワード(2バイト)き込み
+// FWRITE 仮想アドレス,データ
+void ifwrite() {
+  int16_t vadr;
+  uint16_t  c;
+  uint8_t* radr;
+
+  if (getParam(vadr, V_PRG2_TOP, V_PRG2_TOP+4096-1, true) || (vadr & 1) ) {
+    // アドレスが奇数または、領域外ならエラーとする
+    err = ERR_BAD_ADDRESS;
+    return;
+  }
+  if ( getParam(c, false) ) return;
+  radr = FlashMan.getPrgAddress(BankNo) + vadr - V_PRG2_TOP;
+  FlashMan.write((uint32_t)radr,c);
 }
 
 // シリアル1バイト出力 : SWRITE データ
@@ -4735,6 +4769,7 @@ int16_t ivalue() {
   case I_MEM:   value = V_MEM_TOP;   break; 
   case I_MFNT:  value = V_FNT_TOP;   break;
   case I_GRAM:  value = V_GRAM_TOP;  break;
+  case I_MPRG2: value = V_PRG2_TOP;  break;
   
   case I_DIN: // DIN(ピン番号)
     if (checkOpen()) break;
@@ -5369,7 +5404,9 @@ unsigned char* iexe() {
     case I_SCREEN:     iscreen();     break;
     case I_CONSOLE:    iconsole();    break;
     case I_I2CCLK:     ii2cclk();     break;
-
+    case I_BANK:       ibank();       break;
+    case I_FWRITE:     ifwrite();     break;
+    
     case I_RUN:    // RUN
     case I_RENUM:  // RENUM
     case I_DELETE: // DELETE
@@ -5498,7 +5535,7 @@ void basic() {
   // 起動メッセージ  
   icls();
   sc->show_curs(0);                // 高速描画のためのカーソル非表示指定
-  c_puts("TOYOSHIKI TINY BASIC "); // 「TOYOSHIKI TINY BASIC」を表示
+  c_puts("TOYOSHIKI TINY BASIC");  // 「TOYOSHIKI TINY BASIC」を表示
   newline();                       // 改行
   c_puts(STR_EDITION);             // 版を区別する文字列「EDITION」を表示
   c_puts(" " STR_VARSION);         // バージョンの表示

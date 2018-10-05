@@ -2,6 +2,7 @@
 // 豊四季Tiny BASIC for Arduino STM32 フラッシュメモリ統合管理クラス
 // 2017/11/07 by たま吉さん
 // 2018/08/18 by たま吉さん,システム設定にNTSC横・縦補正の追加
+// 2018/10/04 by たま吉さん,write()の追加
 //
 
 #ifndef __tFlashMan_h__
@@ -96,6 +97,11 @@ class tFlashMan {
   // 指定プログラムのロード
   //  prgNo : プログラム番号, prgData : プログラム格納アドレス
   uint8_t loadProgram(uint8_t prgNo,uint8_t* prgData);
+
+
+  // バイトデータ書き込み
+  //  flash_adr : アドレス,  c : データ
+  void write(uint32_t flash_adr, uint16_t c);
 
 };
 #endif

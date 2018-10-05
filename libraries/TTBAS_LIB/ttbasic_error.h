@@ -2,6 +2,7 @@
 // 豊四季Tiny BASIC for Arduino STM32 エラーコード定義
 // 2017/11/07 by たま吉さん
 // 修正日 2018/08/29 ERR_MMLの追加
+// 修正日 2018/10/05 BAD_ADDRESSの追加
 //
 
 #ifndef __ttbasic_error_h__
@@ -41,7 +42,8 @@ enum ErrorInfo {
   ERR_SD_NOT_READY,          // 追加 V0.83
   ERR_BAD_FNAME,             // 追加 V0.83
   ERR_NOT_SUPPORTED,         // 追加 V0.84
- ERR_MML,                    // 追加 V0.86
+  ERR_MML,                   // 追加 V0.86
+  ERR_BAD_ADDRESS,           // 追加 V0.86
 };
 
 extern const char* errmsg[];

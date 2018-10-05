@@ -1,7 +1,8 @@
 //
 // 豊四季Tiny BASIC for Arduino STM32 エラーメッセージ定義
 // 2017/11/07 by たま吉さん
-// 2018/08/29,MMLのエラーメッセージ追加
+// 修正日 2018/08/29 MMLのエラーメッセージ追加
+// 修正日 2018/10/05 Bad addressの追加
 //
 
 #include <Arduino.h>
@@ -47,4 +48,5 @@ const char* errmsg[] __FLASH__ = {
   "Bad file name",           // 追加
   "Not supported",           // 追加
   "Illegal MML",             // V0.86で追加  
+  "Bad address",             // V0.86で追加  	
 };
