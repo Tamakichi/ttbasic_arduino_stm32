@@ -1,0 +1,21 @@
+#######################################
+# Syntax Coloring Map For misakiSJIS
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+misakiSJIS	KEYWORD2
+findcode	KEYWORD2
+getFontDataBySJIS	KEYWORD2
+HantoZen	KEYWORD2
+getFontTableAddress	KEYWORD2
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+

@@ -75,6 +75,10 @@ uint16_t f_width  = *(ttbasic_font+0);
 uint16_t f_height = *(ttbasic_font+1);
 inline uint8_t* getFontAdr() { return (uint8_t*)ttbasic_font;};
 
+// *** 美咲フォント ***************
+#include <misakiSJIS.h>
+uint8_t* misaki_font; // 美咲フォント先頭アドレス
+
 // **** スクリーン管理 *************
 #define CON_MODE_DEVICE    0        // コンソールモード デバイス 
 #define CON_MODE_SERIAL    1        // コンソールモード シリアル
@@ -129,7 +133,7 @@ sdfiles fs;
 #define FLASH_PAGE_NUM         128     // 全ページ数
 #define FLASH_PAGE_SIZE        1024    // ページ内バイト数
 #define FLASH_PAGE_PAR_PRG     4       // 1プログラム当たりの利用ページ数
-#define FLASH_SAVE_NUM         6       // プログラム保存可能数
+#define FLASH_SAVE_NUM         2       // プログラム保存可能数
 
 // フラッシュメモリ管理オブジェクト(プログラム保存、システム環境設定を管理）
 tFlashMan FlashMan(FLASH_PAGE_NUM,FLASH_PAGE_SIZE, FLASH_SAVE_NUM, FLASH_PAGE_PAR_PRG); 
@@ -213,7 +217,7 @@ const uint8_t mml_scaleBase[] = {
 #define V_MEM_TOP   0x2BA0 // V0.84で変更
 #define V_FNT_TOP   0x2FA0 // V0.84で変更
 #define V_GRAM_TOP  0x37A0 // V0.84で変更
-#define V_PRG2_TOP  0x4F40 // V0.86で追加
+#define V_PRG2_TOP  0x4F40 // V0.87で追加
 
 // 定数
 #define CONST_HIGH   1
@@ -357,6 +361,7 @@ const char *kwtbl[] __FLASH__  = {
  "LRUN", "FILES","EXPORT", "CONFIG", "SAVECONFIG", "ERASE", "SYSINFO",
  "SCREEN", "WIDTH", "CONSOLE", // 表示切替
  "BANK","FWRITE", // プログラム保存領域利用用
+ "KFONT",         // 美咲フォント用
  "RENUM", "RUN", "DELETE", "OK",           // システムコマンド(4)
 };
 
@@ -399,6 +404,7 @@ enum ICode:uint8_t {
  I_LRUN, I_FILES, I_EXPORT, I_CONFIG, I_SAVECONFIG, I_ERASE, I_INFO,
  I_SCREEN, I_WIDTH, I_CONSOLE, // 表示切替
  I_BANK, I_FWRITE, // プログラム保存領域利用用
+ I_KFONT,          // 美咲フォント用
  I_RENUM, I_RUN, I_DELETE, I_OK,  // システムコマンド(4)
 
 // 内部利用コード
@@ -445,6 +451,7 @@ const uint8_t i_sf[]  = {
   I_PSET, I_LINE, I_RECT, I_CIRCLE, I_BITMAP, I_SWRITE, I_SPRINT,  I_SOPEN, I_SCLOSE,I_SMODE,
   I_TONE, I_NOTONE, I_PLAY, I_CSCROLL, I_GSCROLL,I_EXPORT, I_I2CCLK,
   I_BANK, I_FWRITE,
+  I_KFONT,
 };
 
 // 例外検索関数
@@ -3226,6 +3233,40 @@ void ifwrite() {
   FlashMan.write((uint32_t)radr,c);
 }
 
+// 感じフォントデータ取得
+// KFONT 仮想アドレス,文字コード
+void ikfont() {
+  int16_t vadr;     // 仮想アドレス
+  uint16_t sjis;    // 文字コード
+  uint8_t* radr;    // 実アドレス
+  int16_t index;    // フォントコード
+  uint8_t* fontadr; // フォント格納アドレス
+
+  // 引数 仮想アドレスの取得
+  if ( getParam(vadr, 0, 32767, true) ) return;
+
+  // 引数文字コードの取得
+  if ( getParam(sjis, false) ) return;
+
+ // 仮想アドレスから実アドレスの取得
+  radr  = v2realAddr(vadr);
+  if (radr == 0) {
+     err = ERR_RANGE;
+     return;
+   }
+
+  // フォントコードの取得
+  index = findcode(sjis);
+  if (index < 0) {
+    fontadr = 0;
+  } else {
+    fontadr = misaki_font + (index<<3);
+  }
+
+  // フォントデータのコピー
+  memcpy(radr,fontadr,8);
+}
+
 // シリアル1バイト出力 : SWRITE データ
 void iswrite() {
   int16_t c; 
@@ -5406,6 +5447,7 @@ unsigned char* iexe() {
     case I_I2CCLK:     ii2cclk();     break;
     case I_BANK:       ibank();       break;
     case I_FWRITE:     ifwrite();     break;
+    case I_KFONT:      ikfont();      break;
     
     case I_RUN:    // RUN
     case I_RENUM:  // RENUM
@@ -5484,6 +5526,9 @@ void basic() {
   }
 #endif
 
+  // 美咲フォントの先頭アドレス取得
+  misaki_font = (uint8_t*)getFontTableAddress();
+  
   // 環境設定のロード
   FlashMan.loadConfig(CONFIG);
   
