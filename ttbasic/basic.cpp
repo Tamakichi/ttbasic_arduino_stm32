@@ -31,10 +31,10 @@
 // 2018/09/16 Arduino STM32 R20170323の非サポートに変更
 // 2018/09/24 NTSC、OLED、TFT版で起動直後シリアルコンソールを利用する条件コンパイル指定の対応
 // 2018/10/04 仮想アドレスPRG2の追加、BANK、FWRITEコマンドの追加
+// 2018/11/07 SJIS版日本語フォント利用対応
 //
 
 #include <Arduino.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <wirish.h>
 #include "ttconfig.h"     // コンパイル定義
@@ -74,6 +74,9 @@ const uint8_t* ttbasic_font = DEVICE_FONT;
 uint16_t f_width  = *(ttbasic_font+0);
 uint16_t f_height = *(ttbasic_font+1);
 inline uint8_t* getFontAdr() { return (uint8_t*)ttbasic_font;};
+
+// *** SJIS版フォントライブラリ利用 ***
+#include <SDSfonts.h>
 
 // **** スクリーン管理 *************
 #define CON_MODE_DEVICE    0        // コンソールモード デバイス 
@@ -213,7 +216,7 @@ const uint8_t mml_scaleBase[] = {
 #define V_MEM_TOP   0x2BA0 // V0.84で変更
 #define V_FNT_TOP   0x2FA0 // V0.84で変更
 #define V_GRAM_TOP  0x37A0 // V0.84で変更
-#define V_PRG2_TOP  0x4F40 // V0.86で追加
+#define V_PRG2_TOP  0x4F40 // V0.87で追加
 
 // 定数
 #define CONST_HIGH   1
@@ -357,6 +360,7 @@ const char *kwtbl[] __FLASH__  = {
  "LRUN", "FILES","EXPORT", "CONFIG", "SAVECONFIG", "ERASE", "SYSINFO",
  "SCREEN", "WIDTH", "CONSOLE", // 表示切替
  "BANK","FWRITE", // プログラム保存領域利用用
+ "KFONT",         // 美咲フォント用
  "RENUM", "RUN", "DELETE", "OK",           // システムコマンド(4)
 };
 
@@ -399,6 +403,7 @@ enum ICode:uint8_t {
  I_LRUN, I_FILES, I_EXPORT, I_CONFIG, I_SAVECONFIG, I_ERASE, I_INFO,
  I_SCREEN, I_WIDTH, I_CONSOLE, // 表示切替
  I_BANK, I_FWRITE, // プログラム保存領域利用用
+ I_KFONT,          // 美咲フォント用
  I_RENUM, I_RUN, I_DELETE, I_OK,  // システムコマンド(4)
 
 // 内部利用コード
@@ -427,6 +432,7 @@ const uint8_t i_nsa[] = {
   I_PC13, I_PC14,I_PC15,
   I_LSB, I_MSB, I_MEM, I_VRAM, I_MVAR, I_MARRAY, I_EEPREAD, I_MPRG, I_MFNT,I_GRAM, I_MPRG2,
   I_SREAD, I_SREADY, I_GPEEK, I_GINP,I_RGB,
+  I_KFONT,
 };
 
 // 前が定数か変数のとき前の空白をなくす中間コード
@@ -3226,6 +3232,55 @@ void ifwrite() {
   FlashMan.write((uint32_t)radr,c);
 }
 
+// 漢字フォントデータ取得
+// KFONT(仮想アドレス,文字コード,サイズ)
+// 戻り値 0:該当フォントなし、1:全角文字、2:半角文字
+int16_t ikfont() {
+  int16_t vadr;     // 仮想アドレス
+  uint16_t sjis;    // 文字コード
+  int16_t fsize;    // フォントサイズ
+  uint8_t* radr;    // 実アドレス
+  int16_t index;    // フォントコード
+  uint8_t* fontadr; // フォント格納アドレス
+  int16_t  rc = 0;
+
+ // 引数の取得
+ if (checkOpen()) return 0;                      // '('のチェック
+ if ( getParam(vadr, 0, 32767, true) ) return 0; // 引数 仮想アドレスの取得
+ if ( getParam(sjis, true) ) return 0;           // 引数文字コードの取得
+ if ( getParam(fsize,8, 24, false) ) return 0;   // フォントサイズの取得
+ if (checkClose()) return 0;                     // ')'のチェック
+
+ // 仮想アドレスから実アドレスの取得
+  radr  = v2realAddr(vadr);
+  if (radr == 0) {
+     err = ERR_RANGE;
+     return 0;
+   }
+
+  // フォントデータの取得
+  if ( SDSfonts.open() == false ) {              // フォントのオープン
+    // ファイルオープン失敗
+    err = ERR_FILE_OPEN;
+    return 0;
+  }
+  
+  SDSfonts.setFontSize(fsize);                  // フォントサイズの設定
+  if (!SDSfonts.getFontData(radr, sjis)) {
+    rc = 0; // 該当フォントデータなしまたはエラー
+  } else {
+    // 半角・全角チェック
+    if ( SDSfonts.getWidth() == SDSfonts.getFontSize() ) {
+      rc = 1;
+    } else {
+      rc = 2;
+    }
+  }
+
+  SDSfonts.close();          // フォントのクローズ
+  return rc;
+}
+
 // シリアル1バイト出力 : SWRITE データ
 void iswrite() {
   int16_t c; 
@@ -4753,7 +4808,8 @@ int16_t ivalue() {
   case I_SHIFTIN: value = ishiftIn(); break; // SHIFTIN()関数
   case I_PULSEIN: value = ipulseIn();  break;// PLUSEIN()関数
   case I_GETS:  value = igets();   break;    // 関数GETS()  
-  
+  case I_KFONT: value = ikfont();   break;   // KFONT()関数
+
   // 定数
   case I_HIGH:  value = CONST_HIGH; break;
   case I_LOW:   value = CONST_LOW;  break;
@@ -5525,7 +5581,8 @@ void basic() {
 
 #if USE_SD_CARD == 1
   // SDカード利用
-  fs.init(); // この処理ではGPIOの操作なし
+  fs.init();            // この処理ではGPIOの操作なし
+  SDSfonts.init(PA4);  // SDフォント管理の初期化
 #endif
 
   I2C_WIRE.begin();  // I2C利用開始

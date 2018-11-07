@@ -1,0 +1,27 @@
+#######################################
+# Syntax Coloring Map sdsjisfonts
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+SDSfonts	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+init			KEYWORD2
+setLCDMode		KEYWORD2
+setFontSizeAsIndex		KEYWORD2
+getFontSizeIndex		KEYWORD2
+setFontSize		KEYWORD2
+getFontData		KEYWORD2
+getRowLength		KEYWORD2
+getWidth			KEYWORD2
+getHeight			KEYWORD2
+getLength		KEYWORD2
+open			KEYWORD2
+close			KEYWORD2
+getCode			KEYWORD2
