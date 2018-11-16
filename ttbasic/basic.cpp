@@ -31,7 +31,8 @@
 // 2018/09/16 Arduino STM32 R20170323の非サポートに変更
 // 2018/09/24 NTSC、OLED、TFT版で起動直後シリアルコンソールを利用する条件コンパイル指定の対応
 // 2018/10/04 仮想アドレスPRG2の追加、BANK、FWRITEコマンドの追加
-// 2018/11/07 SJIS版日本語フォント利用対応
+// 2018/11/07 SJIS版日本語フォント利用対応 KFONT()の追加
+// 2018/11/15 SETKANJI,KANJIコマンドの追加
 //
 
 #include <Arduino.h>
@@ -68,6 +69,7 @@ uint8_t err;// Error message index
 #define CDEV_GSCREEN  2  // グラフィック
 #define CDEV_MEMORY   3  // メモリー
 #define CDEV_SDFILES  4  // ファイル
+#define CDEV_KANJI    5  // シフトJISグラフィック出力
 
 // *** フォント参照 ***************
 const uint8_t* ttbasic_font = DEVICE_FONT;
@@ -77,6 +79,24 @@ inline uint8_t* getFontAdr() { return (uint8_t*)ttbasic_font;};
 
 // *** SJIS版フォントライブラリ利用 ***
 #include <SDSfonts.h>
+
+// 漢字情報管理の定義
+typedef struct  {
+  uint8_t size;         // 現在のフォントサイズ
+  uint8_t xtd;          // 倍角指定
+  uint8_t s_w;          // 文字間横ドット数
+  uint8_t s_h;          // 文字間縦ドット数
+  int16_t LimitRright;  // 右改行座標
+} KfontInfo;
+
+// 漢字情報管理情報
+KfontInfo KInf = { 
+  8, // 8ドットフォント
+  1, // 等倍サイズ
+  0, // 横隙間なし
+  0, // 縦隙間なし
+  0, // basic()内にて、改めて初期化
+};
 
 // **** スクリーン管理 *************
 #define CON_MODE_DEVICE    0        // コンソールモード デバイス 
@@ -360,7 +380,7 @@ const char *kwtbl[] __FLASH__  = {
  "LRUN", "FILES","EXPORT", "CONFIG", "SAVECONFIG", "ERASE", "SYSINFO",
  "SCREEN", "WIDTH", "CONSOLE", // 表示切替
  "BANK","FWRITE", // プログラム保存領域利用用
- "KFONT",         // 美咲フォント用
+ "KFONT", "ZEN", "SETKANJI", "KANJI",      // SJISフォント用
  "RENUM", "RUN", "DELETE", "OK",           // システムコマンド(4)
 };
 
@@ -403,7 +423,7 @@ enum ICode:uint8_t {
  I_LRUN, I_FILES, I_EXPORT, I_CONFIG, I_SAVECONFIG, I_ERASE, I_INFO,
  I_SCREEN, I_WIDTH, I_CONSOLE, // 表示切替
  I_BANK, I_FWRITE, // プログラム保存領域利用用
- I_KFONT,          // 美咲フォント用
+ I_KFONT, I_ZEN, I_SETKANJI, I_KANJI,        // SJISフォント用
  I_RENUM, I_RUN, I_DELETE, I_OK,  // システムコマンド(4)
 
 // 内部利用コード
@@ -432,7 +452,7 @@ const uint8_t i_nsa[] = {
   I_PC13, I_PC14,I_PC15,
   I_LSB, I_MSB, I_MEM, I_VRAM, I_MVAR, I_MARRAY, I_EEPREAD, I_MPRG, I_MFNT,I_GRAM, I_MPRG2,
   I_SREAD, I_SREADY, I_GPEEK, I_GINP,I_RGB,
-  I_KFONT,
+  I_KFONT,  I_ZEN,
 };
 
 // 前が定数か変数のとき前の空白をなくす中間コード
@@ -450,7 +470,7 @@ const uint8_t i_sf[]  = {
   I_RETURN,I_RUN,I_SAVE,I_SETDATE,I_SHIFTOUT,I_WAIT,I_EEPFORMAT, I_EEPWRITE, 
   I_PSET, I_LINE, I_RECT, I_CIRCLE, I_BITMAP, I_SWRITE, I_SPRINT,  I_SOPEN, I_SCLOSE,I_SMODE,
   I_TONE, I_NOTONE, I_PLAY, I_CSCROLL, I_GSCROLL,I_EXPORT, I_I2CCLK,
-  I_BANK, I_FWRITE,
+  I_BANK, I_FWRITE,  I_SETKANJI, I_KANJI,
 };
 
 // 例外検索関数
@@ -3281,6 +3301,47 @@ int16_t ikfont() {
   return rc;
 }
 
+// 半角全角変換
+// ZEN(半角文字コード)
+// 戻り値  半角文字コードが半角の場合は変換した全角文字コードを返す、そうでない場合
+//        引数の半角文字コードをそのまま返す
+int16_t izen() {
+  uint16_t sjis;
+ 
+ // 引数の取得
+ if (checkOpen()) return 0;                      // '('のチェック
+ if ( getParam(sjis, false) ) return 0;          // 引数文字コードの取得
+ if (checkClose()) return 0;         
+ return (int16_t)SDSfonts.HantoZen(sjis);
+}
+
+// 漢字表示用設定
+// SETKANJI フォントサイズ,[描画時倍角 ,横フォント間ドット数, 行間ドット数, 右折り返し位置]
+void isetkanji() {
+  int16_t fsize;        // フォントサイズ
+  int16_t xtd = -1;     // 描画時倍角
+  int16_t d_w = -1;;    // 横フォント間ドット数
+  int16_t d_h = -1;;    // 行間ドット数
+  int16_t pos_x = -1;   // 右折り返し位置
+  
+  if ( getParam(fsize, 1,24, false) ) return;          // フォントサイズの取得
+  
+  if (*cip == I_COMMA) {
+    cip++;
+    if (getParam(xtd,   1, 16, true)) return;
+    if (getParam(d_w,   0, 16, true)) return;
+    if (getParam(d_h,   0, 16, true)) return;
+    if (getParam(pos_x, 0, sc2.getGWidth()-1, false)) return;
+  }
+
+  KInf.size = fsize;
+  if (xtd != -1) KInf.xtd = xtd;
+  if (d_w != -1) KInf.s_w = d_w;
+  if (d_h != -1) KInf.s_h = d_h;
+  if (pos_x != -1) KInf.LimitRright = pos_x;
+
+}
+
 // シリアル1バイト出力 : SWRITE データ
 void iswrite() {
   int16_t c; 
@@ -3953,7 +4014,62 @@ void igprint() {
   if (scmode||USE_TFT||USE_OLED) { // コンソールがデバイスコンソールの場合
     if ( getParam(x, 0, sc2.getGWidth(), true) )  return;
     if ( getParam(y, 0, sc2.getGHeight(),true) )  return;
-    sc2.set_gcursor(x,y);    iprint(2);
+    sc2.set_gcursor(x,y);    iprint(CDEV_GSCREEN);
+  } else {
+    err = ERR_NOT_SUPPORTED;
+  }
+#else
+  err = ERR_NOT_SUPPORTED;
+#endif
+}
+
+// シフトJISフォントによる描画
+void drawKanji(int16_t x, int16_t y, char *pSJIS) {
+  int16_t  rgb = 7, mode = 0;
+  int16_t  base_x = x, base_y = y;
+  uint8_t buf[MAXFONTLEN]; // フォントデータ格納アドレス(最大24x24/8 = 72バイト)
+
+  SDSfonts.open();                 // フォントのオープン
+  SDSfonts.setFontSize(KInf.size); // フォントサイズの設定
+
+  // 文字列の描画
+  while ( pSJIS = SDSfonts.getFontData(buf, pSJIS) )  {
+    // 横描画位置チェック
+    if (x + SDSfonts.getWidth()*KInf.xtd > KInf.LimitRright ) {
+      // 横の表示域を超えた
+      x = base_x;
+      y += SDSfonts.getHeight()*KInf.xtd + KInf.s_h;
+      if (y + SDSfonts.getHeight()*KInf.xtd >= sc2.getGHeight()) {
+        // 縦の表示域を超えた
+        break;
+      }
+    }
+
+    // フォントパターンの表示
+    sc2.bitmap(x, y, (uint8_t*)buf, 0, SDSfonts.getWidth(), SDSfonts.getHeight(), KInf.xtd, rgb, mode);
+    x += SDSfonts.getWidth()*KInf.xtd + KInf.s_w;
+  }
+  SDSfonts.close(); // フォントのクローズ
+}
+
+// ikanji x,y,..
+void ikanji() {
+#if USE_NTSC == 1 || USE_TFT ==1 || USE_OLED == 1
+  char* ptr = tbuf; // 表示文字列
+  int16_t x,y;      // 表示座標
+  if (scmode||USE_TFT||USE_OLED) { // コンソールがデバイスコンソールの場合
+    if ( getParam(x, 0, sc2.getGWidth(), true) )  return;
+    if ( getParam(y, 0, sc2.getGHeight(),true) )  return;
+    sc2.set_gcursor(x,y);
+    
+    // 引数の文字列をバッファに格納する
+    cleartbuf();
+    iprint(CDEV_MEMORY,1);
+  if (err)
+    return;
+
+  // 漢字表示処理 
+  drawKanji(x,y,ptr);
   } else {
     err = ERR_NOT_SUPPORTED;
   }
@@ -3965,7 +4081,7 @@ void igprint() {
 // ファイル名引数の取得
 char* getParamFname() {
   cleartbuf(); // メモリバッファのクリア
-  iprint(3,1);
+  iprint(CDEV_MEMORY,1);
   if (strlen(tbuf) >= SD_PATH_LEN)
       err = ERR_LONGPATH;   
   if (err) {
@@ -4807,8 +4923,9 @@ int16_t ivalue() {
   case I_I2CR:  value = ii2cr();   break; // I2CR()関数
   case I_SHIFTIN: value = ishiftIn(); break; // SHIFTIN()関数
   case I_PULSEIN: value = ipulseIn();  break;// PLUSEIN()関数
-  case I_GETS:  value = igets();   break;    // 関数GETS()  
+  case I_GETS:  value = igets();    break;    // 関数GETS()  
   case I_KFONT: value = ikfont();   break;   // KFONT()関数
+  case I_ZEN:   value = izen();     break;   // ZEN()関数
 
   // 定数
   case I_HIGH:  value = CONST_HIGH; break;
@@ -5426,7 +5543,7 @@ unsigned char* iexe() {
     case I_CSCROLL:   icscroll();     break;  // CSCROLLキャラクタスクロール
     case I_GSCROLL:   igscroll();     break;  // GSCROLLグラフィックスクロール    
     case I_SWRITE:    iswrite();      break;  // シリアル1バイト出力
-    case I_SPRINT:    iprint(1);      break;  // SPRINT
+    case I_SPRINT:    iprint(CDEV_SERIAL);    break;  // SPRINT
     case I_GPRINT:    igprint();      break;  // GPRINT
     case I_SOPEN:     isopen();       break;  // SOPEN
     case I_SCLOSE:    isclose();      break;  // SCLOSE
@@ -5462,7 +5579,8 @@ unsigned char* iexe() {
     case I_I2CCLK:     ii2cclk();     break;
     case I_BANK:       ibank();       break;
     case I_FWRITE:     ifwrite();     break;
-    
+    case I_SETKANJI:   isetkanji();   break;  // SETKANBJI
+    case I_KANJI:      ikanji();      break;  // KANJI
     case I_RUN:    // RUN
     case I_RENUM:  // RENUM
     case I_DELETE: // DELETE
@@ -5565,6 +5683,9 @@ void basic() {
   scrt = DEV_RTMODE;
   ((tGraphicScreen*)sc)->init(ttbasic_font, SIZE_LINE, CONFIG.KEYBOARD, workarea, scSizeMode, 
                               DEV_RTMODE, CONFIG.NTSC_HPOS, CONFIG.NTSC_VPOS, DEV_IFMODE);
+  // フォント管理情報のグラフィックデバイス右改行位置の設定
+  KInf.LimitRright = scmode||USE_TFT||USE_OLED ? sc2.getGHeight():0;
+
 #endif
   sc->Serial_mode(serialMode, defbaud); // デバイススクリーンのシリアル出力の設定
   prv_scSizeMode = scSizeMode;

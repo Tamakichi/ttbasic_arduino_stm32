@@ -1,6 +1,7 @@
 //
 // SJIS版フォント利用ライブラリ クラス定義 SDSfonts.h 
 // 作成 2018/10/27 by たま吉さん
+// 修正 2018/11/08 isHkana(), isZenkaku(),HantoZen()をpublicに変更
 
 #ifndef ___SDSfonts_h___
 #define ___SDSfonts_h___
@@ -86,6 +87,9 @@ class sdsjisfonts {
     bool open(void);                                       // フォントファイルのオープン
     void close(void);                                      // フォントファイルのクローズ
     uint16_t getCode() {return _code;};                    // 直前に処理した文字コード
+    uint8_t isHkana(uint16_t sjis);                        // 半角カナ判定
+    uint8_t isZenkaku(uint8_t c);                          // 全角判定
+    uint16_t HantoZen(uint16_t sjis);                      // 半角全角変換
    
   private:
     void setFontNo(uint8_t fno);                              // 利用フォント種類の設定 fno : フォント種別番号 (0-13)
@@ -95,9 +99,6 @@ class sdsjisfonts {
     boolean getFontDataBySJIS(byte* fontdata, uint16_t sjis); // 種類に該当するフォントデータの取得
     uint32_t cnvAddres(uint8_t pos, uint8_t ln);  
     bool fontfile_read(uint32_t pos, uint8_t* dt, uint8_t sz) ;
-    uint8_t isHkana(uint16_t sjis);                            // 半角カナ判定
-    uint8_t isZenkaku(uint8_t c);
-    uint16_t HantoZen(uint16_t sjis);
 };
 
 extern sdsjisfonts SDSfonts;
