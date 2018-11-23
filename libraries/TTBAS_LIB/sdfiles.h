@@ -7,6 +7,7 @@
 //
 // 修正履歴
 //  2017/07/27, flist()で列数を指定可能
+//  2018/11/16, fseek()の追加
 //
 
 #ifndef __sdfiles_h__
@@ -43,6 +44,7 @@ class sdfiles {
 
   uint8_t tmpOpen(char* tfname, uint8_t mode);          // 一時ファイルオープン
   uint8_t tmpClose();                                   // 一時ファイルクローズ
+  uint8_t seek(int16_t pos);                            // ファイル位置のシーク
   uint8_t puts(char*s);                                 // 文字列出力
   int16_t read();                                       // 1バイト読込
   uint8_t putch(char c);                                // 1バイト出力 

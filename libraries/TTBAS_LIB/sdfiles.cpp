@@ -7,6 +7,7 @@
 //
 // 修正履歴
 //  2017/07/27, flist()で列数を指定可能
+//  2018/11/16, fseek()の追加
 //
 
 
@@ -260,7 +261,7 @@ uint8_t sdfiles::flist(char* _dir, char* wildcard, uint8_t clmnum) {
 // 一時ファイルオープン
 // [引数]
 //  fname : ターゲットファイル名
-//  mode  : 0 読込モード、1:書込みモード(新規)
+//  mode  : 0 読込モード、1:書込みモード
 // [戻り値]
 //  正常終了              : 0
 //  SDカード利用失敗     : SD_ERR_INIT
@@ -310,6 +311,14 @@ int16_t sdfiles::read() {
   if(!tfile) 
     return -1;
   return tfile.read();
+}
+
+// ファイル位置のシーク
+// 戻り値
+//  true  : 成功
+//  false : 失敗
+uint8_t sdfiles::seek(int16_t pos) {
+  return tfile.seek(pos);
 }
 
 //
@@ -540,4 +549,3 @@ uint8_t sdfiles::remove(char* fname) {
   SD.end();
   return rc;  
 }
-
