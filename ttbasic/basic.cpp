@@ -1900,7 +1900,7 @@ void isave() {
         err = ERR_SD_NOT_READY;
         return;
       } else if (rc == SD_ERR_OPEN_FILE) {
-        err =  ERR_FILE_OPEN;
+        err =  ERR_FILE_WRITE;
         return;
       }
       ilist(4);
@@ -1946,7 +1946,9 @@ uint8_t loadPrgText(char* fname, uint8_t newmode = 0) {
   int16_t rc;
   int16_t len;
 #if USE_SD_CARD == 1
+Serial.println("step1");
   rc = fs.tmpOpen(fname,0);
+Serial.println("step2");
   if (rc == SD_ERR_INIT) {
     err = ERR_SD_NOT_READY;
     return 1;
@@ -2068,16 +2070,17 @@ void ifiles() {
   ) {
     if(!(fname = getParamFname())) {
       return;
-    }  
+  }  
 
-   for (uint8_t i = 0; i < strlen(fname); i++) {
+  // ファイル名の半角英小文字を大文字に変更
+  for (uint8_t i = 0; i < strlen(fname); i++) {
       if (fname[i] >='a' && fname[i] <= 'z') {
          fname[i] = fname[i] - 'a' + 'A';
       }
-   }
-    
-    if (strlen(fname) > 0) {
-      for (int8_t i = strlen(fname)-1; i >= 0; i--) {
+  }
+  if (strlen(fname) > 0) {
+  //  for (int8_t i = strlen(fname)-1; i >= 0; i--) {
+    for (int8_t i = strlen(fname); i >= 0; i--) {
         if (fname[i] == '/') {
           ptr = &fname[i];
           break;

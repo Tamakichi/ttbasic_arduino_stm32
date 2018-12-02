@@ -51,7 +51,8 @@ class sdfiles {
   int8_t  IsText(char* tfname);                         // ファイルがテキストファイルかチェック
   int16_t readLine(char* str);                          // 1行分読込み
   int8_t  textOut(char* fname, int16_t sline, int16_t ln); // テキストファイルの出力
-    
+  uint8_t checkDir(char* fname);                        // ファイルパスのディレクトリが存在するかチェック(書き込み事前チェック用)
+
   // ビットマップファイルのロード
   uint8_t loadBitmap(char* fname, uint8_t* ptr, int16_t x, int16_t y, int16_t w,int16_t  h, uint8_t mode=0);
   uint8_t loadBitmapToGVRAM(char* fname, uint8_t* ptr, int16_t x, int16_t y,
