@@ -38,6 +38,7 @@
 // 2018/11/16 BITMAPコマンドの引数指定不具合対応(issues #59)
 // 2018/11/17 GETSにモード指定引数の追加(issues #35)
 // 2018/11/22 STRCMP関数の追加(issues #62)
+// 2018/12/01 BLOAD,BSAVEのPRG2領域アクセスの対応(issues #68)
 //
 
 #include <Arduino.h>
@@ -369,7 +370,7 @@ const char *kwtbl[] __FLASH__  = {
  "PSET","LINE","RECT","CIRCLE", "BITMAP", "GPRINT", "GSCROLL", "GCLS", "GCOLOR",  // グラフィック表示コマンド(9)
  "GPIO", "OUT", "POUT", "SHIFTOUT", "PULSEIN",                  // GPIO・入出力関連コマンド(5)
  "SMODE", "SOPEN", "SCLOSE", "SPRINT", "SWRITE",                // シリアル通信関連コマンド(5)
- "LDBMP","MKDIR","RMDIR",/*"RENAME",*/ "FCOPY","CAT", "DWBMP", "REMOVE", // SDカード関連コマンド
+ "LDBMP","MKDIR","RMDIR",/*"RENAME", "FCOPY",*/ "CAT", "DWBMP", "REMOVE", // SDカード関連コマンド
  "HIGH", "LOW", "ON", "OFF",  // 定数
  "PA0", "PA1", "PA2", "PA3", "PA4", "PA5", "PA6", "PA7", "PA8", "PA9",
  "PA10","PA11", "PA12", "PA13","PA14","PA15",
@@ -412,7 +413,7 @@ enum ICode:uint8_t {
  I_PSET, I_LINE, I_RECT, I_CIRCLE, I_BITMAP, I_GPRINT, I_GSCROLL, I_GCLS, I_GCOLOR, // グラフィック表示コマンド(9)
  I_GPIO, I_DOUT, I_POUT, I_SHIFTOUT, I_PULSEIN,                   // GPIO・入出力関連コマンド(5)
  I_SMODE, I_SOPEN, I_SCLOSE, I_SPRINT, I_SWRITE,                  // シリアル通信関連コマンド(5)
- I_LDBMP, I_MKDIR, I_RMDIR, /*I_RENAME,*/ I_FCOPY, I_CAT, I_DWBMP, I_REMOVE,  // SDカード関連コマンド
+ I_LDBMP, I_MKDIR, I_RMDIR, /*I_RENAME, I_FCOPY,*/ I_CAT, I_DWBMP, I_REMOVE,  // SDカード関連コマンド
  I_HIGH, I_LOW, I_ON, I_OFF,// 定数
  I_PA0, I_PA1, I_PA2, I_PA3, I_PA4, I_PA5, I_PA6, I_PA7, I_PA8, I_PA9,
  I_PA10, I_PA11, I_PA12, I_PA13,I_PA14,I_PA15,
@@ -4504,14 +4505,14 @@ void ibsave() {
     return;    
   }
   cip++;
-  if ( getParam(vadr,  0, V_GRAM_TOP+6048-1, true) ) return; // アドレスの取得
+  if ( getParam(vadr,  0, V_PRG2_TOP+4096-1, true) ) return; // アドレスの取得
   if ( getParam(len,  0, 32767, false) ) return;             // データ長の取得
  if (*cip == I_COMMA) {
     cip++;
     if ( getParam(pos,  0, 32767, false) ) return;           // ファイル内位置の取得
   }
   // アドレスの範囲チェック
-  if ( (uint32_t)vadr+(uint32_t)len > (uint32_t)(V_GRAM_TOP+6048) ) {
+  if ( (uint32_t)vadr+(uint32_t)len > (uint32_t)(V_PRG2_TOP+4096) ) {
     err = ERR_RANGE;
     return;
   }
@@ -4555,14 +4556,16 @@ DONE:
 }
 
 // BLOADコマンド
-// BLOAD ファイル名,格納アドレス,バイト数[,ファイル内位置]
+// BLOAD ファイル名,格納アドレス,バイト数[,ファイル内位置[,フラシュメモリ書き込み指定]]
 void ibload() {
   uint8_t*radr;           // 実データ格納アドレス
-  int16_t vadr, len ,c;
+  int16_t vadr, len;
+  uint16_t c;
   int16_t pos=0;          // ファイル内位置
+  int16_t fwt=0;          // フラシュメモリ書き込み指定
   char* fname;
   uint8_t rc;
-
+  
   if(!(fname = getParamFname()))  return;  // ファイル名の取得
   if (*cip != I_COMMA) {
     err = ERR_SYNTAX;
@@ -4570,17 +4573,34 @@ void ibload() {
   }
 
   cip++;
-  if ( getParam(vadr,  0, V_GRAM_TOP+6048-1, true) ) return;  // アドレスの取得
+  if ( getParam(vadr,  0, V_PRG2_TOP+4096-1, true) ) return;  // アドレスの取得
   if ( getParam(len,  0, 32767, false) ) return;              // データ長の取得
   if (*cip == I_COMMA) {
     cip++;
     if ( getParam(pos,  0, 32767, false) ) return;            // ファイル内位置の取得
   }
 
+  if ( (uint32_t)vadr >= (uint32_t)V_PRG2_TOP) {
+    // フラシュメモリPRG2への書き込み
+    fwt = 1;
+  }
+
   // アドレスの範囲チェック
-  if ( (uint32_t)vadr+(uint32_t)len > (uint32_t)(V_GRAM_TOP+6048) ) {
-    err = ERR_RANGE;
-    return;
+  if (fwt) {
+    if ( (uint32_t)vadr+(uint32_t)len > (uint32_t)(V_PRG2_TOP+4096) ) {
+      err = ERR_RANGE;
+      return;
+    }
+    if ( (uint32_t)vadr & 1 ) {
+      // 領域がフラシュメモリでアドレスが奇数の場合はエラーとする
+      err = ERR_RANGE;
+      return;
+    }
+  } else {
+    if ( (uint32_t)vadr+(uint32_t)len > (uint32_t)(V_GRAM_TOP+6048) ) {
+      err = ERR_RANGE;
+      return;
+    }
   }
 #if USE_SD_CARD == 1
   // ファイルオープン
@@ -4602,20 +4622,44 @@ void ibload() {
   }
 
   // データの読込み
-  for (uint16_t i = 0 ; i < len; i++) {
-    radr = v2realAddr(vadr);
-    if (radr == NULL) {
-      goto DONE;
+  if(!fwt) {
+    // SRAMへの書き込み
+    for (uint16_t i = 0 ; i < len; i++) {
+      radr = v2realAddr(vadr);
+      if (radr == NULL) {
+        goto DONE;
+      }
+      c = fs.read();
+      if (c <0 ) {
+        err = ERR_FILE_READ;
+        goto DONE;      
+      }
+      *radr = c;
+      vadr++;
     }
-    c = fs.read();
-    if (c <0 ) {
-      err = ERR_FILE_READ;
-      goto DONE;      
+  } else {
+    // フラシュメモリへの書き込み
+    for (uint16_t i = 0 ; i < len; i+=2) {
+      radr = v2realAddr(vadr);
+      if (radr == NULL) {
+        goto DONE;
+      }
+      uint16_t tmp_c1,tmp_c2;
+      tmp_c1 = fs.read();
+      if (tmp_c1  <0 ) {
+        err = ERR_FILE_READ;
+        goto DONE;      
+      }
+      tmp_c2 = fs.read();
+      if (tmp_c2  <0 ) {
+        err = ERR_FILE_READ;
+        goto DONE;      
+      }
+      c= (tmp_c2<<8) + tmp_c1;
+      FlashMan.write((uint32_t)radr,c);
+      vadr+=2;
     }
-    *radr = c;
-    vadr++;
   }
-
 DONE:
   fs.tmpClose();
 #endif  
