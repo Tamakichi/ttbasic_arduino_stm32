@@ -39,6 +39,9 @@
 // 2018/11/17 GETSにモード指定引数の追加(issues #35)
 // 2018/11/22 STRCMP関数の追加(issues #62)
 // 2018/12/01 BLOAD,BSAVEのPRG2領域アクセスの対応(issues #68)
+// 2018/12/05 LISTコマンドの仕様変更（行番号指定時はその行だけを表示に変更)(issues #71)
+// 2018/12/05 STRCMPの仕様変更（一致 1、不一致 0)
+// 2018/12/06 プロフラムリスト内にOKを記述してもエラーに仕様に変更
 //
 
 #include <Arduino.h>
@@ -1612,6 +1615,7 @@ void ilist(uint8_t devno=0) {
   if (*cip != I_EOL && *cip != I_COLON) {
     // 引数あり
     if (getParam(lineno,0,32767,false)) return;                // 表示開始行番号
+    endlineno = lineno;
     if (*cip == I_COMMA) {
       cip++;                         // カンマをスキップ
       if (getParam(endlineno,lineno,32767,false)) return;      // 表示終了行番号
@@ -2162,9 +2166,9 @@ void icls() {
   }
 #if USE_OLED || USE_TFT || USE_NTSC
   else if (!scmode && mode == 1) {
-    sc2.gcls(); // TFT版、OLED版でシリアルコンソールモードの場合、デバイスの表示のみをクリア
+    sc2.gcls(); // シリアルコンソールモードの場合、デバイスの表示のみをクリア
   } else if (scmode && mode == 1) {
-    sc->cls(); // TFT版、OLED版でデバイスコンソールモードの場合、コンソールをクリア
+    sc->cls(); //  デバイスコンソールモードの場合、コンソールをクリア
     sc->locate(0,0);    
   }
 #endif  
@@ -2174,10 +2178,12 @@ void icls() {
 // GCLS
 void igcls() {
 #if USE_OLED || USE_TFT || USE_NTSC
-  sc2.gcls(); // TFT版、OLED版はグラフィックデバイス画面クリア  
- #if USE_NTSC
-  sc->locate(0,0);
- #endif
+  if (scmode) {
+    sc->cls();
+    sc->locate(0,0);    
+  } else {
+    sc2.gcls();
+  }
 #endif  
 }
 
@@ -4035,7 +4041,7 @@ int16_t igets() {
 // 文字列比較
 // STRCMP(文字列1,文字列2)
 // STRCMP(文字列1,文字列2,長さ)
-// 戻り値 ０：一致、 1 ：不一致
+// 戻り値 1：一致、 0 ：不一致
 int16_t istrcmp() {
   int16_t len[2];   // 文字列長
   int16_t index;    // 配列添え字
@@ -4043,7 +4049,7 @@ int16_t istrcmp() {
   uint8_t* str[2];  // 文字列先頭位置
   int16_t pos = 0;
 
-  if (checkOpen())  return 0;
+  if (checkOpen())  return -1;
   for (int16_t i =0; i < 2; i++) {
     if ( *cip == I_VAR)  {
       // 変数の場合
@@ -4055,7 +4061,7 @@ int16_t istrcmp() {
     } else if ( *cip == I_ARRAY) {
       // 配列変数の場合
       cip++; 
-      if (getParam(index, 0, SIZE_ARRY-1, false)) return 0;
+      if (getParam(index, 0, SIZE_ARRY-1, false)) return -1;
       str[i] = v2realAddr(arr[index]);
       len[i] = *str[i]; // 文字列長の取得
       str[i]++;      // 文字列先頭
@@ -4066,12 +4072,12 @@ int16_t istrcmp() {
       cip+=len[i];
     } else {
       err = ERR_SYNTAX;
-      return 0;
+      return -1;
     }
     if (!i) {
       if (*cip != I_COMMA) {
         err = ERR_SYNTAX;
-        return 0;
+        return -1;
       } else {
         cip++;
       }
@@ -4081,20 +4087,20 @@ int16_t istrcmp() {
   // 長さ引数取得
   if (*cip == I_COMMA) {
     cip++;
-    if (getParam(optlen, 0, 32767, false)) return 0;
+    if (getParam(optlen, 0, 32767, false)) return -1;
   }
-  if (checkClose()) return 0;
+  if (checkClose()) return -1;
   
   if (optlen == -1 ) {
     if (len[0] != len[1])
-      return 1;
+      return 0;
     else 
-      return  strncmp((char*)str[0],(char*)str[1],len[0]) ? 1:0;
+      return  strncmp((char*)str[0],(char*)str[1],len[0]) ? 0:1;
   } else {
     if (optlen > len[0] || optlen > len[1])
-      return 1;
+      return 0;
     else
-      return  strncmp((char*)str[0],(char*)str[1],optlen) ? 1:0;
+      return  strncmp((char*)str[0],(char*)str[1],optlen) ? 0:1;
   }
 }
 
@@ -5826,6 +5832,7 @@ unsigned char* iexe() {
       return NULL; //終了
 
     case I_COLON: // 中間コードが「:」の場合
+    case I_OK:    // OK
       break; 
 
     default:
