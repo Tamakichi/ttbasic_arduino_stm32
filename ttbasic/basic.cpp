@@ -2258,9 +2258,14 @@ void igcolor() {
     if ( getParam(bc, 0, 8, false) ) return;  
  }
 #endif
+#if USE_TFT|USE_OLED|USE_NTSC
   // 文字色の設定
   sc2.setColor((uint16_t)fc, (uint16_t)bc);  
   KInf.fgcolor = fc;
+#else
+  // 文字色の設定
+  sc->setColor((uint16_t)fc, (uint16_t)bc);  
+#endif
 }
 
 // 文字属性の指定 ATTRコマンド
