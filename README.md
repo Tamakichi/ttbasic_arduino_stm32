@@ -1,4 +1,4 @@
-## 豊四季タイニーBASIC for Arduino STM32V0.86β
+## 豊四季タイニーBASIC for Arduino STM32V0.87β
 
 （注意）  
 オリジナル版からリポジトリ管理を切り離しました。  

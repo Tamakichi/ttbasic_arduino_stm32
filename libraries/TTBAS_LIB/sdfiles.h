@@ -7,6 +7,7 @@
 //
 // 修正履歴
 //  2017/07/27, flist()で列数を指定可能
+//  2018/11/16, fseek()の追加
 //
 
 #ifndef __sdfiles_h__
@@ -43,13 +44,15 @@ class sdfiles {
 
   uint8_t tmpOpen(char* tfname, uint8_t mode);          // 一時ファイルオープン
   uint8_t tmpClose();                                   // 一時ファイルクローズ
+  uint8_t seek(int16_t pos);                            // ファイル位置のシーク
   uint8_t puts(char*s);                                 // 文字列出力
   int16_t read();                                       // 1バイト読込
   uint8_t putch(char c);                                // 1バイト出力 
   int8_t  IsText(char* tfname);                         // ファイルがテキストファイルかチェック
   int16_t readLine(char* str);                          // 1行分読込み
   int8_t  textOut(char* fname, int16_t sline, int16_t ln); // テキストファイルの出力
-    
+  uint8_t checkDir(char* fname);                        // ファイルパスのディレクトリが存在するかチェック(書き込み事前チェック用)
+
   // ビットマップファイルのロード
   uint8_t loadBitmap(char* fname, uint8_t* ptr, int16_t x, int16_t y, int16_t w,int16_t  h, uint8_t mode=0);
   uint8_t loadBitmapToGVRAM(char* fname, uint8_t* ptr, int16_t x, int16_t y,

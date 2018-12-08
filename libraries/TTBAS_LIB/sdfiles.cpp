@@ -7,8 +7,10 @@
 //
 // 修正履歴
 //  2017/07/27, flist()で列数を指定可能
+//  2018/11/16, fseek()の追加
+//  2018/12/02, tmpOpen(),textOut()のオープン失敗時にSD.end()処理を行う追記
+//  2018/12/02, SD.open()の不具合対策対応
 //
-
 
 #include "sdfiles.h"
 #include <sdbitmap.h>
@@ -94,18 +96,21 @@ uint8_t sdfiles::load(char* fname, uint8_t* ptr, uint16_t sz) {
   // ファイルのオープン
   if (SD_BEGIN() == false) 
     return SD_ERR_INIT;     // SDカードの利用失敗
-
-  myFile = SD.open(fname, FILE_READ);
-  if (myFile) {
-    // データのヘッダーとデータロード
-    if (myFile.read(head, 2) && myFile.read(ptr, sz)) {
-      rc = 0;
+  if (SD.exists(fname)) {
+    myFile = SD.open(fname, FILE_READ);
+    if (myFile) {
+      // データのヘッダーとデータロード
+      if (myFile.read(head, 2) && myFile.read(ptr, sz)) {
+        rc = 0;
+      } else {
+        rc = SD_ERR_READ_FILE;
+      }
+      myFile.close(); 
     } else {
-      rc = SD_ERR_READ_FILE;
+      rc = SD_ERR_OPEN_FILE ; // ファイルオープン失敗
     }
-    myFile.close(); 
   } else {
-    rc = SD_ERR_OPEN_FILE ; // ファイルオープン失敗
+    rc = SD_ERR_OPEN_FILE ; // ファイルオープン失敗    
   }
   SD.end();
   return rc;
@@ -135,16 +140,20 @@ uint8_t sdfiles::save(char* fname, uint8_t* ptr, uint16_t sz) {
   if (SD.exists(fname))
      SD.remove(fname);
 
-  // ファイルのオープン
-  myFile = SD.open(fname, FILE_WRITE);
-  if (myFile) {
-    // データの保存
-    if (myFile.write(head, 2) && myFile.write(ptr, sz)) {
-      rc = 0;
+  if (checkDir(fname)) {
+    // ファイルのオープン
+    myFile = SD.open(fname, FILE_WRITE);
+    if (myFile) {
+      // データの保存
+      if (myFile.write(head, 2) && myFile.write(ptr, sz)) {
+        rc = 0;
+      } else {
+        rc = SD_ERR_WRITE_FILE;
+      }
+      myFile.close(); 
     } else {
-      rc = SD_ERR_WRITE_FILE;
+      rc = SD_ERR_OPEN_FILE;
     }
-    myFile.close(); 
   } else {
     rc = SD_ERR_OPEN_FILE;
   }
@@ -172,9 +181,10 @@ int8_t sdfiles::textOut(char* fname, int16_t sline, int16_t ln) {
 
   rc = tmpOpen(fname,0);
   if (rc) {
-    return -rc;
+    rc = -rc;
+    goto DONE;
   }
-  
+
   if (tfile.isDirectory()) {
     rc = -SD_ERR_NOT_FILE;
     tmpClose();
@@ -217,42 +227,83 @@ uint8_t sdfiles::flist(char* _dir, char* wildcard, uint8_t clmnum) {
   uint16_t len;
   uint8_t rc = 0;
 
- if (SD_BEGIN() == false) 
+  if (SD_BEGIN() == false) 
     return SD_ERR_INIT;
 
-  File dir = SD.open(_dir);
-  if (dir) {
-    dir.rewindDirectory();
-    while (true) {
-      File entry =  dir.openNextFile();
-      if (!entry) {
-        break;
-      }
-      len = strlen(entry.name());
-      if (!wildcard || (wildcard && wildcard_match(wildcard,entry.name()))) {
-        if (entry.isDirectory()) {
-          c_puts(entry.name());
-          c_puts("*");
-          len++;
-        } else {
-          c_puts(entry.name());
+  if (SD.exists(_dir) || strcmp(_dir,"/")==0 || strlen(_dir)==0 ) {
+    File dir = SD.open(_dir);
+    if (dir) {
+      dir.rewindDirectory();
+      while (true) {
+        File entry =  dir.openNextFile();
+        if (!entry) {
+          break;
         }
-        if (!((cnt+1) % clmnum)) {
-          newline();
-        } else {
-          for (uint8_t i = len; i < 14; i++)
-            c_puts(" ");
+        len = strlen(entry.name());
+        if (!wildcard || (wildcard && wildcard_match(wildcard,entry.name()))) {
+          if (entry.isDirectory()) {
+            c_puts(entry.name());
+            c_puts("*");
+            len++;
+          } else {
+            c_puts(entry.name());
+          }
+          if (!((cnt+1) % clmnum)) {
+            newline();
+          } else {
+            for (uint8_t i = len; i < 14; i++)
+              c_puts(" ");
+          }
+          cnt++;
         }
-        cnt++;
+        entry.close();
       }
-      entry.close();
+      dir.close();
+    } else {
+      rc = SD_ERR_OPEN_FILE;
     }
-    dir.close();
   } else {
-    rc = SD_ERR_OPEN_FILE;
+    //rc = SD_ERR_OPEN_FILE;    
   }
   SD.end();
-  newline();
+  if (cnt)
+    newline();
+  return rc;
+}
+
+// ファイルパスのディレクトリが存在するかチェック(書き込み事前チェック用)
+// [引数]
+//  fname : ターゲットファイル名
+// [戻り値]
+//   1:パスが正しい 0"パスは正しくない
+uint8_t sdfiles::checkDir(char* fname) {
+  char tmpPath[SD_PATH_LEN];
+  int16_t len;
+  int8_t  flgDir = 0; // ディレクトリ部の有無
+  uint8_t rc = 0;
+
+  strcpy(tmpPath,fname);
+  len = strlen(tmpPath);
+
+  for (uint8_t i=len-1; i>0; i--) {
+    if (tmpPath[i] == '/') {
+      tmpPath[i] = 0;
+      flgDir = 1;
+      break;
+    }
+  }
+
+  if (flgDir) {
+    // ディレクトリ指定部あり
+    if (SD.exists(tmpPath)) {
+      rc = 1;
+    } else {
+      rc = 0;
+    }
+  } else {
+    // ディレクトリ指定部なし
+    rc = 1;
+  }
   return rc;
 }
 
@@ -260,23 +311,39 @@ uint8_t sdfiles::flist(char* _dir, char* wildcard, uint8_t clmnum) {
 // 一時ファイルオープン
 // [引数]
 //  fname : ターゲットファイル名
-//  mode  : 0 読込モード、1:書込みモード(新規)
+//  mode  : 0 読込モード、1:書込みモード
 // [戻り値]
 //  正常終了              : 0
 //  SDカード利用失敗     : SD_ERR_INIT
 //  ファイルオープン失敗 : SD_ERR_OPEN_FILE
 //  
 uint8_t sdfiles::tmpOpen(char* tfname, uint8_t mode) { 
-if (SD_BEGIN() == false) 
+  if (SD_BEGIN() == false) 
     return SD_ERR_INIT;
   if(mode) {
     if (SD.exists(tfname))
       SD.remove(tfname);
-    tfile = SD.open(tfname, FILE_WRITE);
+    
+    // ディレクトリの実在チェック
+    if (checkDir(tfname)) {
+      tfile = SD.open(tfname, FILE_WRITE);
+    } else {
+      SD.end();
+      return SD_ERR_OPEN_FILE;
+    }
   } else {
-    tfile = SD.open(tfname, FILE_READ);   
+    if (SD.exists(tfname)) {
+      tfile = SD.open(tfname, FILE_READ);
+    } else {
+      SD.end();
+      return SD_ERR_OPEN_FILE;
+    }
   }
-  return tfile ? 0:SD_ERR_OPEN_FILE;
+  if (!tfile) {
+    SD.end();
+    return SD_ERR_OPEN_FILE;
+  }
+  return 0;
 }
 
 // 一時ファイルクローズ
@@ -310,6 +377,14 @@ int16_t sdfiles::read() {
   if(!tfile) 
     return -1;
   return tfile.read();
+}
+
+// ファイル位置のシーク
+// 戻り値
+//  true  : 成功
+//  false : 失敗
+uint8_t sdfiles::seek(int16_t pos) {
+  return tfile.seek(pos);
 }
 
 //
@@ -360,26 +435,31 @@ int8_t sdfiles::IsText(char* fname) {
  
   if (SD_BEGIN() == false) 
     return -SD_ERR_INIT;
-    
-  // ファイルのオープン
-  myFile = SD.open(fname, FILE_READ);
-  if (myFile) {
-    if (myFile.isDirectory()) {
-      rc = - SD_ERR_NOT_FILE;
-    } else {
-      if (! myFile.read(head, 2) )  {
-        rc = -SD_ERR_READ_FILE;
+  
+  // ファイルの有無のチェック
+  if (SD.exists(fname)) {
+    // ファイルのオープン
+    myFile = SD.open(fname, FILE_READ);
+    if (myFile) {
+      if (myFile.isDirectory()) {
+        rc = - SD_ERR_NOT_FILE;
       } else {
-        if (head[0] == 0 && head[1] == 0) {
-          rc = 0;
+        if (! myFile.read(head, 2) )  {
+          rc = -SD_ERR_READ_FILE;
         } else {
-          rc = 1;
+          if (head[0] == 0 && head[1] == 0) {
+            rc = 0;
+          } else {
+            rc = 1;
+          }
         }
       }
+      myFile.close();
+    } else {
+      rc = -SD_ERR_OPEN_FILE;    
     }
-    myFile.close();
   } else {
-    rc = -SD_ERR_OPEN_FILE;    
+    rc = - SD_ERR_NOT_FILE;
   }
   SD.end();
   return rc;
@@ -408,13 +488,19 @@ uint8_t sdfiles::loadBitmap(char* fname, uint8_t* ptr, int16_t x, int16_t y, int
     return SD_ERR_INIT;
 
   sdbitmap bitmap;
-  bitmap.setFilename(fname);
-  if (!bitmap.open()) {
-    if (bitmap.getBitmapEx(ptr, x, y, w,h, mode))
-      rc = SD_ERR_READ_FILE;
-    else 
-      rc = 0;
-    bitmap.close(); 
+  
+  // ファイルの有無のチェック
+  if (SD.exists(fname)) {
+    bitmap.setFilename(fname);
+    if (!bitmap.open()) {
+      if (bitmap.getBitmapEx(ptr, x, y, w,h, mode))
+        rc = SD_ERR_READ_FILE;
+      else 
+        rc = 0;
+      bitmap.close(); 
+    } else {
+      rc = SD_ERR_OPEN_FILE;
+    }
   } else {
     rc = SD_ERR_OPEN_FILE;
   }
@@ -540,4 +626,3 @@ uint8_t sdfiles::remove(char* fname) {
   SD.end();
   return rc;  
 }
-
