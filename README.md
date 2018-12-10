@@ -21,6 +21,14 @@ https://github.com/Tamakichi/ttbasic_arduino_stm32/releases
 著作権者の同意なしに経済的な利益を得てはいけません.  
 この条件のもとで、利用、複写、改編、再配布を認めます.    
 
+### 関連ドキュメント
+* 「豊四季タイニーBASIC for Arduino STM32」 インストール(旧)  
+https://tamakichi.github.io/ttbasic_arduino_stm32/install.html  
+* 「豊四季タイニーBASIC for Arduino STM32」 キーワード一覧(更新中)  
+https://tamakichi.github.io/ttbasic_arduino_stm32/keyword.html  
+* 「豊四季タイニーBASIC for Arduino STM32」 コマンドリファレンス(更新中)  
+https://tamakichi.github.io/ttbasic_arduino_stm32/manual.html  
+
 ### システム構成
 ![システム構成図](./image/04.png)  
 
