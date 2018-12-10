@@ -524,32 +524,32 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#ABS">3.4.1. ABS</a></li>
 <li><a href="#ASC">3.4.2. ASC</a></li>
 <li><a href="#BIN">3.4.3. BIN$</a></li>
-<li><a href="#HEX">3.4.4. HEX$</a></li>
+<li><a href="#BYTE">3.4.4. BYTE</a></li>
 <li><a href="#CHR">3.4.5. CHR$</a></li>
-<li><a href="#BYTE">3.4.6. BYTE</a></li>
-<li><a href="#LEN">3.4.7. LEN 文字列の長さの取得（数値関数）</a></li>
-<li><a href="#RND">3.4.8. RND 乱数の発生（数値関数）</a></li>
-<li><a href="#STR">3.4.9. STR$ 文字列参照・文字列の切り出し（文字列関数）</a></li>
-<li><a href="#DMP">3.4.10. DMP$  整数小数付き文字列変換（文字列関数）</a></li>
-<li><a href="#MAP">3.4.11. MAP   数値のスケール変換（数値関数）</a></li>
-<li><a href="#LET">3.4.12. LET 変数への値代入</a></li>
+<li><a href="#DMP">3.4.6. DMP$</a></li>
+<li><a href="#HEX">3.4.7. HEX$</a></li>
+<li><a href="#LEN">3.4.8. LEN</a></li>
+<li><a href="#LET">3.4.9. LET</a></li>
+<li><a href="#MAP">3.4.10. MAP</a></li>
+<li><a href="#RND">3.4.11. RND</a></li>
+<li><a href="#STR">3.4.12. STR$</a></li>
 </ul>
 </li>
 <li><a href="#_仮想メモリー参照_2">3.5. 仮想メモリー参照</a>
 <ul class="sectlevel3">
-<li><a href="#PEEK">3.5.1. PEEK   指定アドレスの値参照（数値関数）</a></li>
-<li><a href="#POKE">3.5.2. POKE 指定アドレスへのデータ書き込み</a></li>
+<li><a href="#PEEK">3.5.1. PEEK</a></li>
+<li><a href="#POKE">3.5.2. POKE</a></li>
 </ul>
 </li>
 <li><a href="#_時間_2">3.6. 時間</a>
 <ul class="sectlevel3">
-<li><a href="#TICK">3.6.1. TICK 経過時間取得（数値関数）</a></li>
-<li><a href="#DATE">3.6.2. DATE 現在時刻の表示</a></li>
-<li><a href="#GETDATE">3.6.3. GETDATE 日付の取得</a></li>
-<li><a href="#GETTIME">3.6.4. GETTIME 時刻の取得</a></li>
-<li><a href="#CLT">3.6.5. CLT   経過時間カウントのリセット</a></li>
-<li><a href="#SETDATE">3.6.6. SETDATE 時刻の設定</a></li>
-<li><a href="#WAIT">3.6.7. WAIT 時間待ち</a></li>
+<li><a href="#TICK">3.6.1. TICK()</a></li>
+<li><a href="#DATE">3.6.2. DATE</a></li>
+<li><a href="#GETDATE">3.6.3. GETDATE</a></li>
+<li><a href="#GETTIME">3.6.4. GETTIME</a></li>
+<li><a href="#CLT">3.6.5. CLT</a></li>
+<li><a href="#SETDATE">3.6.6. SETDATE</a></li>
+<li><a href="#WAIT">3.6.7. WAIT</a></li>
 </ul>
 </li>
 <li><a href="#_gpio_io入出力_2">3.7. GPIO I/O入出力</a>
@@ -569,15 +569,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_サウンド_2">3.8. サウンド</a>
 <ul class="sectlevel3">
-<li><a href="#TONE">3.8.1. TONE 単音出力</a></li>
-<li><a href="#NOTONE">3.8.2. NOTONE 単音出力停止</a></li>
-<li><a href="#PLAY">3.8.3. PLAY  音楽演奏(MML文)</a></li>
-<li><a href="#TEMPO">3.8.4. TEMPO 音楽演奏のテンポの設定</a></li>
+<li><a href="#NOTONE">3.8.1. NOTONE</a></li>
+<li><a href="#PLAY">3.8.2. PLAY</a></li>
+<li><a href="#TEMPO">3.8.3. TEMPO</a></li>
+<li><a href="#TONE">3.8.4. TONE</a></li>
 </ul>
 </li>
 <li><a href="#_ファイル操作_2">3.9. ファイル操作</a>
 <ul class="sectlevel3">
-<li><a href="#BLOAD">3.9.1. BLOAD SDカードからバイナリデータ読込</a></li>
+<li><a href="#BLOAD">3.9.1. BLOAD</a></li>
 <li><a href="#BSAVE">3.9.2. BSAVE SDカードへのバイナリデータ保存</a></li>
 <li><a href="#CAT">3.9.3. CAT ファイルの内容表示</a></li>
 <li><a href="#LDBMP">3.9.4. LDBMP ビットマップファイルの読み込み</a></li>
@@ -1088,11 +1088,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <col>
 <col>
 </colgroup>
-<tbody>
+<thead>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>コマンド・書式</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">概要</p></td>
+<th class="tableblock halign-center valign-top">コマンド・書式</th>
+<th class="tableblock halign-center valign-top">概要</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#CLV">CLV</a></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">変数領域の初期化</p></td>
@@ -1208,63 +1210,65 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <col>
 <col>
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">コマンド・書式</th>
+<th class="tableblock halign-center valign-top">概要</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">コマンド・書式</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">概要</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#AATTR">ATTR</a></strong> 属性</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#AATTR">ATTR</a></strong> 属性</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">文字表示属性の設定</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#CLS">CLS</a></strong><br>
-<strong><a href="#CLS">CLS</a></strong> 消去対象画面</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#CLS">CLS</a></strong><br>
+<strong><a href="#CLS">CLS</a></strong> 消去対象画面</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">画面表示内容の全消去</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#COLOR">COLOR</a></strong> 文字色<br>
-<strong><a href="#COLOR">COLOR</a></strong> 文字色, 背景色</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#COLOR">COLOR</a></strong> 文字色<br>
+<strong><a href="#COLOR">COLOR</a></strong> 文字色, 背景色</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">文字色の設定</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#GETS">GETS</a></strong> (文字列格納先仮想アドレス[,有効文字列長] )<br>
-<strong><a href="#GETS">GETS</a></strong> (文字列格納先仮想アドレス,有効文字列長,モード[,参照元仮想アドレス])</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#GETS">GETS</a></strong> (文字列格納先仮想アドレス[,有効文字列長] )<br>
+<strong><a href="#GETS">GETS</a></strong> (文字列格納先仮想アドレス,有効文字列長,モード[,参照元仮想アドレス])</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">文字列の入力</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#INKEY">INKEY</a>( )</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#INKEY">INKEY</a>( )</strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">入力文字コード取得</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#INPUT">INPUT</a></strong> 変数<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#INPUT">INPUT</a></strong> 変数<br>
 <strong><a href="#INPUT">INPUT</a></strong> 変数,オーバーフロー時の既定値<br>
 <strong><a href="#INPUT">INPUT</a></strong> プロンプト, 変数<br>
-<strong><a href="#INPUT">INPUT</a></strong> プロンプト, 変数, オーバーフロー時の既定値</p></td>
+<strong><a href="#INPUT">INPUT</a></strong> プロンプト, 変数, オーバーフロー時の既定値</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">数値の入力</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#LOCATE">LOCATE</a></strong> 横位置, 縦位置</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#LOCATE">LOCATE</a></strong> 横位置, 縦位置</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">カーソルの移動</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#PRINT">PRINT</a></strong><br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#PRINT">PRINT</a></strong><br>
 <strong><a href="#PRINT">PRINT</a></strong> 文字列 | 数値<br>
 <strong><a href="#PRINT">PRINT</a></strong> 文字列 | 数値 <code>;</code><br>
 <strong><a href="#PRINT">PRINT</a></strong> 文字列 | 数値 <code>;</code> 文字列 | 数値 <code>;</code>…<br>
 <strong><a href="#PRINT">PRINT</a></strong> 文字列 | 数値 <code>;</code> 文字列 | 数値 <code>;</code>… <code>;</code><br>
-<strong><a href="#PRINT">PRINT</a></strong> <code>#</code> 桁数,文字列 | 数値 <code>;</code> 文字列 | 数値 <code>;</code>… ;</p>
-<p class="tableblock">… は可変指定を示す<br>
+<strong><a href="#PRINT">PRINT</a></strong> <code>#</code> 桁数,文字列 | 数値 <code>;</code> 文字列 | 数値 <code>;</code>… ;</code></p>
+<p class="tableblock"><code>… は可変指定を示す<br>
 &#8216;;&#8217; は連結・改行抑制指定(オプション)、カンマ &#8216;,&#8217; も可能<br>
-<strong><a href="#PRINT">PRINT</a></strong> の代わりに、省略形 <code>?</code> も利用可能<br></p></td>
+<strong><a href="#PRINT">PRINT</a></strong> の代わりに、省略形 <code>?</code> も利用可能<br></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">文字列表示</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#REDRAW">REDRAW</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#REDRAW">REDRAW</a></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">画面表示の再表示</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#VPEEK">VPEEK</a></strong> (横位置 , 縦位置)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#VPEEK">VPEEK</a></strong> (横位置 , 縦位置)</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">指定位置の文字コード参照</p></td>
 </tr>
 </tbody>
@@ -1284,74 +1288,76 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <col>
 <col>
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">関数・書式</th>
+<th class="tableblock halign-center valign-top">概要</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">関数・書式</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">概要</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#LET">LET</a></strong> 変数 = 値<br>
-<strong><a href="#LET">LET</a></strong> 配列変数 = 値, 値, 値, 値．．．<br>
-<strong>変数</strong> = 値<br>
-<strong>配列変数</strong> = 値, 値, 値, 値．．．<br></p>
-<p class="tableblock"><strong><a href="#LET">LET</a></strong> は省略可能</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#LET">LET</a></strong> 変数 = 数値<br>
+<strong><a href="#LET">LET</a></strong> 配列変数 = 数値, 数値, 数値, 数値．．．<br>
+<strong>変数</strong> = 数値<br>
+<strong>配列変数</strong> = 数値, 数値, 数値, 数値．．．<br></code></p>
+<p class="tableblock"><code><strong><a href="#LET">LET</a></strong> は省略可能</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">変数への値代入</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#ABS">ABS</a></strong> (数値)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#ABS">ABS</a></strong> (数値)</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">絶対値の取得</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#RND">RND</a></strong> (値)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#RND">RND</a></strong> (数値)</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">乱数の発生</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#MAP">MAP</a></strong> (値 , 範囲下限 , 範囲上限 , 新範囲下限 , 新範囲上限)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#MAP">MAP</a></strong> (値 , 範囲下限 , 範囲上限 , 新範囲下限 , 新範囲上限)</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">数値のスケール変換</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#ASC">ASC</a></strong> (文字列)<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#ASC">ASC</a></strong> (文字列)<br>
 <strong><a href="#ASC">ASC</a></strong>  (文字列 , 文字位置)<br>
 <strong><a href="#ASC">ASC</a></strong> (変数)<br>
-<strong><a href="#ASC">ASC</a></strong> (変数 , 文字位置)<br></p></td>
+<strong><a href="#ASC">ASC</a></strong> (変数 , 文字位置)<br></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">文字コード変換</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#BIN">BIN$</a></strong> (数値)<br>
-<strong><a href="#BIN">BIN$</a></strong> (数値 , 桁数)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#BIN">BIN$</a></strong> (数値)<br>
+<strong><a href="#BIN">BIN$</a></strong> (数値 , 桁数)</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">整数の2進数文字列変換</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#HEX">HEX$</a></strong> (数値)<br>
-<strong><a href="#HEX">HEX$</a></strong> (数値 , 桁数)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#HEX">HEX$</a></strong> (数値)<br>
+<strong><a href="#HEX">HEX$</a></strong> (数値 , 桁数)</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">数値の16進数文字列変換</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#CHR">CHR$</a></strong> (文字コード)<br>
-<strong><a href="#CHR">CHR$</a></strong> (文字コード, 文字コード, … , 文字コード)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#CHR">CHR$</a></strong> (文字コード)<br>
+<strong><a href="#CHR">CHR$</a></strong> (文字コード, 文字コード, … , 文字コード)</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">文字コードから文字への変換</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#STR">STR$</a></strong> (変数)<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#STR">STR$</a></strong> (変数)<br>
 <strong><a href="#STR">STR$</a></strong> (変数,先頭位置,長さ)<br>
 <strong><a href="#STR">STR$</a></strong> (文字列)<br>
-<strong><a href="#STR">STR$</a></strong> (文字列,先頭位置,長さ)</p></td>
+<strong><a href="#STR">STR$</a></strong> (文字列,先頭位置,長さ)</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">文字列参照・文字列の切り出し</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#DMP">DMP$</a></strong> (数値)<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#DMP">DMP$</a></strong> (数値)<br>
 <strong><a href="#DMP">DMP$</a></strong> (数値 , 小数点桁数)<br>
-<strong><a href="#DMP">DMP$</a></strong> (数値 , 小数点桁数 , 整数部桁数)<br></p></td>
+<strong><a href="#DMP">DMP$</a></strong> (数値 , 小数点桁数 , 整数部桁数)<br></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">整数小数付き文字列変換</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#BYTE">BYTE</a></strong> (変数)<br>
-<strong><a href="#BYTE">BYTE</a></strong> (文字列)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#BYTE">BYTE</a></strong> (変数)<br>
+<strong><a href="#BYTE">BYTE</a></strong> (文字列)</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">文字列のバイト数の取得</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#LEN">LEN</a></strong> (変数)<br>
-<strong><a href="#LEN">LEN</a></strong> (文字列)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#LEN">LEN</a></strong> (変数)<br>
+<strong><a href="#LEN">LEN</a></strong> (文字列)</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">文字列の長さの取得</p></td>
 </tr>
 </tbody>
@@ -1371,18 +1377,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <col>
 <col>
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">コマンド・書式</th>
+<th class="tableblock halign-center valign-top">概要</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">コマンド・書式</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">概要</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#PEEK">PEEK</a></strong> (仮想アドレス)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#PEEK">PEEK</a></strong> (仮想アドレス)</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">指定アドレスの値参照</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#POKE">POKE</a></strong> 仮想アドレス , データ<br>
-<strong><a href="#POKE">POKE</a></strong> 仮想アドレス , データ , データ , … ,データ(可変個数指定)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#POKE">POKE</a></strong> 仮想アドレス , データ<br>
+<strong><a href="#POKE">POKE</a></strong> 仮想アドレス , データ , データ , … ,データ(可変個数指定)</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">指定アドレスへのデータ書き込み</p></td>
 </tr>
 </tbody>
@@ -1402,39 +1410,41 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <col>
 <col>
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">コマンド・書式</th>
+<th class="tableblock halign-center valign-top">概要</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">コマンド・書式</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">概要</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#WAIT">WAIT</a></strong> 待ち時間(ミリ秒)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">時間待ち</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#TICK">TICK</a></strong> ()<br>
-<strong><a href="#TICK">TICK</a></strong> (モード)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">経過時間取得</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#CLT">CLT</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#CLT">CLT</a></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">経過時間カウントのリセット</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#DATE">DATE</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#DATE">DATE</a></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">現在時刻の表示</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#GETDATE">GETDATE</a></strong> 年格納変数, 月格納変数, 日格納変数, 曜日格納変数</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#GETDATE">GETDATE</a></strong> 年格納変数, 月格納変数, 日格納変数, 曜日格納変数</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">日付の取得</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#GETTIME">GETTIME</a></strong> 時格納変数 , 分格納変数 , 秒格納変数</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#GETTIME">GETTIME</a></strong> 時格納変数 , 分格納変数 , 秒格納変数</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">時刻の取得</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#SETDATE">SETDATE</a></strong> 年,月,日,時,分,秒</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#SETDATE">SETDATE</a></strong> 年,月,日,時,分,秒</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">時刻の設定</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#TICK">TICK</a></strong> ()<br>
+<strong><a href="#TICK">TICK</a></strong> (モード)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">経過時間取得</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#WAIT">WAIT</a></strong> 時間(ミリ秒)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">時間待ち</p></td>
 </tr>
 </tbody>
 </table>
@@ -1461,50 +1471,50 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#ANA">ANA</a></strong> (ピン番号)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#ANA">ANA</a></strong> (ピン番号)</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">アナログ入力</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#GPIO">GPIO</a></strong> ピン番号, モード</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#GPIO">GPIO</a></strong> ピン番号, モード</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GPIO機能設定</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#I2CCLK">I2CCLK</a></strong> バス速度</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#I2CCLK">I2CCLK</a></strong> バス速度</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">I2Cバス速度設定</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#I2CR">I2CR</a></strong> (I2Cアドレス, コマンド, コマンド長, 受信データ, データ長)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#I2CR">I2CR</a></strong> (I2Cアドレス, コマンド, コマンド長, 受信データ, データ長)</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">I2Cデータ受信</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#I2CW">I2CW</a></strong> (I2Cアドレス, コマンド, コマンド長, 送信データ, データ長)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#I2CW">I2CW</a></strong> (I2Cアドレス, コマンド, コマンド長, 送信データ, データ長)</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">I2Cデータ送信</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#IN">IN</a></strong> (ピン番号)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#IN">IN</a></strong> (ピン番号)</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">デジタル入力</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#OUT">OUT</a></strong> ピン番号, 出力値</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#OUT">OUT</a></strong> ピン番号, 出力値</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">デジタル出力</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#POUT">POUT</a></strong> ピン番号, デューティー値<br>
-<strong><a href="#POUT">POUT</a></strong> ピン番号, デューティー値, 周波数</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#POUT">POUT</a></strong> ピン番号, デューティー値<br>
+<strong><a href="#POUT">POUT</a></strong> ピン番号, デューティー値, 周波数</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PWM出力</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#PULSEIN">PULSEIN</a></strong> (パルス入力ピン番号 , 検出信号 , タイムアウト )<br>
-<strong><a href="#PULSEIN">PULSEIN</a></strong> (パルス入力ピン番号 , 検出信号 , タイムアウト , スケール値 )</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#PULSEIN">PULSEIN</a></strong> (パルス入力ピン番号 , 検出信号 , タイムアウト )<br>
+<strong><a href="#PULSEIN">PULSEIN</a></strong> (パルス入力ピン番号 , 検出信号 , タイムアウト , スケール値 )</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">入力パルス幅の計測力</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#SHIFTIN">SHIFTIN</a></strong> (データピン番号, クロックピン番号, 入力形式)<br>
-<strong><a href="#SHIFTIN">SHIFTIN</a></strong> (データピン番号, クロックピン番号, 入力形式, 条件)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#SHIFTIN">SHIFTIN</a></strong> (データピン番号, クロックピン番号, 入力形式)<br>
+<strong><a href="#SHIFTIN">SHIFTIN</a></strong> (データピン番号, クロックピン番号, 入力形式, 条件)</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">シリアルシフト入力</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#SHIFTOUT">SHIFTOUT</a></strong> データピン番号, クロックピン番号, 出力形式, 出力データ</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#SHIFTOUT">SHIFTOUT</a></strong> データピン番号, クロックピン番号, 出力形式, 出力データ</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">シリアルシフト出力</p></td>
 </tr>
 </tbody>
@@ -1524,27 +1534,29 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <col>
 <col>
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">コマンド・書式</th>
+<th class="tableblock halign-center valign-top">概要</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">コマンド・書式</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">概要</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#TONE">TONE</a></strong> 周波数<br>
-<strong><a href="#TONE">TONE</a></strong> 周波数, 出力期間</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">単音出力</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#NOTONE">NOTONE</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#NOTONE">NOTONE</a></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">単音出力停止</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#PLAY">PLAY</a></strong> "MML文"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#PLAY">PLAY</a></strong> "MML文"</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">音楽演奏(MML文)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#TEMPO">TEMPO</a></strong> テンポ</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#TEMPO">TEMPO</a></strong> テンポ</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">音楽演奏のテンポの設定</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#TONE">TONE</a></strong> 周波数<br>
+<strong><a href="#TONE">TONE</a></strong> 周波数, 出力期間</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">単音出力</p></td>
 </tr>
 </tbody>
 </table>
@@ -1563,37 +1575,39 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <col>
 <col>
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">コマンド・書式</th>
+<th class="tableblock halign-center valign-top">概要</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">コマンド・書式</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">概要</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#BLOAD">BLOAD</a></strong> "ファイル名" , アドレス, バイト数</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#BLOAD">BLOAD</a></strong> "ファイル名" , アドレス, バイト数 [,ファイル内位置]</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SDカードからバイナリデータ読込</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#BSAVE">BSAVE</a></strong> "ファイル名" ,アドレス ,バイト数</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#BSAVE">BSAVE</a></strong> "ファイル名" ,アドレス ,バイト数</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SDカードへのバイナリデータ保存</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#LDBMP">LDBMP</a></strong> "ファイル名",仮想アドレス,bx,by, 幅, 高さ[,色指定]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#LDBMP">LDBMP</a></strong> "ファイル名",仮想アドレス,bx,by, 幅, 高さ[,色指定]</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ビットマップファイルの読み込み</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#CAT">CAT</a></strong> "ファイル名"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#CAT">CAT</a></strong> "ファイル名"</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ファイルの内容表示</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#REMOVE">REMOVE</a></strong> "ファイル名"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#REMOVE">REMOVE</a></strong> "ファイル名"</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ファイルの削除</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#MKDIR">MKDIR</a></strong> "ディレクトリ名"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#MKDIR">MKDIR</a></strong> "ディレクトリ名"</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ディレクトリの作成</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#RMDIR">RMDIR</a></strong> "ディレクトリ名"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#RMDIR">RMDIR</a></strong> "ディレクトリ名"</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ディレクトリの削除</p></td>
 </tr>
 </tbody>
@@ -4779,42 +4793,42 @@ TFTデスプレイ、ターミナル版のみ利用可能です。
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">VRAM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">VRAM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">画面表示用メモリ(CW×CH)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズは<a href="#SCREEN">SCREEN</a>モードにより可変</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">VAR</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">VAR</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">変数領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 420バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">ARRAY</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">ARRAY</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">配列変数領域(@(0)～@(99) )</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 200バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">PRG</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">PRG</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">プログラム領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 4,096バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">MEM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">MEM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ユーザーワーク領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 1,024バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">FNT</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">FNT</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">フォント256文字(フラッシュメモリ)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 2,048バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">GRAM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">GRAM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">グラフィック表示用メモリ</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズは<a href="#SCREEN">SCREEN</a>モードにより可変</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">PRG2</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">PRG2</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">フラッシュメモリプログラム保存領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 4,096バイト<br>
 <a href="#BANK">BANK</a>コマンドにより0～5のバンク切り替え</p></td>
@@ -5664,6 +5678,7 @@ OK</pre>
 OK</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -5834,6 +5849,7 @@ OK</pre>
 OK</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -5930,32 +5946,33 @@ run
 OK</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="HEX">3.4.4. HEX$</h4>
+<h4 id="BYTE">3.4.4. BYTE</h4>
 <div class="paragraph">
-<p>数値の16進数文字列変換</p>
+<p>文字列のバイト数の取得</p>
 </div>
 <div class="sect4">
 <h5 id="_書式_38">【書式】</h5>
 <div class="paragraph">
-<p><strong><a href="#HEX">HEX$</a></strong> (数値)<br>
-<strong><a href="#HEX">HEX$</a></strong> (数値 , 桁数)</p>
+<p><strong><a href="#BYTE">BYTE</a></strong> (変数)<br>
+<strong><a href="#BYTE">BYTE</a></strong> (文字列)</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_引数_38">【引数】</h5>
 <div class="dlist">
 <dl>
-<dt class="hdlist1">数値</dt>
+<dt class="hdlist1">変数</dt>
 <dd>
-<p>変換対象の整数値: -32767 ～ 32767</p>
+<p>変数、または配列変数</p>
 </dd>
-<dt class="hdlist1">桁数</dt>
+<dt class="hdlist1">文字列</dt>
 <dd>
-<p>出力桁数: 0 ～ 4</p>
+<p>"文字列"の形式（ダブルクォーテーションで囲み）</p>
 </dd>
 </dl>
 </div>
@@ -5963,25 +5980,49 @@ OK</pre>
 <div class="sect4">
 <h5 id="_戻り値_8">【戻り値】</h5>
 <div class="paragraph">
-<p>16進数文字列(1桁～4桁)</p>
+<p>文字列の長さ: 0 ～ 32767</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_説明_38">【説明】</h5>
 <div class="paragraph">
-<p>指定した <strong>数値</strong> を16進数文字列に変換する <strong>文字列関数</strong> です。<br>
-<strong>数値</strong> には式、変数、定数等の指定が可能です。<br></p>
+<p>文字列定数、変数で参照してる文字列のバイト数をカウントし、その値を返します。<br></p>
 </div>
 <div class="paragraph">
-<p><strong>桁数</strong> を指定した場合は <strong>数値</strong> が <strong>桁数</strong> に満たない場合は、0で桁を補います。<br>
-<strong>桁数</strong> を超える場合は <strong>数値</strong> の <strong>桁数</strong> を優先します。<br>
-<strong>桁数</strong> をしない場合は、先頭の0は付加されません。<br></p>
+<p>例：文字列のバイト数を求める</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>10 ?BYTE("12345678")
+20 A="ABCDEF"
+30 @(0)="abcdef"
+40 ? BYTE (A)
+50? BYTE (@(0))
+&gt;RUN
+8
+6
+6
+OK</pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">注意</div>
+</td>
+<td class="content">
+文字列のサポートは限定的です。<br>
+他の文字列関数と組み合わせた利用はサポートしていません。<br>
+例) 下記のような記述は出来ません。<br>
+  ?BYTE(BIN$(100))
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>本関数を含め <strong>文字列関数</strong> は、<br>
-<a href="#BLOAD"><strong>BLOAD</strong></a>、<a href="#BSAVE"><strong>BSAVE</strong></a>、<a href="#CAT"><strong>CAT</strong></a>、<a href="#DWBMP"><strong>DWBMP</strong></a>、<a href="#FILES"><strong>FILES</strong></a>、<a href="#GPRINT"><strong>GPRINT</strong></a>、 <a href="#KANJI"><strong>KANJI</strong></a>、<a href="#LDBMP"><strong>LDBMP</strong></a>、<br>
-<a href="#LOAD"><strong>LOAD</strong></a>、<a href="#LRUN"><strong>LRUN</strong></a>、<a href="#PLAY"><strong>PLAY</strong></a>、<a href="#PRINT"><strong>PRINT</strong></a>、<a href="#REMOVE"><strong>REMOVE</strong></a>、<a href="#SAVE"><strong>SAVE</strong></a>、<a href="#SPRINT"><strong>SPRINT</strong></a><br>
-コマンドの引数にて利用可能です。<br></p>
+<p>本関数は全角1文字は2バイトとしてカウントします。<br>
+全角を1文字として扱いたい場合は、<strong><a href="#LEN">LEN</a></strong> 関数を利用して下さい。</p>
 </div>
 </div>
 <div class="sect4">
@@ -5992,17 +6033,13 @@ OK</pre>
 <dd>
 <p>文法エラー、書式と異なる利用を行った</p>
 </dd>
-<dt class="hdlist1">'(' or ')' expected</dt>
-<dd>
-<p>’(‘ または ‘)’がない</p>
-</dd>
-<dt class="hdlist1">Illegal value</dt>
-<dd>
-<p>桁数の値が正しくない</p>
-</dd>
 <dt class="hdlist1">Overflow</dt>
 <dd>
 <p>指定した数値が-32768 ～ 32767を超えている</p>
+</dd>
+<dt class="hdlist1">'(' or ')' expected</dt>
+<dd>
+<p>’(‘ または ‘)’が無い</p>
 </dd>
 </dl>
 </div>
@@ -6010,13 +6047,29 @@ OK</pre>
 <div class="sect4">
 <h5 id="_利用例_38">【利用例】</h5>
 <div class="listingblock">
-<div class="title">入力した整数値を16進数表示する</div>
+<div class="title">変数Aが参照している文字列のバイト数をを調べ文字コードを表示</div>
 <div class="content">
-<pre>10 INPUT "value=",V
-20 PRINT HEX$(V,4)
-30 GOTO 10</pre>
+<pre>10 'BYTE関数サンプル
+20 A="Hello!"
+30 FOR I=1 TO BYTE(A)
+40 ?STR$(A,I,1);":";ASC(A,I)
+50 NEXT I</pre>
 </div>
 </div>
+<div class="listingblock">
+<div class="title">実行結果</div>
+<div class="content">
+<pre>run
+H:72
+e:101
+l:108
+l:108
+o:111
+!:33
+OK</pre>
+</div>
+</div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -6108,32 +6161,38 @@ run
 OK</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="BYTE">3.4.6. BYTE</h4>
+<h4 id="DMP">3.4.6. DMP$</h4>
 <div class="paragraph">
-<p>文字列のバイト数の取得</p>
+<p>整数小数付き文字列変換</p>
 </div>
 <div class="sect4">
 <h5 id="_書式_40">【書式】</h5>
 <div class="paragraph">
-<p><strong><a href="#BYTE">BYTE</a></strong> (変数)<br>
-<strong><a href="#BYTE">BYTE</a></strong> (文字列)</p>
+<p><strong><a href="#DMP">DMP$</a></strong> (数値)<br>
+<strong><a href="#DMP">DMP$</a></strong> (数値 , 小数点桁数)<br>
+<strong><a href="#DMP">DMP$</a></strong> (数値 , 小数点桁数 , 整数部桁数)<br></p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_引数_40">【引数】</h5>
 <div class="dlist">
 <dl>
-<dt class="hdlist1">変数</dt>
+<dt class="hdlist1">数値</dt>
 <dd>
-<p>変数、または配列変数</p>
+<p>変換対象整数: -32767 ～ 32767</p>
 </dd>
-<dt class="hdlist1">文字列</dt>
+<dt class="hdlist1">小数点桁数</dt>
 <dd>
-<p>"文字列"の形式（ダブルクォーテーションで囲み）</p>
+<p>小数点以下の桁数を指定:   0 ～ 4（省略時は2）</p>
+</dd>
+<dt class="hdlist1">整数部桁数</dt>
+<dd>
+<p>小数点以上の桁数を指定:   0 ～ 8 (省略時は0)</p>
 </dd>
 </dl>
 </div>
@@ -6141,49 +6200,41 @@ OK</pre>
 <div class="sect4">
 <h5 id="_戻り値_10">【戻り値】</h5>
 <div class="paragraph">
-<p>文字列の長さ: 0 ～ 32767</p>
+<p>小数点を付加した数値文字列</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_説明_40">【説明】</h5>
 <div class="paragraph">
-<p>文字列定数、変数で参照してる文字列のバイト数をカウントし、その値を返します。<br></p>
-</div>
-<div class="paragraph">
-<p>例：文字列のバイト数を求める</p>
+<p>指定した <strong>数値</strong> を小数点付きの文字列に変換する文字列関数です。<br>
+引数の <strong>小数点桁数</strong> をnとした場合、数値÷10<sup>n</sup>の計算を行い、<br>
+小数点以下の数値を含めて表示します。<br></p>
 </div>
 <div class="listingblock">
+<div class="title">数値文字列変換例</div>
 <div class="content">
-<pre>10 ?BYTE("12345678")
-20 A="ABCDEF"
-30 @(0)="abcdef"
-40 ? BYTE (A)
-50? BYTE (@(0))
-&gt;RUN
-8
-6
-6
-OK</pre>
+<pre>PRINT DMP$(3141,3)
+3.141</pre>
 </div>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<div class="title">注意</div>
-</td>
-<td class="content">
-文字列のサポートは限定的です。<br>
-他の文字列関数と組み合わせた利用はサポートしていません。<br>
-例) 下記のような記述は出来ません。<br>
-  ?BYTE(BIN$(100))
-</td>
-</tr>
-</table>
 </div>
 <div class="paragraph">
-<p>本関数は全角1文字は2バイトとしてカウントします。<br>
-全角を1文字として扱いたい場合は、<strong><a href="#LEN">LEN</a></strong> 関数を利用して下さい。</p>
+<p><strong>小数点桁数</strong> を指定しない場合、<strong>小数点桁数</strong> はデフォルトの2となります。<br></p>
+</div>
+<div class="listingblock">
+<div class="title">デフォルトの数値文字列変換</div>
+<div class="content">
+<pre>PRINT DMP$(3141)
+3.14</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>整数部桁数</strong> を指定した場合、その桁数に満たない場合は空白で補完します。<br></p>
+</div>
+<div class="paragraph">
+<p>本関数を含め <strong>文字列関数</strong> は、<br>
+<a href="#BLOAD"><strong>BLOAD</strong></a>、<a href="#BSAVE"><strong>BSAVE</strong></a>、<a href="#CAT"><strong>CAT</strong></a>、<a href="#DWBMP"><strong>DWBMP</strong></a>、<a href="#FILES"><strong>FILES</strong></a>、<a href="#GPRINT"><strong>GPRINT</strong></a>、 <a href="#KANJI"><strong>KANJI</strong></a>、<a href="#LDBMP"><strong>LDBMP</strong></a>、<br>
+<a href="#LOAD"><strong>LOAD</strong></a>、<a href="#LRUN"><strong>LRUN</strong></a>、<a href="#PLAY"><strong>PLAY</strong></a>、<a href="#PRINT"><strong>PRINT</strong></a>、<a href="#REMOVE"><strong>REMOVE</strong></a>、<a href="#SAVE"><strong>SAVE</strong></a>、<a href="#SPRINT"><strong>SPRINT</strong></a><br>
+コマンドの引数にて利用可能です。<br></p>
 </div>
 </div>
 <div class="sect4">
@@ -6194,9 +6245,17 @@ OK</pre>
 <dd>
 <p>文法エラー、書式と異なる利用を行った</p>
 </dd>
+<dt class="hdlist1">Illegal value</dt>
+<dd>
+<p>指定した引数の値が有効範囲を超えている</p>
+</dd>
 <dt class="hdlist1">Overflow</dt>
 <dd>
 <p>指定した数値が-32768 ～ 32767を超えている</p>
+</dd>
+<dt class="hdlist1">Illegal value</dt>
+<dd>
+<p>桁数の値が正しくない</p>
 </dd>
 <dt class="hdlist1">'(' or ')' expected</dt>
 <dd>
@@ -6208,45 +6267,136 @@ OK</pre>
 <div class="sect4">
 <h5 id="_利用例_40">【利用例】</h5>
 <div class="listingblock">
-<div class="title">変数Aが参照している文字列のバイト数をを調べ文字コードを表示</div>
+<div class="title">アナログ入力値0～4095を0～3.3Vで表示する</div>
 <div class="content">
-<pre>10 'BYTE関数サンプル
-20 A="Hello!"
-30 FOR I=1 TO BYTE(A)
-40 ?STR$(A,I,1);":";ASC(A,I)
-50 NEXT I</pre>
+<pre>10 CLS
+20 GPIO PB1,ANALOG
+30 V=MAP(ANA(PB1),0,4095,0,3300)
+40 LOCATE 0,0:? DMP$(V,3)
+50 WAIT 200
+60 GOTO 30</pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">実行結果</div>
 <div class="content">
 <pre>run
-H:72
-e:101
-l:108
-l:108
-o:111
-!:33
-OK</pre>
+2.011
+2.215
+2.294
+2.330</pre>
 </div>
 </div>
+<div class="paragraph">
+<p>アナログ入力値0～4095を <strong><a href="#MAP">MAP</a></strong> 関数にて0～3300に変換し、<br>
+0～3300の数値を <strong><a href="#DMP">DMP$</a></strong> 関数にて"0.000"～"3.300"の文字列数値に変換して表示しています。</p>
+</div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="LEN">3.4.7. LEN 文字列の長さの取得（数値関数）</h4>
+<h4 id="HEX">3.4.7. HEX$</h4>
+<div class="paragraph">
+<p>数値の16進数文字列変換</p>
+</div>
+<div class="sect4">
+<h5 id="_書式_41">【書式】</h5>
+<div class="paragraph">
+<p><strong><a href="#HEX">HEX$</a></strong> (数値)<br>
+<strong><a href="#HEX">HEX$</a></strong> (数値 , 桁数)</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_引数_41">【引数】</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">数値</dt>
+<dd>
+<p>変換対象の整数値: -32767 ～ 32767</p>
+</dd>
+<dt class="hdlist1">桁数</dt>
+<dd>
+<p>出力桁数: 0 ～ 4</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_戻り値_11">【戻り値】</h5>
+<div class="paragraph">
+<p>16進数文字列(1桁～4桁)</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_説明_41">【説明】</h5>
+<div class="paragraph">
+<p>指定した <strong>数値</strong> を16進数文字列に変換する <strong>文字列関数</strong> です。<br>
+<strong>数値</strong> には式、変数、定数等の指定が可能です。<br></p>
+</div>
+<div class="paragraph">
+<p><strong>桁数</strong> を指定した場合は <strong>数値</strong> が <strong>桁数</strong> に満たない場合は、0で桁を補います。<br>
+<strong>桁数</strong> を超える場合は <strong>数値</strong> の <strong>桁数</strong> を優先します。<br>
+<strong>桁数</strong> をしない場合は、先頭の0は付加されません。<br></p>
+</div>
+<div class="paragraph">
+<p>本関数を含め <strong>文字列関数</strong> は、<br>
+<a href="#BLOAD"><strong>BLOAD</strong></a>、<a href="#BSAVE"><strong>BSAVE</strong></a>、<a href="#CAT"><strong>CAT</strong></a>、<a href="#DWBMP"><strong>DWBMP</strong></a>、<a href="#FILES"><strong>FILES</strong></a>、<a href="#GPRINT"><strong>GPRINT</strong></a>、 <a href="#KANJI"><strong>KANJI</strong></a>、<a href="#LDBMP"><strong>LDBMP</strong></a>、<br>
+<a href="#LOAD"><strong>LOAD</strong></a>、<a href="#LRUN"><strong>LRUN</strong></a>、<a href="#PLAY"><strong>PLAY</strong></a>、<a href="#PRINT"><strong>PRINT</strong></a>、<a href="#REMOVE"><strong>REMOVE</strong></a>、<a href="#SAVE"><strong>SAVE</strong></a>、<a href="#SPRINT"><strong>SPRINT</strong></a><br>
+コマンドの引数にて利用可能です。<br></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_エラーメッセージ_41">【エラーメッセージ】</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Syntax error</dt>
+<dd>
+<p>文法エラー、書式と異なる利用を行った</p>
+</dd>
+<dt class="hdlist1">'(' or ')' expected</dt>
+<dd>
+<p>’(‘ または ‘)’がない</p>
+</dd>
+<dt class="hdlist1">Illegal value</dt>
+<dd>
+<p>桁数の値が正しくない</p>
+</dd>
+<dt class="hdlist1">Overflow</dt>
+<dd>
+<p>指定した数値が-32768 ～ 32767を超えている</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_利用例_41">【利用例】</h5>
+<div class="listingblock">
+<div class="title">入力した整数値を16進数表示する</div>
+<div class="content">
+<pre>10 INPUT "value=",V
+20 PRINT HEX$(V,4)
+30 GOTO 10</pre>
+</div>
+</div>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="LEN">3.4.8. LEN</h4>
 <div class="paragraph">
 <p>文字列の長さの取得</p>
 </div>
 <div class="sect4">
-<h5 id="_書式_41">【書式】</h5>
+<h5 id="_書式_42">【書式】</h5>
 <div class="paragraph">
 <p><strong><a href="#LEN">LEN</a></strong> (変数)<br>
 <strong><a href="#LEN">LEN</a></strong> (文字列)</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_引数_41">【引数】</h5>
+<h5 id="_引数_42">【引数】</h5>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">変数</dt>
@@ -6261,13 +6411,13 @@ OK</pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_戻り値_11">【戻り値】</h5>
+<h5 id="_戻り値_12">【戻り値】</h5>
 <div class="paragraph">
 <p>文字列の長さ: 0 ～ 32767</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_説明_41">【説明】</h5>
+<h5 id="_説明_42">【説明】</h5>
 <div class="paragraph">
 <p>文字列定数、変数で参照してる文字列の文字数をカウントし、その値を返します。<br>
 全角文字、半角文字とも1文字としてカウントします。<br></p>
@@ -6305,7 +6455,7 @@ OK</pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_エラーメッセージ_41">【エラーメッセージ】</h5>
+<h5 id="_エラーメッセージ_42">【エラーメッセージ】</h5>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Syntax error</dt>
@@ -6324,7 +6474,7 @@ OK</pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_利用例_41">【利用例】</h5>
+<h5 id="_利用例_42">【利用例】</h5>
 <div class="listingblock">
 <div class="title">文字を拡大表示する</div>
 <div class="content">
@@ -6347,107 +6497,25 @@ OK</pre>
 <img src="images/LEN_sample_putput.png" alt="文字拡大表示">
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="RND">3.4.8. RND 乱数の発生（数値関数）</h4>
+<h4 id="LET">3.4.9. LET</h4>
 <div class="paragraph">
-<p>乱数の発生</p>
-</div>
-<div class="sect4">
-<h5 id="_書式_42">【書式】</h5>
-<div class="paragraph">
-<p><strong><a href="#RND">RND</a></strong> (値)</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_引数_42">【引数】</h5>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">値</dt>
-<dd>
-<p>式、変数、配列変数、<br>
-数値(0 ～ 32767)、数値定数<br>
-の指定が可能</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_戻り値_12">【戻り値】</h5>
-<div class="paragraph">
-<p>0から指定した値未満の乱数</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_説明_42">【説明】</h5>
-<div class="paragraph">
-<p>0から指定した値－1の範囲の乱数を発生させ、その値を返します。<br></p>
-</div>
-<div class="listingblock">
-<div class="title">例: 0～9の乱数の発生</div>
-<div class="content">
-<pre>R=RND(10)</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>上記の例では変数 <strong>R</strong> には0～9範囲の値が代入されます。</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_エラーメッセージ_42">【エラーメッセージ】</h5>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Syntax error</dt>
-<dd>
-<p>文法エラー、書式と異なる利用を行った</p>
-</dd>
-<dt class="hdlist1">Overflow</dt>
-<dd>
-<p>指定した数値が-32768 ～ 32767を超えている</p>
-</dd>
-<dt class="hdlist1">'(' or ')' expected</dt>
-<dd>
-<p>’(‘ または ‘)’が無い</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_利用例_42">【利用例】</h5>
-<div class="listingblock">
-<div class="title">ジャンケンの表示</div>
-<div class="content">
-<pre>10 @(0)="ｸﾞｰ","ﾁｮｷ","ﾊﾟｰ"
-20 FOR I=1 TO 5
-30 R=RND(3)
-40 PRINT I,":";STR$(@(R))
-50 NEXT I
-run
-1:ﾁｮｷ
-2:ﾊﾟｰ
-3:ﾁｮｷ
-4:ｸﾞｰ
-5:ﾊﾟｰ
-OK</pre>
-</div>
-</div>
-<div style="page-break-after: always;"></div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="STR">3.4.9. STR$ 文字列参照・文字列の切り出し（文字列関数）</h4>
-<div class="paragraph">
-<p>文字列参照・文字列の切り出し</p>
+<p>変数への値代入</p>
 </div>
 <div class="sect4">
 <h5 id="_書式_43">【書式】</h5>
 <div class="paragraph">
-<p><strong><a href="#STR">STR$</a></strong> (変数)<br>
-<strong><a href="#STR">STR$</a></strong> (変数,先頭位置,長さ)<br>
-<strong><a href="#STR">STR$</a></strong> (文字列)<br>
-<strong><a href="#STR">STR$</a></strong> (文字列,先頭位置,長さ)</p>
+<p><strong><a href="#LET">LET</a></strong> 変数 = 数値<br>
+<strong><a href="#LET">LET</a></strong> 配列変数 = 数値, 数値, 数値, 数値．．．<br>
+<strong>変数</strong> = 数値<br>
+<strong>配列変数</strong> = 数値, 数値, 数値, 数値．．．<br></p>
+</div>
+<div class="paragraph">
+<p><strong><a href="#LET">LET</a></strong> は省略可能</p>
 </div>
 </div>
 <div class="sect4">
@@ -6456,366 +6524,27 @@ OK</pre>
 <dl>
 <dt class="hdlist1">変数</dt>
 <dd>
-<p>文字列を参照している変数または配列変数</p>
+<p>変数、または配列変数</p>
 </dd>
-<dt class="hdlist1">先頭位置</dt>
+<dt class="hdlist1">配列変数</dt>
 <dd>
-<p>切り出す文字位置先頭 1～32767</p>
+<p>配列変数 @(添え字)<br>
+配列の添え字(数値)には式、定数、変数、配列変数の利用が可能</p>
 </dd>
-<dt class="hdlist1">長さ</dt>
+<dt class="hdlist1">数値</dt>
 <dd>
-<p>切り出す文字の長さ   1～32767</p>
-</dd>
-<dt class="hdlist1">文字列</dt>
-<dd>
-<p>ダブルクォーテーションで囲った文字列定数( "文字列" )</p>
+<p>式、定数、変数、配列変数の利用が可能</p>
 </dd>
 </dl>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_戻り値_13">【戻り値】</h5>
-<div class="paragraph">
-<p>指定した文字列および変数が参照している文字列を全部または一部を切り出して返します。<br>
-全角(シフトJIS)1文字は1文字としてカウントします。<br></p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_説明_43">【説明】</h5>
 <div class="paragraph">
-<p>指定した文字列および変数が参照している文字列を全部または一部を切り出して返します。<br>
-引数に先頭位置、長さを指定した場合は、その条件にて文字列を切り出して返します。<br>
-先頭位置は1からの指定となります。<br>
-<strong><a href="#PRINT">PRINT</a></strong> 、<strong><a href="#SPRINT">SPRINT</a></strong> 、<strong><a href="#GPRINT">GPRINT</a></strong> 、<strong><a href="#PLAY">PLAY</a></strong> の引数にて利用可能です。<br></p>
-</div>
-<div class="listingblock">
-<div class="title">例</div>
-<div class="content">
-<pre>10 S="Hello,world! こんにちは世界!"
-20 ?STR$(S)
-30 ?STR$(S,14,8)
-40 ?STR$("あいうえお",5,1)</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">実行結果</div>
-<div class="content">
-<pre>run
-Hello,world! こんにちは世界!
-こんにちは世界!
-お
-OK</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>上記の例では、変数Sが参照している文字列" Hello,world! こんにちは世界!"に対して、<br>
-20行は全て出力、30行は14番目からの文字から8文字 "こんにちは世界!""を出力、<br>
-40行は直接指定した文字列"あいうえお"の5番目の文字から1文字 "お"を出力しています。<br></p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_エラーメッセージ_43">【エラーメッセージ】</h5>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Syntax error</dt>
-<dd>
-<p>文法エラー、書式と異なる利用を行った</p>
-</dd>
-<dt class="hdlist1">Illegal value</dt>
-<dd>
-<p>指定した文字位置、長さの値が不当</p>
-</dd>
-<dt class="hdlist1">'(' or ')' expected</dt>
-<dd>
-<p>’(‘ または ‘)’が無い</p>
-</dd>
-<dt class="hdlist1">Overflow</dt>
-<dd>
-<p>指定した数値が-32768 ～ 32767を超えている</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_利用例_43">【利用例】</h5>
-<div class="listingblock">
-<div class="title">変数が参照している文字列を切り出して表示する</div>
-<div class="content">
-<pre>10 'ﾓｼﾞﾚﾂｿｳｻ ｻﾝﾌﾟﾙ
-20 S="Hello,Tiny BASIC"
-30 L=LEN(S)
-40 PRINT STR$(S);" LEN=";L
-50 PRINT STR$(S,1,5)
-60 C=ASC(S,12)
-RUN
-Hello,Tiny BASIC LEN=16
-Hello</pre>
-</div>
-</div>
-<div style="page-break-after: always;"></div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="DMP">3.4.10. DMP$  整数小数付き文字列変換（文字列関数）</h4>
-<div class="paragraph">
-<p>整数小数付き文字列変換</p>
-</div>
-<div class="sect4">
-<h5 id="_書式_44">【書式】</h5>
-<div class="paragraph">
-<p><strong><a href="#DMP">DMP$</a></strong> (数値)<br>
-<strong><a href="#DMP">DMP$</a></strong> (数値 , 小数点桁数)<br>
-<strong><a href="#DMP">DMP$</a></strong> (数値 , 小数点桁数 , 整数部桁数)<br></p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_引数_44">【引数】</h5>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">数値</dt>
-<dd>
-<p>変換対象整数: -32767 ～ 32767</p>
-</dd>
-<dt class="hdlist1">小数点桁数</dt>
-<dd>
-<p>小数点以下の桁数を指定:   0 ～ 4（省略時は2）</p>
-</dd>
-<dt class="hdlist1">整数部桁数</dt>
-<dd>
-<p>小数点以上の桁数を指定:   0 ～ 8 (省略時は0)</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_戻り値_14">【戻り値】</h5>
-<div class="paragraph">
-<p>小数点を付加した数値文字列</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_説明_44">【説明】</h5>
-<div class="paragraph">
-<p>指定した数値を小数点付きの文字列数値に変換します。<br>
-引数の小数点以下の桁数をnとした場合、数値÷10<sup>n</sup>の計算を行い、小数点以下の数値を含めて表示します。<br></p>
-</div>
-<div class="listingblock">
-<div class="title">数値文字列変換例</div>
-<div class="content">
-<pre>PRINT DMP$(3141,3)
-3.141</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>小数点以下の桁数を指定しない場合、小数点桁数はデフォルトの2となります。<br></p>
-</div>
-<div class="listingblock">
-<div class="title">デフォルトの数値文字列変換</div>
-<div class="content">
-<pre>PRINT DMP$(3141)
-3.14</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>整数部桁数を指定した場合、桁数に満たない場合は空白で補完します。<br>
-<strong><a href="#PRINT">PRINT</a></strong> 、<strong><a href="#SPRINT">SPRINT</a></strong> 、<strong><a href="#GPRINT">GPRINT</a></strong> 、<strong><a href="#PLAY">PLAY</a></strong> の引数にて利用可能です。<br></p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_エラーメッセージ_44">【エラーメッセージ】</h5>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Syntax error</dt>
-<dd>
-<p>文法エラー、書式と異なる利用を行った</p>
-</dd>
-<dt class="hdlist1">Illegal value</dt>
-<dd>
-<p>指定した引数の値が有効範囲を超えている</p>
-</dd>
-<dt class="hdlist1">Overflow</dt>
-<dd>
-<p>指定した数値が-32768 ～ 32767を超えている</p>
-</dd>
-<dt class="hdlist1">Illegal value</dt>
-<dd>
-<p>桁数の値が正しくない</p>
-</dd>
-<dt class="hdlist1">'(' or ')' expected</dt>
-<dd>
-<p>’(‘ または ‘)’が無い</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_利用例_44">【利用例】</h5>
-<div class="listingblock">
-<div class="title">アナログ入力値0～4095を0～3.3Vで表示する</div>
-<div class="content">
-<pre>10 CLS
-20 GPIO PB1,ANALOG
-30 V=MAP(ANA(PB1),0,4095,0,3300)
-40 LOCATE 0,0:? DMP$(V,3)
-50 WAIT 200
-60 GOTO 30</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">実行結果</div>
-<div class="content">
-<pre>run
-2.011
-2.215
-2.294
-2.330</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>アナログ入力値0～4095を <strong><a href="#MAP">MAP</a></strong> 関数にて0～3300に変換し、<br>
-0～3300の数値を <strong><a href="#DMP">DMP$</a></strong> 関数にて"0.000"～"3.300"の文字列数値に変換して表示しています。</p>
-</div>
-<div style="page-break-after: always;"></div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="MAP">3.4.11. MAP   数値のスケール変換（数値関数）</h4>
-<div class="paragraph">
-<p>数値のスケール変換</p>
-</div>
-<div class="sect4">
-<h5 id="_書式_45">【書式】</h5>
-<div class="paragraph">
-<p><strong><a href="#MAP">MAP</a></strong> (値 , 範囲下限 , 範囲上限 , 新範囲下限 , 新範囲上限)</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_引数_45">【引数】</h5>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">値</dt>
-<dd>
-<p>変換対象の数値 -32768 ～ 32767</p>
-</dd>
-<dt class="hdlist1">範囲下限</dt>
-<dd>
-<p>対象数値の数値の下限 -32768 ～ 32767</p>
-</dd>
-<dt class="hdlist1">範囲上限</dt>
-<dd>
-<p>対象数値の数値の上限 -32768 ～ 32767</p>
-</dd>
-<dt class="hdlist1">新範囲下限</dt>
-<dd>
-<p>新しい対象数値の数値の下限 -32768 ～ 32767</p>
-</dd>
-<dt class="hdlist1">新範囲上限</dt>
-<dd>
-<p>新しい新しい対象数値の数値の下限 -32768 ～ 32767</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_戻り値_15">【戻り値】</h5>
-<div class="paragraph">
-<p>スケール変換後の値: -32767 ～ 32767</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_説明_45">【説明】</h5>
-<div class="paragraph">
-<p>指定した値のスケール変換を行い、その値を返します。</p>
-</div>
-<div class="listingblock">
-<div class="title">例</div>
-<div class="content">
-<pre>A=MAP(ANA(PA07),0,4095,0,99)</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>上記の例ではアナログ入力値0～4095を0 ～ 99のレンジに変換し、その値を返します。<br>
-アナログ入力や画面座標指定、PWMパルス出力等にて <strong><a href="#MAP">MAP</a></strong> 関数を使うことで、簡単にレンジ変換を行うことができます。<br></p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_エラーメッセージ_45">【エラーメッセージ】</h5>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Syntax error</dt>
-<dd>
-<p>文法エラー、書式と異なる利用を行った</p>
-</dd>
-<dt class="hdlist1">Overflow</dt>
-<dd>
-<p>指定した数値が-32768 ～ 32767を超えている</p>
-</dd>
-<dt class="hdlist1">'(' or ')' expected</dt>
-<dd>
-<p>’(‘ または ‘)’が無い</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_利用例_45">【利用例】</h5>
-<div class="listingblock">
-<div class="title">アナログ入力値0～4095を0～3.3Vで表示する</div>
-<div class="content">
-<pre>10 CLS
-20 GPIO PB1,ANALOG
-30 V=MAP(ANA(PB1),0,4095,0,3300)
-40 LOCATE 0,0:? DMP$(V,3)
-50 WAIT 200
-60 GOTO 30</pre>
-</div>
-</div>
-<div style="page-break-after: always;"></div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="LET">3.4.12. LET 変数への値代入</h4>
-<div class="paragraph">
-<p>変数への値代入</p>
-</div>
-<div class="sect4">
-<h5 id="_書式_46">【書式】</h5>
-<div class="paragraph">
-<p><strong><a href="#LET">LET</a></strong> 変数 = 値<br>
-<strong><a href="#LET">LET</a></strong> 配列変数 = 値, 値, 値, 値．．．<br>
-<strong>変数</strong> = 値<br>
-<strong>配列変数</strong> = 値, 値, 値, 値．．．<br></p>
-</div>
-<div class="paragraph">
-<p><strong><a href="#LET">LET</a></strong> は省略可能</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_引数_46">【引数】</h5>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">変数</dt>
-<dd>
-<p>変数、または配列変数</p>
-</dd>
-<dt class="hdlist1">配列変数</dt>
-<dd>
-<p>配列変数 @(値)<br>
-配列の値(添え字)には式、数値、変数、配列変数、数値定数の利用が可能</p>
-</dd>
-<dt class="hdlist1">値</dt>
-<dd>
-<p>式、数値、変数、配列変数、数値定数 の利用が名農</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_説明_46">【説明】</h5>
-<div class="paragraph">
-<p>変数に値を代入します。<br>
-値は式、数値、定数、変数、配列変数等を評価した整数値です。<br>
-配列変数への代入は、複数の値を指定した連続代入が可能です。指定した添え字を起点に順番に代入します。<br></p>
+<p><strong>変数</strong> に値を代入します。<br>
+<strong>数値</strong> には式、定数、変数、配列変数等を評価した整数値の記述が可能です。<br>
+<strong>配列変数</strong> への代入は、指定した複数の <strong>数値</strong> の連続代入が可能です。<br>
+指定した <strong>添え字</strong> を起点に順番に代入します。<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -6846,7 +6575,7 @@ A=A+1</pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_エラーメッセージ_46">【エラーメッセージ】</h5>
+<h5 id="_エラーメッセージ_43">【エラーメッセージ】</h5>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Syntax error</dt>
@@ -6865,7 +6594,7 @@ A=A+1</pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_利用例_46">【利用例】</h5>
+<h5 id="_利用例_43">【利用例】</h5>
 <div class="listingblock">
 <div class="title">変数Iに値を代入します</div>
 <div class="content">
@@ -6877,6 +6606,315 @@ A=A+1</pre>
 50 END</pre>
 </div>
 </div>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="MAP">3.4.10. MAP</h4>
+<div class="paragraph">
+<p>数値のスケール変換</p>
+</div>
+<div class="sect4">
+<h5 id="_書式_44">【書式】</h5>
+<div class="paragraph">
+<p><strong><a href="#MAP">MAP</a></strong> (値 , 範囲下限 , 範囲上限 , 新範囲下限 , 新範囲上限)</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_引数_44">【引数】</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">値</dt>
+<dd>
+<p>変換対象の数値 -32768 ～ 32767</p>
+</dd>
+<dt class="hdlist1">範囲下限</dt>
+<dd>
+<p>対象数値の数値の下限 -32768 ～ 32767</p>
+</dd>
+<dt class="hdlist1">範囲上限</dt>
+<dd>
+<p>対象数値の数値の上限 -32768 ～ 32767</p>
+</dd>
+<dt class="hdlist1">新範囲下限</dt>
+<dd>
+<p>新しい対象数値の数値の下限 -32768 ～ 32767</p>
+</dd>
+<dt class="hdlist1">新範囲上限</dt>
+<dd>
+<p>新しい新しい対象数値の数値の下限 -32768 ～ 32767</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_戻り値_13">【戻り値】</h5>
+<div class="paragraph">
+<p>スケール変換後の値: -32767 ～ 32767</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_説明_44">【説明】</h5>
+<div class="paragraph">
+<p>指定した値のスケール変換を行い、その値を返します。</p>
+</div>
+<div class="listingblock">
+<div class="title">例</div>
+<div class="content">
+<pre>A=MAP(ANA(PA07),0,4095,0,99)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>上記の例ではアナログ入力値0～4095を0 ～ 99のレンジに変換し、その値を返します。<br>
+アナログ入力や画面座標指定、PWMパルス出力等にて <strong><a href="#MAP">MAP</a></strong> 関数を使うことで、簡単にレンジ変換を行うことができます。<br></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_エラーメッセージ_44">【エラーメッセージ】</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Syntax error</dt>
+<dd>
+<p>文法エラー、書式と異なる利用を行った</p>
+</dd>
+<dt class="hdlist1">Overflow</dt>
+<dd>
+<p>指定した数値が-32768 ～ 32767を超えている</p>
+</dd>
+<dt class="hdlist1">'(' or ')' expected</dt>
+<dd>
+<p>’(‘ または ‘)’が無い</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_利用例_44">【利用例】</h5>
+<div class="listingblock">
+<div class="title">アナログ入力値0～4095を0～3.3Vで表示する</div>
+<div class="content">
+<pre>10 CLS
+20 GPIO PB1,ANALOG
+30 V=MAP(ANA(PB1),0,4095,0,3300)
+40 LOCATE 0,0:? DMP$(V,3)
+50 WAIT 200
+60 GOTO 30</pre>
+</div>
+</div>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="RND">3.4.11. RND</h4>
+<div class="paragraph">
+<p>乱数の発生</p>
+</div>
+<div class="sect4">
+<h5 id="_書式_45">【書式】</h5>
+<div class="paragraph">
+<p><strong><a href="#RND">RND</a></strong> (数値)</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_引数_45">【引数】</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">数値</dt>
+<dd>
+<p>式、変数、配列変数、<br>
+数値(0 ～ 32767)、数値定数<br>
+の指定が可能</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_戻り値_14">【戻り値】</h5>
+<div class="paragraph">
+<p>0から指定した値未満の乱数</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_説明_45">【説明】</h5>
+<div class="paragraph">
+<p>0から指定した値－1の範囲の乱数を発生させ、その値を返します。<br></p>
+</div>
+<div class="listingblock">
+<div class="title">例: 0～9の乱数の発生</div>
+<div class="content">
+<pre>R=RND(10)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>上記の例では変数 <strong>R</strong> には0～9範囲の値が代入されます。</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_エラーメッセージ_45">【エラーメッセージ】</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Syntax error</dt>
+<dd>
+<p>文法エラー、書式と異なる利用を行った</p>
+</dd>
+<dt class="hdlist1">Overflow</dt>
+<dd>
+<p>指定した数値が-32768 ～ 32767を超えている</p>
+</dd>
+<dt class="hdlist1">'(' or ')' expected</dt>
+<dd>
+<p>’(‘ または ‘)’が無い</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_利用例_45">【利用例】</h5>
+<div class="listingblock">
+<div class="title">ジャンケンの表示</div>
+<div class="content">
+<pre>10 @(0)="ｸﾞｰ","ﾁｮｷ","ﾊﾟｰ"
+20 FOR I=1 TO 5
+30 R=RND(3)
+40 PRINT I,":";STR$(@(R))
+50 NEXT I
+run
+1:ﾁｮｷ
+2:ﾊﾟｰ
+3:ﾁｮｷ
+4:ｸﾞｰ
+5:ﾊﾟｰ
+OK</pre>
+</div>
+</div>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="STR">3.4.12. STR$</h4>
+<div class="paragraph">
+<p>文字列参照・文字列の切り出し</p>
+</div>
+<div class="sect4">
+<h5 id="_書式_46">【書式】</h5>
+<div class="paragraph">
+<p><strong><a href="#STR">STR$</a></strong> (変数)<br>
+<strong><a href="#STR">STR$</a></strong> (変数,先頭位置,長さ)<br>
+<strong><a href="#STR">STR$</a></strong> (文字列)<br>
+<strong><a href="#STR">STR$</a></strong> (文字列,先頭位置,長さ)</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_引数_46">【引数】</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">変数</dt>
+<dd>
+<p>文字列を参照している変数または配列変数</p>
+</dd>
+<dt class="hdlist1">先頭位置</dt>
+<dd>
+<p>切り出す文字位置先頭 1～32767</p>
+</dd>
+<dt class="hdlist1">長さ</dt>
+<dd>
+<p>切り出す文字の長さ   1～32767</p>
+</dd>
+<dt class="hdlist1">文字列</dt>
+<dd>
+<p>ダブルクォーテーションで囲った文字列定数( "文字列" )</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_戻り値_15">【戻り値】</h5>
+<div class="paragraph">
+<p>指定した <strong>文字列</strong> および <strong>変数</strong> が参照している文字列を全部または一部を切り出して返します。<br>
+全角(シフトJIS)1文字は1文字としてカウントします。<br></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_説明_46">【説明】</h5>
+<div class="paragraph">
+<p>指定した <strong>文字列</strong> および <strong>変数</strong> が参照している文字列を全部または一部を
+切り出して返す文字列関数です。<br>
+引数に <strong>先頭位置</strong>、<strong>長さ</strong> を指定した場合は、その条件にて文字列を切り出して返します。<br>
+<strong>先頭位置</strong> は1からの指定となります。<br></p>
+</div>
+<div class="paragraph">
+<p>本関数を含め <strong>文字列関数</strong> は、<br>
+<a href="#BLOAD"><strong>BLOAD</strong></a>、<a href="#BSAVE"><strong>BSAVE</strong></a>、<a href="#CAT"><strong>CAT</strong></a>、<a href="#DWBMP"><strong>DWBMP</strong></a>、<a href="#FILES"><strong>FILES</strong></a>、<a href="#GPRINT"><strong>GPRINT</strong></a>、 <a href="#KANJI"><strong>KANJI</strong></a>、<a href="#LDBMP"><strong>LDBMP</strong></a>、<br>
+<a href="#LOAD"><strong>LOAD</strong></a>、<a href="#LRUN"><strong>LRUN</strong></a>、<a href="#PLAY"><strong>PLAY</strong></a>、<a href="#PRINT"><strong>PRINT</strong></a>、<a href="#REMOVE"><strong>REMOVE</strong></a>、<a href="#SAVE"><strong>SAVE</strong></a>、<a href="#SPRINT"><strong>SPRINT</strong></a><br>
+コマンドの引数にて利用可能です。<br></p>
+</div>
+<div class="listingblock">
+<div class="title">例</div>
+<div class="content">
+<pre>10 S="Hello,world! こんにちは世界!"
+20 ?STR$(S)
+30 ?STR$(S,14,8)
+40 ?STR$("あいうえお",5,1)</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">実行結果</div>
+<div class="content">
+<pre>run
+Hello,world! こんにちは世界!
+こんにちは世界!
+お
+OK</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>上記の例では、変数Sが参照している文字列" Hello,world! こんにちは世界!"に対して、<br>
+20行は全て出力、30行は14番目からの文字から8文字 "こんにちは世界!""を出力、<br>
+40行は直接指定した文字列"あいうえお"の5番目の文字から1文字 "お"を出力しています。<br></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_エラーメッセージ_46">【エラーメッセージ】</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Syntax error</dt>
+<dd>
+<p>文法エラー、書式と異なる利用を行った</p>
+</dd>
+<dt class="hdlist1">Illegal value</dt>
+<dd>
+<p>指定した文字位置、長さの値が不当</p>
+</dd>
+<dt class="hdlist1">'(' or ')' expected</dt>
+<dd>
+<p>’(‘ または ‘)’が無い</p>
+</dd>
+<dt class="hdlist1">Overflow</dt>
+<dd>
+<p>指定した数値が-32768 ～ 32767を超えている</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_利用例_46">【利用例】</h5>
+<div class="listingblock">
+<div class="title">変数が参照している文字列を切り出して表示する</div>
+<div class="content">
+<pre>10 'ﾓｼﾞﾚﾂｿｳｻ ｻﾝﾌﾟﾙ
+20 S="Hello,Tiny BASIC"
+30 L=LEN(S)
+40 PRINT STR$(S);" LEN=";L
+50 PRINT STR$(S,1,5)
+60 C=ASC(S,12)
+RUN
+Hello,Tiny BASIC LEN=16
+Hello</pre>
+</div>
+</div>
 <div style="page-break-after: always;"></div>
 <hr>
 </div>
@@ -6885,7 +6923,7 @@ A=A+1</pre>
 <div class="sect2">
 <h3 id="_仮想メモリー参照_2">3.5. 仮想メモリー参照</h3>
 <div class="sect3">
-<h4 id="PEEK">3.5.1. PEEK   指定アドレスの値参照（数値関数）</h4>
+<h4 id="PEEK">3.5.1. PEEK</h4>
 <div class="paragraph">
 <p>指定アドレスの値参照</p>
 </div>
@@ -6901,7 +6939,7 @@ A=A+1</pre>
 <dl>
 <dt class="hdlist1">仮想アドレス</dt>
 <dd>
-<p>参照を行うSRAM領域先頭からの相対バイトアドレス(16ビット) ： $0000 ～</p>
+<p>SRAM及びフラシュメモリの領域アドレス(16ビット) ： $0000 ～</p>
 </dd>
 </dl>
 </div>
@@ -6933,42 +6971,42 @@ A=A+1</pre>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">VRAM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">VRAM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">画面表示用メモリ(CW×CH)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズは<a href="#SCREEN">SCREEN</a>モードにより可変</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">VAR</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">VAR</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">変数領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 420バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">ARRAY</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">ARRAY</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">配列変数領域(@(0)～@(99) )</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 200バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">PRG</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">PRG</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">プログラム領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 4,096バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">MEM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">MEM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ユーザーワーク領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 1,024バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">FNT</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">FNT</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">フォント256文字(フラッシュメモリ)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 2,048バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">GRAM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">GRAM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">グラフィック表示用メモリ</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズは<a href="#SCREEN">SCREEN</a>モードにより可変</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">PRG2</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">PRG2</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">フラッシュメモリプログラム保存領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 4,096バイト<br>
 <a href="#BANK">BANK</a>コマンドにより0～5のバンク切り替え</p></td>
@@ -6976,8 +7014,10 @@ A=A+1</pre>
 </tbody>
 </table>
 <div class="paragraph">
-<p>仮想アドレスの詳細については、「メモリーマップ」の「仮想アドレス」を参照下さい。<br>
-ユーザーワーク領域は利用者が自由に利用出来る領域です。<br>
+<p>仮想アドレスの詳細については、「<a href="../仕様/メモリーマップ.adoc">メモリーマップ</a>」の「<a href="../仕様/メモリーマップ.adoc#_仮想アドレス">仮想アドレス</a>」を参照下さい。</p>
+</div>
+<div class="paragraph">
+<p>ユーザーワーク領域は利用者が自由に利用出来る領域です。<br>
 それ以外の領域はBASICの実行にて利用する領域です。<br>
 例として画面上のカーソル位置X,Yに格納されている文字の参照は次のようになります。<br></p>
 </div>
@@ -7037,11 +7077,12 @@ A=A+1</pre>
 OK</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="POKE">3.5.2. POKE 指定アドレスへのデータ書き込み</h4>
+<h4 id="POKE">3.5.2. POKE</h4>
 <div class="paragraph">
 <p>指定アドレスへのデータ書き込み</p>
 </div>
@@ -7088,42 +7129,42 @@ OK</pre>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">VRAM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">VRAM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">画面表示用メモリ(CW×CH)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズは<a href="#SCREEN">SCREEN</a>モードにより可変</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">VAR</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">VAR</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">変数領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 420バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">ARRAY</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">ARRAY</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">配列変数領域(@(0)～@(99) )</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 200バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">PRG</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">PRG</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">プログラム領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 4,096バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">MEM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">MEM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ユーザーワーク領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 1,024バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">FNT</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">FNT</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">フォント256文字(フラッシュメモリ)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 2,048バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">GRAM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">GRAM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">グラフィック表示用メモリ</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズは<a href="#SCREEN">SCREEN</a>モードにより可変</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">PRG2</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">PRG2</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">フラッシュメモリプログラム保存領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 4,096バイト<br>
 <a href="#BANK">BANK</a>コマンドにより0～5のバンク切り替え</p></td>
@@ -7131,7 +7172,7 @@ OK</pre>
 </tbody>
 </table>
 <div class="paragraph">
-<p>仮想アドレスの詳細については、「メモリーマップ」の「仮想アドレス」を参照下さい。<br></p>
+<p>仮想アドレスの詳細については、「<a href="../仕様/メモリーマップ.adoc">メモリーマップ</a>」の「<a href="../仕様/メモリーマップ.adoc#_仮想アドレス">仮想アドレス</a>」を参照下さい。</p>
 </div>
 <div class="paragraph">
 <p>ユーザーワーク領域は利用者が自由に利用出来る領域です。<br>
@@ -7187,7 +7228,7 @@ VRAMに書き込んだ内容を画面の表示に反映するには <strong><a h
 <div class="sect2">
 <h3 id="_時間_2">3.6. 時間</h3>
 <div class="sect3">
-<h4 id="TICK">3.6.1. TICK 経過時間取得（数値関数）</h4>
+<h4 id="TICK">3.6.1. TICK()</h4>
 <div class="paragraph">
 <p>経過時間取得</p>
 </div>
@@ -7221,10 +7262,11 @@ VRAMに書き込んだ内容を画面の表示に反映するには <strong><a h
 <div class="sect4">
 <h5 id="_説明_49">【説明】</h5>
 <div class="paragraph">
-<p>起動からの経過時間を返します。経過時間は <strong><a href="#CLT">CLT</a></strong> コマンドにて初期化が可能です。<br>
+<p>起動からの経過時間を返します。<br>
+経過時間は <strong><a href="#CLT">CLT</a></strong> コマンドにて初期化が可能です。<br>
 <strong><a href="#CLT">CLT</a></strong> コマンドと組み合わせて使うことで、処理時間の測定を行うことが出来ます。<br>
-モード指定無し、または0を指定の場合、ミリ秒単位の経過時間を返します。<br>
-1を指定した場合は、秒単位の経過時間を返します。<br></p>
+<strong>モード</strong> 指定無し、または0を指定の場合、<strong>ミリ秒単位</strong> の経過時間を返します。<br>
+<strong>モード</strong> に1を指定した場合は、<strong>秒単位</strong> の経過時間を返します。<br></p>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -7280,11 +7322,12 @@ RUN
 225msec</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="DATE">3.6.2. DATE 現在時刻の表示</h4>
+<h4 id="DATE">3.6.2. DATE</h4>
 <div class="paragraph">
 <p>現在時刻の表示</p>
 </div>
@@ -7347,11 +7390,12 @@ DATE
 OK</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="GETDATE">3.6.3. GETDATE 日付の取得</h4>
+<h4 id="GETDATE">3.6.3. GETDATE</h4>
 <div class="paragraph">
 <p>日付の取得</p>
 </div>
@@ -7457,11 +7501,12 @@ PRINT a;b;c;d
 OK</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="GETTIME">3.6.4. GETTIME 時刻の取得</h4>
+<h4 id="GETTIME">3.6.4. GETTIME</h4>
 <div class="paragraph">
 <p>時刻の取得</p>
 </div>
@@ -7570,11 +7615,12 @@ OK</pre>
 </tr>
 </table>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="CLT">3.6.5. CLT   経過時間カウントのリセット</h4>
+<h4 id="CLT">3.6.5. CLT</h4>
 <div class="paragraph">
 <p>経過時間カウントのリセット</p>
 </div>
@@ -7630,11 +7676,12 @@ RUN
 225msec</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="SETDATE">3.6.6. SETDATE 時刻の設定</h4>
+<h4 id="SETDATE">3.6.6. SETDATE</h4>
 <div class="paragraph">
 <p>時刻の設定</p>
 </div>
@@ -7751,25 +7798,26 @@ DATE
 OK</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="WAIT">3.6.7. WAIT 時間待ち</h4>
+<h4 id="WAIT">3.6.7. WAIT</h4>
 <div class="paragraph">
 <p>時間待ち</p>
 </div>
 <div class="sect4">
 <h5 id="_書式_55">【書式】</h5>
 <div class="paragraph">
-<p><strong><a href="#WAIT">WAIT</a></strong> 待ち時間(ミリ秒)</p>
+<p><strong><a href="#WAIT">WAIT</a></strong> 時間(ミリ秒)</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_引数_55">【引数】</h5>
 <div class="dlist">
 <dl>
-<dt class="hdlist1">待ち時間</dt>
+<dt class="hdlist1">時間</dt>
 <dd>
 <p>0 ～ 32767 （単位 ミリ秒）</p>
 </dd>
@@ -7779,7 +7827,7 @@ OK</pre>
 <div class="sect4">
 <h5 id="_説明_55">【説明】</h5>
 <div class="paragraph">
-<p>引数で指定した時間(ミリ秒単位)、時間待ち(ウェイト)を行います。<br>
+<p>引数で指定した <strong>時間</strong> (ミリ秒単位)、時間待ち(ウェイト)を行います。<br>
 最大で32767ミリ秒（32.8秒）の時間待ちが可能です。<br>
 長い時間待ちを行う必要がある場合は、<strong><a href="#TICK">TICK</a></strong> 関数や <strong><a href="#GETTIME">GETTIME</a></strong> コマンドを使った方法を検討してください。<br></p>
 </div>
@@ -7829,8 +7877,8 @@ OK</pre>
 60 GOTO 30</pre>
 </div>
 </div>
-<div style="page-break-after: always;"></div>
 <hr>
+<div style="page-break-after: always;"></div>
 </div>
 </div>
 </div>
@@ -7928,6 +7976,7 @@ ST32F103C8T6以外のMPUにて使う場合は、機能設定できない場合�
 50 GOTO 30</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -8157,6 +8206,7 @@ ST32F103C8T6以外のMPUにて使う場合は、<br>
 50 GOTO 30 </pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -8230,6 +8280,7 @@ OLED(I2C)版でI2Cバスクロックを100kHzに設定すると、画面表示�
 OK</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -8319,42 +8370,42 @@ I2Cバスは必ずプルアップ抵抗によるプルアップを行って下�
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">VRAM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">VRAM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">画面表示用メモリ(CW×CH)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズは<a href="#SCREEN">SCREEN</a>モードにより可変</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">VAR</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">VAR</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">変数領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 420バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">ARRAY</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">ARRAY</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">配列変数領域(@(0)～@(99) )</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 200バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">PRG</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">PRG</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">プログラム領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 4,096バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">MEM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">MEM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ユーザーワーク領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 1,024バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">FNT</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">FNT</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">フォント256文字(フラッシュメモリ)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 2,048バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">GRAM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">GRAM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">グラフィック表示用メモリ</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズは<a href="#SCREEN">SCREEN</a>モードにより可変</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">PRG2</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">PRG2</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">フラッシュメモリプログラム保存領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 4,096バイト<br>
 <a href="#BANK">BANK</a>コマンドにより0～5のバンク切り替え</p></td>
@@ -8445,6 +8496,7 @@ rcv data:64 65 66 67
 OK</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -8524,42 +8576,42 @@ OK</pre>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">VRAM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">VRAM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">画面表示用メモリ(CW×CH)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズは<a href="#SCREEN">SCREEN</a>モードにより可変</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">VAR</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">VAR</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">変数領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 420バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">ARRAY</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">ARRAY</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">配列変数領域(@(0)～@(99) )</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 200バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">PRG</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">PRG</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">プログラム領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 4,096バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">MEM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">MEM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ユーザーワーク領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 1,024バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">FNT</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">FNT</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">フォント256文字(フラッシュメモリ)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 2,048バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">GRAM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">GRAM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">グラフィック表示用メモリ</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズは<a href="#SCREEN">SCREEN</a>モードにより可変</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">PRG2</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">PRG2</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">フラッシュメモリプログラム保存領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 4,096バイト<br>
 <a href="#BANK">BANK</a>コマンドにより0～5のバンク切り替え</p></td>
@@ -8678,6 +8730,7 @@ I2Cスレーブアドレスのみ送信し、正常終了(ACKを返した)のア
 </tr>
 </table>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -8794,6 +8847,7 @@ PA0ピンは <strong><a href="#GPIO">GPIO</a></strong> コマンドで <strong><
 <div class="paragraph">
 <p>BluePillボード上のLEDは、PC13がソース（吸い込み）制御を行うため、<br>
 <a href="#LOW">LOW</a> を出力するとLEDが点灯します。
+'''
 &lt;&lt;&lt;</p>
 </div>
 </div>
@@ -8926,6 +8980,7 @@ ST32F103C8T6以外のMPUにて使う場合は、機能設定できない場合�
 100 GOTO 50</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -9050,6 +9105,7 @@ ST32F103C8T6以外のMPUにて使う場合は、機能設定できない場合�
 210 RETURN</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -9163,6 +9219,7 @@ ST32F103C8T6以外のMPUにて使う場合は、機能設定できない場合�
 90 NEXT I</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -9263,6 +9320,7 @@ ST32F103C8T6以外のMPUにて使う場合は、機能設定できない場合�
 50 GOTO 30</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -9430,199 +9488,27 @@ PA8ピンは5Vトレラント（5Vの入力が可能）です。<br>
 <div class="sect2">
 <h3 id="_サウンド_2">3.8. サウンド</h3>
 <div class="sect3">
-<h4 id="TONE">3.8.1. TONE 単音出力</h4>
+<h4 id="NOTONE">3.8.1. NOTONE</h4>
 <div class="paragraph">
-<p>単音出力</p>
+<p>単音出力停止</p>
 </div>
 <div class="sect4">
 <h5 id="_書式_67">【書式】</h5>
 <div class="paragraph">
-<p><strong><a href="#TONE">TONE</a></strong> 周波数<br>
-<strong><a href="#TONE">TONE</a></strong> 周波数, 出力期間</p>
+<p><strong><a href="#NOTONE">NOTONE</a></strong></p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_引数_67">【引数】</h5>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">周波数</dt>
-<dd>
-<p>0 ～ 32767 （Hz）  	0の場合は消音</p>
-</dd>
-<dt class="hdlist1">出力期間</dt>
-<dd>
-<p>0 ～ 32767 (ミリ秒)  0の場合は、継続再生</p>
-</dd>
-</dl>
+<div class="paragraph">
+<p>なし</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_説明_67">【説明】</h5>
 <div class="paragraph">
-<p><strong>PB9</strong> ピンより、指定した周波数のパルス出力(デューティ比50%)を行います。<br>
-<strong>PB9</strong> ピンに圧電スピーカー（圧電サウンダ）を接続すること音を出すことが出来ます。<br></p>
+<p><strong><a href="#TONE">TONE</a></strong> コマンドによるパスル出力を停止します。</p>
 </div>
-<div class="paragraph">
-<p>出力期間の指定がある場合は、その期間パスルを出力します(ミリ秒単位)。<br>
-出力期間の指定がある場合、出力完了待ちを行います。<br>
-出力期間の指定がない場合は、<strong><a href="#NOTONE">NOTONE</a></strong> コマンドで停止指示をするまでパスルを出力し続けます。<br>
-（ <strong><a href="#TONE">TONE</a></strong> 0は <strong><a href="#NOTONE">NOTONE</a></strong> と等価です）<br></p>
-</div>
-<table class="tableblock frame-all grid-all fit-content">
-<caption class="title">表 6. 音階・周波数対応表</caption>
-<colgroup>
-<col>
-<col>
-<col>
-<col>
-<col>
-<col>
-<col>
-<col>
-<col>
-<col>
-<col>
-<col>
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">ド</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">ド♯</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">レ</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">レ♯</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">ミ</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">ファ</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">ファ♯</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">ソ</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">ソ♯</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">ラ</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">ラ♯</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">シ</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">33</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">35</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">37</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">39</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">41</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">44</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">46</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">49</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">52</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">55</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">58</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">62</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">65</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">69</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">73</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">78</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">82</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">87</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">93</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">98</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">104</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">110</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">117</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">123</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">3</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">131</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">139</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">147</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">156</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">165</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">175</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">185</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">196</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">208</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">220</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">233</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">247</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">4</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">262</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">277</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">294</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">311</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">330</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">349</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">370</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">392</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">415</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">440</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">466</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">494</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">5</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">523</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">554</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">587</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">622</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">659</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">698</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">740</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">784</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">831</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">880</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">932</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">988</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">6</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">1047</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">1109</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">1175</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">1245</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">1319</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">1397</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">1480</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">1568</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">1661</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">1760</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">1865</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">1976</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">7</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">2093</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">2217</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">2349</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">2489</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">2637</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">2794</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">2960</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">3136</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">3322</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">3520</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">3729</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">3951</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">8</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">4186</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">4435</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">4699</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">4978</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">5274</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">5588</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">5920</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">6272</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">6643</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">7040</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">7459</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">7902</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="sect4">
 <h5 id="_エラーメッセージ_67">【エラーメッセージ】</h5>
@@ -9632,61 +9518,11 @@ PA8ピンは5Vトレラント（5Vの入力が可能）です。<br>
 <dd>
 <p>文法エラー、書式と異なる利用を行った</p>
 </dd>
-<dt class="hdlist1">Overflow</dt>
-<dd>
-<p>指定した数値が-32768 ～ 32767を超えている</p>
-</dd>
 </dl>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_利用例_67">【利用例】</h5>
-<div class="listingblock">
-<div class="title">スペースキーを押したら音を鳴らす</div>
-<div class="content">
-<pre>10 IF INKEY() = 32 TONE 800,50
-20 GOTO 10</pre>
-</div>
-</div>
-<div style="page-break-after: always;"></div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="NOTONE">3.8.2. NOTONE 単音出力停止</h4>
-<div class="paragraph">
-<p>単音出力停止</p>
-</div>
-<div class="sect4">
-<h5 id="_書式_68">【書式】</h5>
-<div class="paragraph">
-<p><strong><a href="#NOTONE">NOTONE</a></strong></p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_引数_68">【引数】</h5>
-<div class="paragraph">
-<p>なし</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_説明_68">【説明】</h5>
-<div class="paragraph">
-<p><strong><a href="#TONE">TONE</a></strong> コマンドによるパスル出力を停止します。</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_エラーメッセージ_68">【エラーメッセージ】</h5>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Syntax error</dt>
-<dd>
-<p>文法エラー、書式と異なる利用を行った</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_利用例_68">【利用例】</h5>
 <div class="listingblock">
 <div class="title">音を停止する</div>
 <div class="content">
@@ -9695,22 +9531,23 @@ PA8ピンは5Vトレラント（5Vの入力が可能）です。<br>
 30 NOTONE</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="PLAY">3.8.3. PLAY  音楽演奏(MML文)</h4>
+<h4 id="PLAY">3.8.2. PLAY</h4>
 <div class="paragraph">
 <p>音楽演奏(MML文)</p>
 </div>
 <div class="sect4">
-<h5 id="_書式_69">【書式】</h5>
+<h5 id="_書式_68">【書式】</h5>
 <div class="paragraph">
 <p><strong><a href="#PLAY">PLAY</a></strong> "MML文"</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_引数_69">【引数】</h5>
+<h5 id="_引数_68">【引数】</h5>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">MML文</dt>
@@ -9721,7 +9558,7 @@ PA8ピンは5Vトレラント（5Vの入力が可能）です。<br>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_説明_69">【説明】</h5>
+<h5 id="_説明_68">【説明】</h5>
 <div class="paragraph">
 <p>MML(Music Macro Language)にて定義した文法を元に、<br>
 接続している圧電スピーカーを使って単音による、音楽演奏を行います。</p>
@@ -9834,7 +9671,7 @@ PLAYコマンド事に指定する必要があります。</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_エラーメッセージ_69">【エラーメッセージ】</h5>
+<h5 id="_エラーメッセージ_68">【エラーメッセージ】</h5>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Syntax error</dt>
@@ -9853,7 +9690,7 @@ PLAYコマンド事に指定する必要があります。</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_利用例_69">【利用例】</h5>
+<h5 id="_利用例_68">【利用例】</h5>
 <div class="listingblock">
 <div class="title">「ドラミファソラシド」と演奏する</div>
 <div class="content">
@@ -9901,22 +9738,23 @@ OK</pre>
 </li>
 </ul>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="TEMPO">3.8.4. TEMPO 音楽演奏のテンポの設定</h4>
+<h4 id="TEMPO">3.8.3. TEMPO</h4>
 <div class="paragraph">
 <p>音楽演奏のテンポの設定</p>
 </div>
 <div class="sect4">
-<h5 id="_書式_70">【書式】</h5>
+<h5 id="_書式_69">【書式】</h5>
 <div class="paragraph">
 <p><strong><a href="#TEMPO">TEMPO</a></strong> テンポ</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_引数_70">【引数】</h5>
+<h5 id="_引数_69">【引数】</h5>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">テンポ</dt>
@@ -9927,14 +9765,14 @@ OK</pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_説明_70">【説明】</h5>
+<h5 id="_説明_69">【説明】</h5>
 <div class="paragraph">
 <p><strong><a href="#PLAY">PLAY</a></strong> コマンドによる音楽演奏のテンポの設定を行います。<br>
 デフォルト値は120です。<br></p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_エラーメッセージ_70">【エラーメッセージ】</h5>
+<h5 id="_エラーメッセージ_69">【エラーメッセージ】</h5>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Syntax error</dt>
@@ -9953,7 +9791,7 @@ OK</pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_利用例_70">【利用例】</h5>
+<h5 id="_利用例_69">【利用例】</h5>
 <div class="listingblock">
 <div class="title">テンポを160に設定する</div>
 <div class="content">
@@ -9961,22 +9799,247 @@ OK</pre>
 20 PLAY "CDEFGAB"</pre>
 </div>
 </div>
-<div style="page-break-after: always;"></div>
 <hr>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="TONE">3.8.4. TONE</h4>
+<div class="paragraph">
+<p>単音出力</p>
+</div>
+<div class="sect4">
+<h5 id="_書式_70">【書式】</h5>
+<div class="paragraph">
+<p><strong><a href="#TONE">TONE</a></strong> 周波数<br>
+<strong><a href="#TONE">TONE</a></strong> 周波数, 出力期間</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_引数_70">【引数】</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">周波数</dt>
+<dd>
+<p>0 ～ 32767 （Hz）  	0の場合は消音</p>
+</dd>
+<dt class="hdlist1">出力期間</dt>
+<dd>
+<p>0 ～ 32767 (ミリ秒)  0の場合は、継続再生</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_説明_70">【説明】</h5>
+<div class="paragraph">
+<p><strong>PB9</strong> ピンより、指定した周波数のパルス出力(デューティ比50%)を行います。<br>
+<strong>PB9</strong> ピンに圧電スピーカー（圧電サウンダ）を接続すること音を出すことが出来ます。<br></p>
+</div>
+<div class="paragraph">
+<p>出力期間の指定がある場合は、その期間パスルを出力します(ミリ秒単位)。<br>
+出力期間の指定がある場合、出力完了待ちを行います。<br>
+出力期間の指定がない場合は、<strong><a href="#NOTONE">NOTONE</a></strong> コマンドで停止指示をするまでパスルを出力し続けます。<br>
+（ <strong><a href="#TONE">TONE</a></strong> 0は <strong><a href="#NOTONE">NOTONE</a></strong> と等価です）<br></p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<caption class="title">表 6. 音階・周波数対応表</caption>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top"></th>
+<th class="tableblock halign-center valign-top">ド</th>
+<th class="tableblock halign-center valign-top">ド♯</th>
+<th class="tableblock halign-center valign-top">レ</th>
+<th class="tableblock halign-center valign-top">レ♯</th>
+<th class="tableblock halign-center valign-top">ミ</th>
+<th class="tableblock halign-center valign-top">ファ</th>
+<th class="tableblock halign-center valign-top">ファ♯</th>
+<th class="tableblock halign-center valign-top">ソ</th>
+<th class="tableblock halign-center valign-top">ソ♯</th>
+<th class="tableblock halign-center valign-top">ラ</th>
+<th class="tableblock halign-center valign-top">ラ♯</th>
+<th class="tableblock halign-center valign-top">シ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>1</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">33</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">35</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">37</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">39</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">41</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">44</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">46</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">49</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">52</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">55</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">58</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">62</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>2</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">65</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">69</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">73</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">78</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">82</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">87</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">93</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">98</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">104</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">110</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">117</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">123</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>3</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">131</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">139</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">147</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">156</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">165</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">175</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">185</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">196</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">208</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">220</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">233</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">247</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>4</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">262</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">277</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">294</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">311</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">330</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">349</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">370</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">392</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">415</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">440</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">466</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">494</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>5</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">523</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">554</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">587</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">622</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">659</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">698</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">740</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">784</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">831</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">880</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">932</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">988</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>6</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1047</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1109</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1175</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1245</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1319</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1397</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1480</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1568</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1661</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1760</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1865</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1976</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>7</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">2093</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">2217</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">2349</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">2489</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">2637</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">2794</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">2960</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">3136</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">3322</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">3520</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">3729</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">3951</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>8</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">4186</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">4435</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">4699</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">4978</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5274</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5588</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5920</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">6272</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">6643</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">7040</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">7459</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">7902</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_エラーメッセージ_70">【エラーメッセージ】</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Syntax error</dt>
+<dd>
+<p>文法エラー、書式と異なる利用を行った</p>
+</dd>
+<dt class="hdlist1">Overflow</dt>
+<dd>
+<p>指定した数値が-32768 ～ 32767を超えている</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_利用例_70">【利用例】</h5>
+<div class="listingblock">
+<div class="title">スペースキーを押したら音を鳴らす</div>
+<div class="content">
+<pre>10 IF INKEY() = 32 TONE 800,50
+20 GOTO 10</pre>
+</div>
+</div>
+<hr>
+<div style="page-break-after: always;"></div>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_ファイル操作_2">3.9. ファイル操作</h3>
 <div class="sect3">
-<h4 id="BLOAD">3.9.1. BLOAD SDカードからバイナリデータ読込</h4>
+<h4 id="BLOAD">3.9.1. BLOAD</h4>
 <div class="paragraph">
 <p>SDカードからバイナリデータ読込</p>
 </div>
 <div class="sect4">
 <h5 id="_書式_71">【書式】</h5>
 <div class="paragraph">
-<p><strong><a href="#BLOAD">BLOAD</a></strong> "ファイル名" , アドレス, バイト数</p>
+<p><strong><a href="#BLOAD">BLOAD</a></strong> "ファイル名" , アドレス, バイト数 [,ファイル内位置]</p>
 </div>
 </div>
 <div class="sect4">
@@ -9995,14 +10058,19 @@ OK</pre>
 <dd>
 <p>読み込みデータサイズ 1～32767</p>
 </dd>
+<dt class="hdlist1">ファイル内位置</dt>
+<dd>
+<p>ファイル内読み込み開始位置(バイト) 0～32767（省略時 0)</p>
+</dd>
 </dl>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_説明_71">【説明】</h5>
 <div class="paragraph">
-<p>SDカードから指定したファイルの内容を指定したアドレスに指定バイト数分、読み込みます。<br>
-アドレスには仮想アドレスを有効範囲内で指定します。<br></p>
+<p>SDカードから指定した <strong>ファイル</strong> の内容を指定した <strong>アドレス</strong> に指定 <strong>バイト数</strong> 分、読み込みます。<br>
+<strong>アドレス</strong> には仮想アドレスを有効範囲内で指定します。<br>
+<strong>ファイル内位置</strong> を指定した場合は、ファイル先頭から指定位置のバイト位置からデータを読み込みます。</p>
 </div>
 <div class="paragraph">
 <p>仮想アドレスの指定には次の定数を利用することで有用な領域の指定が簡単に行えます。<br></p>
@@ -10022,42 +10090,42 @@ OK</pre>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">VRAM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">VRAM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">画面表示用メモリ(CW×CH)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズは<a href="#SCREEN">SCREEN</a>モードにより可変</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">VAR</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">VAR</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">変数領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 420バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">ARRAY</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">ARRAY</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">配列変数領域(@(0)～@(99) )</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 200バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">PRG</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">PRG</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">プログラム領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 4,096バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">MEM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">MEM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ユーザーワーク領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 1,024バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">FNT</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">FNT</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">フォント256文字(フラッシュメモリ)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 2,048バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">GRAM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">GRAM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">グラフィック表示用メモリ</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズは<a href="#SCREEN">SCREEN</a>モードにより可変</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">PRG2</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">PRG2</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">フラッシュメモリプログラム保存領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 4,096バイト<br>
 <a href="#BANK">BANK</a>コマンドにより0～5のバンク切り替え</p></td>
@@ -10065,12 +10133,11 @@ OK</pre>
 </tbody>
 </table>
 <div class="paragraph">
-<p>仮想アドレスについては「メモリーマップ」の仮想アドレスを参照下さい。<br>
-仮想アドレスの詳細については、「メモリーマップ」の「仮想アドレス」を参照下さい。<br>
-定数名については、「<a href="#_定数">定数</a>」の「<a href="#_メモリ領域先頭アドレス定数">メモリ領域先頭アドレス定数</a>」も参照ください。</p>
+<p>仮想アドレスの詳細については、「<a href="../仕様/メモリーマップ.adoc">メモリーマップ</a>」の「<a href="../仕様/メモリーマップ.adoc#_仮想アドレス">仮想アドレス</a>」を参照下さい。</p>
 </div>
 <div class="paragraph">
-<p><strong><a href="#BSAVE">BSAVE</a></strong> で保存したユーザーワーク領域、変数領域等内容を読み込んで利用することが出来ます。<br></p>
+<p>パソコンで作成したデータファイルや、<strong><a href="#BSAVE">BSAVE</a></strong> で保存したユーザーワーク領域、<br>
+変数領域等内容を読み込んで利用することが出来ます。<br></p>
 </div>
 <div class="paragraph">
 <p>ファイル名には、<strong><a href="#PRINT">PRINT</a></strong> 文と同じ書式の記述が可能です。<br></p>
@@ -10144,6 +10211,7 @@ BLOAD "GDATA.BIN",GRAM,6048
 OK</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -10203,42 +10271,42 @@ OK</pre>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">VRAM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">VRAM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">画面表示用メモリ(CW×CH)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズは<a href="#SCREEN">SCREEN</a>モードにより可変</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">VAR</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">VAR</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">変数領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 420バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">ARRAY</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">ARRAY</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">配列変数領域(@(0)～@(99) )</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 200バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">PRG</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">PRG</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">プログラム領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 4,096バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">MEM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">MEM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ユーザーワーク領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 1,024バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">FNT</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">FNT</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">フォント256文字(フラッシュメモリ)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 2,048バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">GRAM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">GRAM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">グラフィック表示用メモリ</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズは<a href="#SCREEN">SCREEN</a>モードにより可変</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">PRG2</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">PRG2</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">フラッシュメモリプログラム保存領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 4,096バイト<br>
 <a href="#BANK">BANK</a>コマンドにより0～5のバンク切り替え</p></td>
@@ -10321,6 +10389,7 @@ BLOAD "GDATA.BIN",GRAM,6048
 OK</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -10430,6 +10499,7 @@ CAT "SAMPLE.BAS"</pre>
 OK</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -10504,42 +10574,42 @@ OK</pre>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">VRAM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">VRAM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">画面表示用メモリ(CW×CH)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズは<a href="#SCREEN">SCREEN</a>モードにより可変</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">VAR</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">VAR</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">変数領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 420バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">ARRAY</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">ARRAY</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">配列変数領域(@(0)～@(99) )</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 200バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">PRG</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">PRG</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">プログラム領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 4,096バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">MEM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">MEM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ユーザーワーク領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 1,024バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">FNT</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">FNT</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">フォント256文字(フラッシュメモリ)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 2,048バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">GRAM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">GRAM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">グラフィック表示用メモリ</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズは<a href="#SCREEN">SCREEN</a>モードにより可変</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">PRG2</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">PRG2</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">フラッシュメモリプログラム保存領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 4,096バイト<br>
 <a href="#BANK">BANK</a>コマンドにより0～5のバンク切り替え</p></td>
@@ -10673,6 +10743,7 @@ OK</pre>
 <p>画像はHelm42さんの猫絵を利用させて頂いています。<br>
 <a href="http://free-illustrations.gatag.net/tag/%E7%8C%AB-%E3%83%8D%E3%82%B3" class="bare">http://free-illustrations.gatag.net/tag/%E7%8C%AB-%E3%83%8D%E3%82%B3</a></p>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -10773,6 +10844,7 @@ MIDIR "DIR1"</pre>
 OK</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -10880,6 +10952,7 @@ RMDIR "/" は"Bad file name"エラーとなります。
 OK</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -10970,8 +11043,8 @@ REMOVE "SAMPLE.BAS"</pre>
 OK</pre>
 </div>
 </div>
-<div style="page-break-after: always;"></div>
 <hr>
+<div style="page-break-after: always;"></div>
 </div>
 </div>
 </div>
@@ -11083,42 +11156,42 @@ TFT版では1ドットに16ビットを割り当てた16ビット色の利用も
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">VRAM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">VRAM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">画面表示用メモリ(CW×CH)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズは<a href="#SCREEN">SCREEN</a>モードにより可変</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">VAR</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">VAR</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">変数領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 420バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">ARRAY</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">ARRAY</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">配列変数領域(@(0)～@(99) )</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 200バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">PRG</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">PRG</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">プログラム領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 4,096バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">MEM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">MEM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ユーザーワーク領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 1,024バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">FNT</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">FNT</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">フォント256文字(フラッシュメモリ)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 2,048バイト</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">GRAM</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">GRAM</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">グラフィック表示用メモリ</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズは<a href="#SCREEN">SCREEN</a>モードにより可変</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><a href="#_メモリ領域先頭アドレス定数">PRG2</a></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="#_メモリ領域先頭アドレス定数">PRG2</a></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">フラッシュメモリプログラム保存領域</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">サイズ 4,096バイト<br>
 <a href="#BANK">BANK</a>コマンドにより0～5のバンク切り替え</p></td>
@@ -13057,6 +13130,7 @@ $0000～$0008は、次の色に割り当てています。<br></p>
 30 SCLOSE</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -13290,6 +13364,7 @@ $0000～$0008は、次の色に割り当てています。<br></p>
  OK</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 <div class="paragraph">
 <p>[[SOPEN,]]
@@ -13434,6 +13509,7 @@ $0000～$0008は、次の色に割り当てています。<br></p>
 40 SCLOSE</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -13606,6 +13682,7 @@ $0000～$0008は、次の色に割り当てています。<br></p>
 30 SCLOSE</pre>
 </div>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -13756,6 +13833,7 @@ $0000～$0008は、次の色に割り当てています。<br></p>
 受信したデータ$ODの場合は改行します。<br>
 それ以外の制御文字は無視します。</p>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -13907,6 +13985,7 @@ $0000～$0008は、次の色に割り当てています。<br></p>
 受信したデータ$ODの場合は改行します。<br>
 それ以外の制御文字は無視します。</p>
 </div>
+<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -14049,8 +14128,8 @@ $0000～$0008は、次の色に割り当てています。<br></p>
 50 SCLOSE</pre>
 </div>
 </div>
-<div style="page-break-after: always;"></div>
 <hr>
+<div style="page-break-after: always;"></div>
 </div>
 </div>
 </div>
@@ -14273,7 +14352,7 @@ OK</pre>
 <div id="footer">
 <div id="footer-text">
 バージョン 0.87(Draft) 2018/12/09<br>
-最終更新 2018-12-09 19:43:32 東京 (標準時)
+最終更新 2018-12-10 12:44:19 東京 (標準時)
 </div>
 </div>
 </body>
