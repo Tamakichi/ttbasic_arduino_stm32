@@ -25,7 +25,7 @@ https://github.com/Tamakichi/ttbasic_arduino_stm32/releases
 * 「豊四季タイニーBASIC for Arduino STM32」 インストール(旧)  
 https://tamakichi.github.io/ttbasic_arduino_stm32/install.html  
 * 「豊四季タイニーBASIC for Arduino STM32」 キーワード一覧(更新中)  
-https://tamakichi.github.io/ttbasic_arduino_stm32/キーワード.html  
+https://tamakichi.github.io/ttbasic_arduino_stm32/keyword.html  
 * 「豊四季タイニーBASIC for Arduino STM32」 コマンドリファレンス(更新中)  
 https://tamakichi.github.io/ttbasic_arduino_stm32/manual.html  
 
