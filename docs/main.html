@@ -448,35 +448,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_はじめに">1.1. はじめに</a></li>
 <li><a href="#_関連情報">1.2. 関連情報</a></li>
 <li><a href="#_著作権利用条件">1.3. 著作権・利用条件</a></li>
-<li><a href="#_システム構成">1.4. システム構成</a>
-<ul class="sectlevel3">
-<li><a href="#_バリエーション">1.4.1. バリエーション</a></li>
-<li><a href="#_個別構成">1.4.2. 個別構成</a></li>
-<li><a href="#_個別詳細">1.4.3. 個別詳細</a></li>
-</ul>
-</li>
+<li><a href="#_システム構成">1.4. システム構成</a></li>
 <li><a href="#_ソフトウェア仕様">1.5. ソフトウェア仕様</a></li>
 <li><a href="#_ハードウエア仕様">1.6. ハードウエア仕様</a></li>
-<li><a href="#_結線図">1.7. 結線図</a>
-<ul class="sectlevel3">
-<li><a href="#_シリアル接続版_2">1.7.1. シリアル接続版</a></li>
-<li><a href="#_ntsc版_2">1.7.2. NTSC版</a></li>
-<li><a href="#_oled版_2">1.7.3. OLED版</a></li>
-<li><a href="#_tft版_2">1.7.4. TFT版</a></li>
-<li><a href="#_sdカード対応">1.7.5. SDカード対応</a></li>
-<li><a href="#_rtc用電池">1.7.6. RTC用電池</a></li>
-<li><a href="#_部品表">1.7.7. 部品表</a></li>
-</ul>
-</li>
+<li><a href="#_結線図">1.7. 結線図</a></li>
 <li><a href="#_ピンレイアウト">1.8. ピンレイアウト</a></li>
 <li><a href="#_ピン割り付け一覧">1.9. ピン割り付け一覧</a></li>
-<li><a href="#_メモリーマップ">1.10. メモリーマップ</a>
-<ul class="sectlevel3">
-<li><a href="#_flashメモリ">1.10.1. FLASHメモリ</a></li>
-<li><a href="#_sram">1.10.2. SRAM</a></li>
-<li><a href="#_仮想アドレス">1.10.3. 仮想アドレス</a></li>
-</ul>
-</li>
+<li><a href="#_メモリーマップ">1.10. メモリーマップ</a></li>
 <li><a href="#_フォント">1.11. フォント</a></li>
 <li><a href="#_編集操作キー">1.12. 編集操作キー</a></li>
 </ul>
@@ -486,17 +464,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_初期設定">2.1. 初期設定</a></li>
 <li><a href="#_ps2キーボード">2.2. PS/2キーボード</a></li>
 <li><a href="#_コンソール画面設定">2.3. コンソール画面設定</a></li>
-<li><a href="#_シリアル通信">2.4. シリアル通信</a>
-<ul class="sectlevel3">
-<li><a href="#_通信条件">2.4.1. 通信条件</a></li>
-<li><a href="#_文字コード設定">2.4.2. 文字コード設定</a></li>
-</ul>
-</li>
-<li><a href="#_ntscビデオ出力">2.5. NTSCビデオ出力</a>
-<ul class="sectlevel3">
-<li><a href="#_垂直同期信号補正">2.5.1. 垂直同期信号補正</a></li>
-</ul>
-</li>
+<li><a href="#_シリアル通信">2.4. シリアル通信</a></li>
+<li><a href="#_ntscビデオ出力">2.5. NTSCビデオ出力</a></li>
 <li><a href="#_起動時コンソール画面">2.6. 起動時コンソール画面</a></li>
 <li><a href="#_内部rtcの時刻設定">2.7. 内部RTCの時刻設定</a></li>
 <li><a href="#_プログラム保存読込">2.8. プログラム保存・読込</a></li>
@@ -506,6 +475,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_仮想eeprom">2.12. 仮想EEPROM</a></li>
 <li><a href="#_プログラム保存領域">2.13. プログラム保存領域</a></li>
 <li><a href="#_mmc互換カード">2.14. MMC互換カード</a></li>
+</ul>
+</li>
+<li><a href="#_プログラム構成要素">3. プログラム構成要素</a>
+<ul class="sectlevel2">
+<li><a href="#_プログラム構造と形式">3.1. プログラム構造と形式</a></li>
+<li><a href="#_行と命令文">3.2. 行と命令文</a></li>
+<li><a href="#_制御文">3.3. 制御文</a></li>
+<li><a href="#_コマンド関数">3.4. コマンド・関数</a></li>
+<li><a href="#_数値">3.5. 数値</a></li>
+<li><a href="#_変数配列変数">3.6. 変数・配列変数</a></li>
+<li><a href="#_文字文字列">3.7. 文字・文字列</a></li>
+<li><a href="#_演算子">3.8. 演算子</a></li>
+<li><a href="#_式">3.9. 式</a></li>
+<li><a href="#_定数">3.10. 定数</a></li>
 </ul>
 </li>
 </ul>
@@ -524,7 +507,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="title">図 1. 実行環境</div>
 </div>
 <div class="paragraph">
-<p>「豊四季Tiny BASIC for Arduino STM32」は、
+<p>「豊四季タイニー BASIC for Arduino STM32」は、
 Tetsuya Suzuki氏が開発・公開している「<a href="https://github.com/vintagechips/ttbasic_arduino"><strong>TOYOSHIKI Tiny BASIC for Arduino</strong></a>」を<a href="https://wiki.stm32duino.com/index.php?title=Blue_Pill"><strong>Blue Pillボード</strong></a>(STM32F103C8T6搭載)に移植・機能拡張を施した、<strong>Tiny BASICインタープリタ</strong> です。</p>
 </div>
 <div class="paragraph">
@@ -634,7 +617,7 @@ Arduino IDEでスケッチをコンパイル＆書き込みでの利用が可能
 <div class="title">図 4. Blue PIllボード</div>
 </div>
 <div class="paragraph">
-<p>本マニュアルでは、「豊四季Tiny BASIC for Arduino STM32」の仕様を中心に解説します。<br>
+<p>本マニュアルでは、「豊四季タイニー BASIC for Arduino STM32」の仕様を中心に解説します。<br>
 別紙「コマンドリファレンス」では、BASICインタープリタで利用できる各コマンドについて解説いたします。</p>
 </div>
 <div class="dlist">
@@ -692,7 +675,7 @@ TOYOSHIKI Tiny BASIC for Arduino<br>
 <li>
 <p>Arduino STM32に関する情報<br>
 ・Arduino STM32 公式HP(モージュール配布サイト)<br>
-rogerclarkmelbourne/Arduino_STM32
+rogerclarkmelbourne/Arduino_STM32<br>
 <a href="https://github.com/rogerclarkmelbourne/Arduino_STM32" class="bare">https://github.com/rogerclarkmelbourne/Arduino_STM32</a></p>
 </li>
 <li>
@@ -793,7 +776,7 @@ rogerclarkmelbourne/Arduino_STM32
 <div class="sect2">
 <h3 id="_システム構成">1.4. システム構成</h3>
 <div class="paragraph">
-<p>「豊四季Tiny BASIC for Arduino STM32」では、次の構成での利用が可能です。</p>
+<p>「豊四季タイニー BASIC for Arduino STM32」では、次の構成での利用が可能です。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -812,7 +795,7 @@ USB-シリアル経由ターミナルコンソール上でのプログラム入�
 <div class="sect3">
 <h4 id="_バリエーション">1.4.1. バリエーション</h4>
 <div class="paragraph">
-<p>「豊四季Tiny BASIC for Arduino STM32」では、次の組み合わせの利用環境が構築出来ます。</p>
+<p>「豊四季タイニー BASIC for Arduino STM32」では、次の組み合わせの利用環境が構築出来ます。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -837,7 +820,7 @@ USB-シリアル経由ターミナルコンソール上でのプログラム入�
 (4)TFTディスプレイ + PS/2キーボード</p>
 </div>
 <div class="paragraph">
-<p>「豊四季Tiny BASIC for Arduino STM32」ではこの４タイプの構成で利用するために、次のコンパイル済ファームウェアを用意しています。<br></p>
+<p>「豊四季タイニー BASIC for Arduino STM32」ではこの４タイプの構成で利用するために、次のコンパイル済ファームウェアを用意しています。<br></p>
 </div>
 <div class="ulist">
 <ul>
@@ -1296,7 +1279,8 @@ CONSOLEコマンドにより、いつでもシリアルターミナルコンソ�
 <div class="sect2">
 <h3 id="_結線図">1.7. 結線図</h3>
 <div class="paragraph">
-<p>Blue Pillボードを使用した結線図です。</p>
+<p>Blue Pillボードを使用した結線図です。<br>
+ブレッドボードを使った結線、ユニバーサル基板を使った実装の参考にして下さい。</p>
 </div>
 <div class="sect3">
 <h4 id="_シリアル接続版_2">1.7.1. シリアル接続版</h4>
@@ -2094,7 +2078,7 @@ C<br>
 <div class="sect2">
 <h3 id="_メモリーマップ">1.10. メモリーマップ</h3>
 <div class="paragraph">
-<p>「豊四季Tiny BASIC for Arduino STM32」ではSTM32F103CT6のサポート外のフラッシュメモリ領域64バイトを含む合計128kバイトの領域を利用しています。SRAMは20kバイトの領域を利用しています。</p>
+<p>「豊四季タイニー BASIC for Arduino STM32」ではSTM32F103CT6のサポート外のフラッシュメモリ領域64バイトを含む合計128kバイトの領域を利用しています。SRAMは20kバイトの領域を利用しています。</p>
 </div>
 <div class="sect3">
 <h4 id="_flashメモリ">1.10.1. FLASHメモリ</h4>
@@ -2226,7 +2210,7 @@ C<br>
 <div class="sect3">
 <h4 id="_仮想アドレス">1.10.3. 仮想アドレス</h4>
 <div class="paragraph">
-<p>「豊四季Tiny BASIC for Arduino STM32」では、仮想アドレス利用することでSRAMおよびフラッシュメモリ上のデータの参照・書き込みを行うことができます。仮想アドレスは次の構成となります。</p>
+<p>「豊四季タイニー BASIC for Arduino STM32」では、仮想アドレス利用することでSRAMおよびフラッシュメモリ上のデータの参照・書き込みを行うことができます。仮想アドレスは次の構成となります。</p>
 </div>
 <table class="tableblock frame-all grid-all fit-content">
 <caption class="title">表 8. 仮想アドレス空間の割り当て</caption>
@@ -2370,7 +2354,7 @@ IchigoJamと互換性があります。</p>
 <div class="sect2">
 <h3 id="_編集操作キー">1.12. 編集操作キー</h3>
 <div class="paragraph">
-<p>「豊四季Tiny BASIC for Arduino STM32」では、デバイス画面（NTSCビデオ出力画面、OLED画面、TFT画面)、<br>
+<p>「豊四季タイニー BASIC for Arduino STM32」では、デバイス画面（NTSCビデオ出力画面、OLED画面、TFT画面)、<br>
 シリアルコンソール画面でのフルスクリーン編集をサポートしています。</p>
 </div>
 <div class="paragraph">
@@ -2511,12 +2495,12 @@ IchigoJamと互換性があります。</p>
 <h2 id="_利用環境設定">2. 利用環境設定</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>本節では、「豊四季Tiny BASIC for Arduino STM32」を使ってプログラムの開発を行うための環境及びその設定について、解説します。</p>
+<p>本節では、「豊四季タイニー BASIC for Arduino STM32」を使ってプログラムの開発を行うための環境及びその設定について、解説します。</p>
 </div>
 <div class="sect2">
 <h3 id="_初期設定">2.1. 初期設定</h3>
 <div class="paragraph">
-<p>「豊四季Tiny BASIC for Arduino STM32」のファームウェア(スケッチ)を初めての利用、またはバージョンの更新を行った場合、内部フラッシュメモリのプログラム保存及びCONFIGデータ保存用の領域の初期化が必要となります。</p>
+<p>「豊四季タイニー BASIC for Arduino STM32」のファームウェア(スケッチ)を初めての利用、またはバージョンの更新を行った場合、内部フラッシュメモリのプログラム保存及びCONFIGデータ保存用の領域の初期化が必要となります。</p>
 </div>
 <div class="paragraph">
 <p>初期化は次の作業を行って下さい。</p>
@@ -2785,7 +2769,7 @@ GPIOシリアルポート利用の場合は、SMODEコマンドで設定して�
 <p>改行コード、文字コード、キーボードに関するの指定を行います。</p>
 </div>
 <div class="paragraph">
-<p>「豊四季Tiny BASIC for Arduino STM32」では1バイトコードの半角カタカナ、シフトJIS全角文字の利用をサポートします。<br>
+<p>「豊四季タイニー BASIC for Arduino STM32」では1バイトコードの半角カタカナ、シフトJIS全角文字の利用をサポートします。<br>
 半角カタカナ、シフトJIS全角文字を利用のためには、利用する文字列コードとしてシフトJISを指定します。<br></p>
 </div>
 <div class="sect4">
@@ -3328,8 +3312,841 @@ OK</pre>
 <div class="paragraph">
 <p>なお、MMC互換カード(SDカード）は電気的に弱い面もありますので、万が一の故障を想定し、重要なデータを保存する用途との併用は避け、なるべく専用のカードを用意して下さい。</p>
 </div>
-<hr>
 <div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_プログラム構成要素">3. プログラム構成要素</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>本章では、「豊四季タイニー BASIC for Arduino STM32」が サポートするプログラム言語について解説します。</p>
+</div>
+<div class="sect2">
+<h3 id="_プログラム構造と形式">3.1. プログラム構造と形式</h3>
+<div class="paragraph">
+<p>次のプログラムリストは、画面に時刻を表示するプログラムです。<br>
+実行するとNTSCビデオ画面に時刻を更新表示します。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>10 CLS:SETDATE 2017,8,1,8,57,0
+20 GETTIME H,M,S
+30 @(0)=H/10:@(1)=H%10
+40 @(2)=10
+50 @(3)=M/10:@(4)=M%10
+60 @(5)=10
+70 @(6)=S/10:@(7)=S%10
+80 FOR I=0 TO 7
+90 BITMAP I*24+10,20,FNT,@(I)+ASC("0"),6,8,4
+100 NEXT I
+110 GOTO 20</pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">実行結果</div>
+<p><span class="image"><img src="images/prg_struct01.png" alt="prg struct01" width="300"></span></p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">上記プログラムの構造的は・・・・</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>プログラムは複数の行（行番号＋命令文）で構成されます。<br>
+先頭行は行番号 <strong>10</strong> + 命令文 <code>CLS: SETDATE 2017,8,1,8,57,0</code><br>
+で構成されています。<br>
+<code>10 CLS: SETDATE 2017,8,1,8,57,0</code><br>
+処理としては、画面の表示内容を全消去し、時刻を設定します。</p>
+</li>
+<li>
+<p>命令文は１つまたは複数のコマンドや式で構成されます。<br>
+<strong>30行</strong> は、２つの代入式を記述 配列変数@(0)、@(1)に値を代入しています。<br>
+<code>30 @(0)=H/10:@(1)=H%10</code></p>
+</li>
+<li>
+<p>コマンドはコマンド名と引数で構成されます。<br>
+<strong>20行</strong> は、コマンド名 <code>GETTIME</code> に引数として変数 <code>H</code>,<code>M</code>,<code>S</code> を指定し、<br>
+現在の時、分、秒を変数に代入しています。<br>
+<code>20 GETTIME H, M, S</code></p>
+</li>
+<li>
+<p>引数は式、変数、定数にて構成されます。<br>
+<strong>90行</strong> では、<code>BITMAP</code> コマンドの引数に式を記述し、<br>
+その計算結果を引数として渡します。<br>
+<code>90 BITMAP I*24+10,20,FNT,@(I)+ASC("0"),6,8,4</code></p>
+</li>
+<li>
+<p>プログラムは通常、行番号順にシーケンシャルに実行されます。<br>
+<strong>10行～70行</strong> は、<strong>行番号順に実行</strong> し、<br>
+配列変数 <code>@(0)</code> から <code>@(6)</code> に時刻情報を設定しています。<br></p>
+</li>
+<li>
+<p>制御命令により、分岐や繰り返しを行うことが出来ます。<br>
+<strong>80行～100行</strong> は <code>FOR</code> ～ <code>NEXT</code> コマンドにより、処理を8回繰り返しています。<br>
+<strong>20行～110行</strong> は <code>GOTO</code> コマンドにより無限に処理を繰り返します。<br></p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>このようにプログラムは様々な要素で構成れます。<br>
+次節からは、これらの各構成要素について解説します。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_行と命令文">3.2. 行と命令文</h3>
+<div class="sect3">
+<h4 id="_行">3.2.1. 行</h4>
+<div class="paragraph">
+<p>行とは利用者がコンピュータに対して指示を行う単位です。行は命令文にて構成されます。<br>
+「prduct」では、行の単位で利用者からの指示を処理します。</p>
+</div>
+<div class="paragraph">
+<p>スクリーンエディタ、およびコンソール画面の文字入力で、<br>
+<code>PRINT "Hello" Enter</code>  [Enter] キー<br>
+<code>Hello</code><br>
+<code>OK</code><br>
+のように[Enter] キーの入力により、<br>
+行の単位で指示を受け取り、そのコマンドを行います。</p>
+</div>
+<div class="paragraph">
+<p>また、行の先頭に行番号を付けた場合、<br>
+<code>10 PRINT "Hello" Enter</code><br></p>
+</div>
+<div class="paragraph">
+<p><strong>「指定した行番号で行（命令文）をプログラムに登録せよ」</strong><br>
+との指示であると判断し、<br>
+命令文は実行せずに、行（命令文）をプログラムとしてメモリーに登録します。</p>
+</div>
+<div class="paragraph">
+<p><code>10</code> [Enter]キー<br>
+のように行番号だけを指定した場合は、<br>
+<strong>「指定した行番号を空にせよ」 ＝ 「行（命令文）を削除せよ」</strong><br>
+との指示であると判断し、<br>
+該当する行をプログラムから削除します。</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_命令文">3.2.2. 命令文</h4>
+<div class="paragraph">
+<p>命令文とはコマンド、式、関数、コメント、ラベルを組み合わせて記述した命令です。<br></p>
+</div>
+<div class="sect4">
+<h5 id="_コマンド">コマンド</h5>
+<div class="paragraph">
+<p>コマンドはコロン:を使って１行に複数記述することができます。<br></p>
+</div>
+<div class="listingblock">
+<div class="title">例</div>
+<div class="content">
+<pre>10 I=I+1:LOCATE 0,I:COLOR 7,0:PRINT "Hello":GOTO 50:'サンプル</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_コメント文">コメント文</h5>
+<div class="paragraph">
+<p>文において、<code>REM</code> 、および省略形のシングルクオーテーション <code>’</code> を使った以降の文はコメントとなります。</p>
+</div>
+<div class="listingblock">
+<div class="title">例</div>
+<div class="content">
+<pre>10 'Smple program
+20 REM Sample program
+30 PRINT "Hello":’print hello</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_ラベル">ラベル</h5>
+<div class="paragraph">
+<p>行の先頭のダブルクオテーションで囲った文字列はラベルとして動作します。<br>
+ラベル自体は実行時に何も行いません。<strong>GOTO</strong> 文、<strong>GOSSUB</strong> 文のジャンプ先の指定で利用します。<br>
+ラベルの後ろにはコマンドを続けて記述することができます。</p>
+</div>
+<div class="listingblock">
+<div class="title">例</div>
+<div class="content">
+<pre>10 "LOOP":PRINT "Hello"
+20 GOTO "LOOP"</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_制御文">3.3. 制御文</h3>
+<div class="paragraph">
+<p>制御文は制御命令を使ったプログラムの記述文です。複数のキーワード、式の組み合わせで構成されます。<br>
+プログラムは <strong>RUN</strong> コマンドを実行することにより、通常は先頭行から行番号順に逐次実行されます。<br>
+この逐次実行は制御文を用いることで条件分岐、繰り返しを行うことが出来ます。<br></p>
+</div>
+<div class="listingblock">
+<div class="title">FOR文の例：繰り返し処理を行う</div>
+<div class="content">
+<pre>10 FOR A=0 TO 10 STEP 5
+20 PRINT A
+30 NEXT A</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>以下に制御命令の一覧を示します。</p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">制御命令・書式</th>
+<th class="tableblock halign-center valign-top">概要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#END">END</a></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">プログラムの終了</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#FOR">FOR</a></strong> 変数 <strong>=</strong> 初期値 <strong><a href="#FOR">TO</a></strong> 最終値 [<strong><a href="#FOR">STEP</a></strong> 増分]<br>
+　<em>＜繰り返し実行文(複数行可能)＞</em><br>
+<strong><a href="#FOR">NEXT</a></strong> 変数</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">処理の繰り返し</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#GOSUB">GOSUB</a></strong> 行番号<br>
+<strong><a href="#GOSUB">GOSUB</a></strong> "ラベル"</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">サブルーチンの呼び出し</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#GOTO">GOTO</a></strong> 行番号<br>
+<strong><a href="#GOTO">GOTO</a></strong> "ラベル"</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">指定行にジャンプ</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#IF">IF</a></strong> 条件式 真の場合の実行文<br>
+<strong><a href="#IF">IF</a></strong> 条件式 真の場合の実行文 <strong><a href="#IF">ELSE</a></strong> 偽の場合の実行文</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">条件判定を行う</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><a href="#RETURN">RETURN</a></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">サブルーチンからの復帰</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>各制御命令の詳細についれは、それぞれの命令文のコマンドリファレンスを参照してください。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_コマンド関数">3.4. コマンド・関数</h3>
+<div class="sect3">
+<h4 id="_コマンド_2">3.4.1. コマンド</h4>
+<div class="paragraph">
+<p>コマンドとは何らかの処理を行うプログラム要素です。<br>
+コマンドには一般コマンドとシステムコマンドの２種類があります。<br></p>
+</div>
+<div class="paragraph">
+<p>一般コマンドはコマンドラインからの直接利用とプログラム内での利用が可能です。<br>
+システムコマンドは、プログラムの管理を行うコマンドです。プログラム中で利用した場合、不整合が生じるため、コマンドラインでのみ利用可能としています。</p>
+</div>
+<div class="paragraph">
+<p>システムコマンドをプログラム中で利用した場合、エラー("Cannot use system command")となります。</p>
+</div>
+<div class="listingblock">
+<div class="title">例：プログラム内にシステムコマンドDELETEを記述</div>
+<div class="content">
+<pre>10 ? "SAMPLE"
+20 DELETE 10
+30 END
+RUN
+Cannot use system command in 20
+20 DELETE 10
+OK</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_数値">3.5. 数値</h3>
+<div class="paragraph">
+<p>「豊四季タイニー BASIC for Arduino STM32」で使える数値は整数型のみとなります。<br>
+整数型は16ビット幅、有効範囲は-32768～32767となります。<br>
+式、数値定数、数値関数、変数、配列変数はすべてこれに従います。</p>
+</div>
+<div class="paragraph">
+<p>数値の表記は次の形式が可能です。<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>10進数表記(-32768～32767) ：-1、-32767, 100</p>
+</li>
+<li>
+<p>2新数表記(1桁から16桁)	 ：`1, `1111111111111111</p>
+</li>
+<li>
+<p>16進数表記(1桁～4桁) 		：$1345, $abcd, $Abcd</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">注意</div>
+</td>
+<td class="content">
+数値を中間コードに変換（文字列数値を2バイト型数値に変換）する際、オバーフローが発生した場合はOverflowエラーとなります。<br>
+<code>?32768</code><br>
+<code>Overflow</code><br>
+評価・演算においてオーバーフローが発生した場合はエラーとはなりません。<br>
+<code>?32767+1</code><br>
+<code>-32768</code><br>
+２つの例は、同じような記述ですが、結果に差異が発生することをご理解下さい。
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_関数">3.5.1. 関数</h4>
+<div class="paragraph">
+<p>関数とは何らかの値を返す命令文です。関数には数値関数と文字列関数の２種類があります。<br>
+数値関数は数値を返す関数です。文字列関数は文字列を返す関数です。<br>
+数値関数はコマンドの引数や式のなどの数値として利用します。<br>
+文字列関数はPRINT,SPRINT,GPRINTの引数、ファイル名の引数にて利用できます。</p>
+</div>
+<div class="listingblock">
+<div class="title">例：関数の利用</div>
+<div class="content">
+<pre>10 A=ASC("A")*8+FNT
+20 FOR I=0 TO 7
+30 PRINT BIN$(PEEK(A+I),8)
+40 NEXT I
+50 END
+
+run
+01110000
+10001000
+10001000
+10001000
+11111000
+10001000
+10001000
+00000000
+OK</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>上記のプログラムは文字"A"のフォントパターンを2進数で表示します。<br>
+10行にて数値関数ASC()を利用しています。30行で文字列関数BIN$()を利用しています。<br>
+関数単独での利用は出来ません。コマンドや関数の引数、式中でのみ利用可能です。</p>
+</div>
+<div class="listingblock">
+<div class="title">例：関数の利用は文法エラーとなる</div>
+<div class="content">
+<pre>ASC("A")
+Syntax error
+OK</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_変数配列変数">3.6. 変数・配列変数</h3>
+<div class="paragraph">
+<p>変数とは数値を格納する保存領域です。数値と同様に式に利用できます。<br>
+変数には、通常の <strong>変数</strong> の他に <strong>配列変数</strong> があります。<br>
+変数に格納する数値は16ビット幅、有効範囲は-32768～32767となります。</p>
+</div>
+<div class="paragraph">
+<p>変数は数値型のみ利用可能ですが、文字列の格納アドレスを代入することにより、<br>
+文字列の参照を行うことが出来出来ます。</p>
+</div>
+<div class="sect3">
+<h4 id="_変数の表記">3.6.1. 変数の表記</h4>
+<div class="sect4">
+<h5 id="_通常の変数">通常の変数</h5>
+<div class="paragraph">
+<p>変数名は英字A～Zの１文字、<br>
+英字+数字(0～6)の2文字<br>
+の利用が可能です。</p>
+</div>
+<div class="listingblock">
+<div class="title">例:</div>
+<div class="content">
+<pre>10 A0=200
+20 A1=300
+30 A=A0+A1
+40 S="Hello"</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_配列変数">配列変数</h5>
+<div class="paragraph">
+<p><code>@(添え字)</code> の形式<br>
+添え字は数値で 0 ～ 99 の範囲で利用可能<br>
+<code>(@(0)</code> ～ <code>@(99))</code> <br>
+添え字の数値には式、変数等の利用が可能</p>
+</div>
+<div class="listingblock">
+<div class="title">例:</div>
+<div class="content">
+<pre>10 A=5
+20 @(0)=30/5,
+30 @(A+1)=5</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>代入式において、指定した添え字を起点として連続代入が可能<br></p>
+</div>
+<div class="listingblock">
+<div class="title">例:</div>
+<div class="content">
+<pre>10 @(10)=100,200,300,400,500</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_文字文字列">3.7. 文字・文字列</h3>
+<div class="paragraph">
+<p>「prduct」では半角英数字の文字列を扱うことが出来ます。</p>
+</div>
+<div class="paragraph">
+<p>文字列の表記は次の通りです。<br>
+書式： "文字列"</p>
+</div>
+<div class="paragraph">
+<p>ダブルクォーテーションで囲みます。<br>
+文字列は0～255文字まで指定可能です。</p>
+</div>
+<div class="listingblock">
+<div class="title">例:</div>
+<div class="content">
+<pre>?PRINT "Hello"
+Hello
+OK</pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_変数への文字列代入">3.7.1. 変数への文字列代入</h4>
+<div class="paragraph">
+<p>「prduct」では、<br>
+文字列の格納アドレスへの参照の形式で、変数への文字列代入をサポートしています。</p>
+</div>
+<div class="listingblock">
+<div class="title">例: 変数に文字列を代入する</div>
+<div class="content">
+<pre>10 A="ABCDE"
+20 PRINT A
+30 PRINT STR$(A)
+
+run
+7079
+ABCDE
+OK</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>上記の例では、変数Aに文字列 `ABCDE`の格納アドレスを代入しています。<br>
+変数Aの値をそのまま表示すると、格納アドレスが表示されます。<br>
+変数Aが参照している文字列を表示するには、<strong>STR$()</strong> 関数を利用する必要があります。</p>
+</div>
+<div class="paragraph">
+<p>C言語のポインタに似ていますが、文字列情報は、<strong>長さ＋文字列</strong> の形式で管理しています。<br>
+したがって、下記のような利用は出来ません。行った場合、意図しない動作となります。</p>
+</div>
+<div class="listingblock">
+<div class="title">例：</div>
+<div class="content">
+<pre>10 A="ABCDE"
+20 A=A+1
+30 PRINT STR$(A)
+
+run
+ﾗﾗﾓﾘﾘ
+OK  ,9ﾗﾘ</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>また、コマンドラインでの変数への文字列代入は行えません。 <br>
+コマンドライン毎に領域をクリアするため、直前の文字列の参照を正しく行うことが出来ません。</p>
+</div>
+<div class="listingblock">
+<div class="title">例：</div>
+<div class="content">
+<pre>A="ABCDE"
+OK
+?STR$(A)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>STR$関数のような、変数に代入した文字列の操作を行う関数を用意しています。</p>
+</div>
+<div class="listingblock">
+<div class="title">例 LEN() 文字列の長さの取得</div>
+<div class="content">
+<pre>10 A="ABCDE"
+20 L=LEN(A)
+30 ?L
+RUN
+5
+OK</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">例 STR$() 変数で参照している文字列の取得、部分切り出し</div>
+<div class="content">
+<pre>10 A="ABCDE"
+20 PRINT STR$(A)
+30 PRINT STR$(A,4,1)
+RUN
+ABCDE
+D
+OK</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">例 ASC() 指定位置の文字コードの取得	:</div>
+<div class="content">
+<pre>10 A="ABCDE"
+20 C=ASC(A,4,1)
+RUN
+68
+OK</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>詳細については、コマンドリファレンスを参照して下さい。</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_演算子">3.8. 演算子</h3>
+<div class="paragraph">
+<p>数値演算で利用できる演算子を示します。<br>
+記述例のA,Bには数値、変数、配列変数、関数、カッコで囲んだ式が利用できます。</p>
+</div>
+<div class="sect3">
+<h4 id="_算術演算子">3.8.1. 算術演算子</h4>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">演算子</th>
+<th class="tableblock halign-center valign-top">説明</th>
+<th class="tableblock halign-center valign-top">記述例</th>
+<th class="tableblock halign-center valign-top">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>+</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">足し算</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>A+B</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AとBを足す</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>-</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">引き算</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>A-B</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AからBを引く</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>*</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">掛け算</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>A*B</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AとBの積</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>/</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">割り算</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>A/B</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AをBで割る</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>%</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">剰余算</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>A%B</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AをBで割った余り</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_ビット演算子">3.8.2. ビット演算子</h4>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">演算子</th>
+<th class="tableblock halign-center valign-top">説明</th>
+<th class="tableblock halign-center valign-top">記述例</th>
+<th class="tableblock halign-center valign-top">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>&amp;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ビット毎のAND演算</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>A&amp;B</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AとBのビット毎のAND</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>|</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ビット毎のOR演算</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>A|B</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AとBのビット毎のOR</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>&gt;&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ビット右シフト演算</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>A&gt;&gt;B</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Aを右にBビットシフト</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>&lt;&lt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ビット左シフト演算</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>A&lt;&lt;B</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Aを左にBビットシフト</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>~</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ビット毎の反転</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>~A</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Aの各ビットを反転</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>^</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ビット毎のXOR</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>A^B</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AとBのXOR</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>比較演算、論理演算の論理反転は、0が偽、0以外が真となります。<br>
+0以外が真となりますので、1、-1はとも真となります。</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_比較演算子">3.8.3. 比較演算子</h4>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">演算子</th>
+<th class="tableblock halign-center valign-top">説明</th>
+<th class="tableblock halign-center valign-top">記述例</th>
+<th class="tableblock halign-center valign-top">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>=</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">等しいかを判定</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>A=B</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AとBが等しければ真,異なれば偽</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>!=<br>
+&lt;&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">異なるかを判定</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>A!=B<br>
+A&lt;&gt;B</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AとBが異なれば真,等しければ偽</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>&lt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">小さいかを判定</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>A&lt;B</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AがB未満であれば真、そうでなければ偽</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code><=</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">小さいまたは等しいかを判定</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>A<=B</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AがB以下であれば真、そうでなければ偽</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">大きいかを判定</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>A&gt;B</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AがBより大きければ真、そうでなければ偽</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>&gt;=</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">大きいまたは等しいかを判定</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>A&gt;=B</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AがB以上であれば真、そうでなければ偽</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_論理演算子">3.8.4. 論理演算子</h4>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">演算子</th>
+<th class="tableblock halign-center valign-top">説明</th>
+<th class="tableblock halign-center valign-top">記述例</th>
+<th class="tableblock halign-center valign-top">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>AND</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">論理積</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>A AND B</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A,Bが真なら真、でなければ偽</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>OR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">論理和</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>A OR B</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A,Bどちらかが真なら真、でなければ偽</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>!</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">否定</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>!A 　　　</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Aが真なら偽、偽なら真</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_演算子の優先順序">3.8.5. 演算子の優先順序</h4>
+<div class="paragraph">
+<p>演算子の優先度を下記に示します。優先度の数値が小さいほど優先度が高くなります。<br>
+計算結果が意図した結果にならない場合は、優先度の確認、括弧をつけて優先度を上げる等の対応を行って下さい。</p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<caption class="title">表 13. 演算子の優先度</caption>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">優先度</th>
+<th class="tableblock halign-center valign-top">演算子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>括弧で囲った式</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>!, ~</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>*, / , % , &amp;, |, &lt;&lt; , &gt;&gt; , ^</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>+ , - ,</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>=, &lt;&gt; , != , &gt;, &gt;= , &lt;  , <= , AND , OR</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>比較演算子と論理演算は優先度が同レベルです。比較演算子の演算を先に行う場合は、
+括弧を使って優先度を上げて下さい。</p>
+</div>
+<div class="listingblock">
+<div class="title">例：</div>
+<div class="content">
+<pre>?1&lt;5 and 2&gt;3
+0
+?(1&lt;5) and (2&gt;3)
+1</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_式">3.9. 式</h3>
+<div class="paragraph">
+<p>式とは <code>1</code>、<code>1+1</code> 、<code>A</code> 、<code>A+1</code> 、<code>ABS(-1)</code> ` などの演算・値の評価を伴う記述をいいます。<br>
+式はプログラム実行にて計算・評価が行われ、１つの整数値の値として振る舞います。<br>
+変数への値の代入、コマンド、条件判定(IF文)、関数に引数に式が用いられた場合は、評価後の値がコマンドおよび関数に渡されます。<br></p>
+</div>
+<div class="sect3">
+<h4 id="_式の利用">3.9.1. 式の利用</h4>
+<div class="paragraph">
+<p>変数への値の代入(代入命令 LETは省略可能)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>LET A=(1+10)*10/2
+A=5*5+3*2
+@(I+J) = I*J</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>コマンド・関数の引数</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>LOCATE X+I*2, J:PRINT "*"
+OUT PC13, I&gt;J
+A=EEPREAD(I+J+1)/2</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_定数">3.10. 定数</h3>
+<div class="paragraph">
+<p>「豊四季タイニー BASIC for Arduino STM32」では定義済の定数が利用出来ます。<br>
+定数はコマンドの引数や式の中で数値関数と同等に利用出来ます。</p>
+</div>
+<div class="paragraph">
+<p>利用出来る定数の例<br>
+<code>HIGH</code>、<code>LOW</code>、<code>ON</code>、<code>OFF</code> ・・・ ビット値(<code>0</code> or <code>1</code>)<br>
+<code>PA0</code>、<code>PA</code> ・・・ ピン番号<br>
+<code>CW</code>、<code>CH</code>、<code>GW</code>、<code>GH</code> ・・・ 画面サイズ</p>
+</div>
+<div class="paragraph">
+<p>詳細については、「コマンドリファレンスマニュアル」の「定数」を参照下さい。</p>
+</div>
 </div>
 </div>
 </div>
@@ -3337,7 +4154,7 @@ OK</pre>
 <div id="footer">
 <div id="footer-text">
 バージョン 0.87(Draft) 2018/12/15<br>
-最終更新 2018-12-15 19:01:48 東京 (標準時)
+最終更新 2018-12-16 21:47:13 東京 (標準時)
 </div>
 </div>
 </body>
