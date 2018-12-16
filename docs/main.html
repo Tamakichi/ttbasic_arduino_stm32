@@ -1,0 +1,3344 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<meta name="description" content="">
+<meta name="author" content="たま吉さん">
+<title>豊四季Tiny BASIC for Arduino STM32 V0.87仕様編</title>
+<style>
+/* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
+/* Uncomment @import statement below to use as custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
+audio,canvas,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+script{display:none!important}
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+a{background:transparent}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,*::before,*::after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:none}
+p{font-family:inherit;font-weight:400;font-size:1em;line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #ddddd8;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em;height:0}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
+abbr{text-transform:none}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
+blockquote cite::before{content:"\2014 \0020"}
+blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+*:not(pre)>code.nobreak{word-wrap:normal}
+*:not(pre)>code.nowrap{white-space:nowrap}
+pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #ddddd8}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #ddddd8;padding-bottom:8px}
+#header .details{border-bottom:1px solid #ddddd8;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:-ms-flexbox;display:-webkit-flex;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #ddddd8;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #efefed;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background-color:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #efefed;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #efefed;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:100%;background-color:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:rgba(255,255,255,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #efefed}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:inherit}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #ddddd8;color:rgba(0,0,0,.6)}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock pre:not(.highlight),.listingblock pre[class="highlight"],.listingblock pre[class^="highlight "],.listingblock pre.CodeRay,.listingblock pre.prettyprint{background:#f7f7f8}
+.sidebarblock .literalblock pre,.sidebarblock .listingblock pre:not(.highlight),.sidebarblock .listingblock pre[class="highlight"],.sidebarblock .listingblock pre[class^="highlight "],.sidebarblock .listingblock pre.CodeRay,.sidebarblock .listingblock pre.prettyprint{background:#f2f1f1}
+.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;padding:1em;font-size:.8125em}
+.literalblock pre.nowrap,.literalblock pre[class].nowrap,.listingblock pre.nowrap,.listingblock pre[class].nowrap{overflow-x:auto;white-space:pre;word-wrap:normal}
+@media screen and (min-width:768px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:1em}}
+.literalblock.output pre{color:#f7f7f8;background-color:rgba(0,0,0,.9)}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:#999}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:#999}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+table.pyhltable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.pyhltable td{vertical-align:top;padding-top:0;padding-bottom:0;line-height:1.45}
+table.pyhltable td.code{padding-left:.75em;padding-right:0}
+pre.pygments .lineno,table.pyhltable td:not(.code){color:#999;padding-left:0;padding-right:.5em;border-right:1px solid #ddddd8}
+pre.pygments .lineno{display:inline-block;margin-right:.25em}
+table.pyhltable .linenodiv{background:none!important;padding-right:0!important}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock blockquote p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.5em;margin-right:.5ex;text-align:right}
+.quoteblock .quoteblock{margin-left:0;margin-right:0;padding:.5em 0;border-left:3px solid rgba(0,0,0,.6)}
+.quoteblock .quoteblock blockquote{padding:0 0 0 .75em}
+.quoteblock .quoteblock blockquote::before{display:none}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.abstract blockquote,.quoteblock.abstract blockquote p{word-spacing:0;line-height:1.6}
+.quoteblock.abstract blockquote::before,.quoteblock.abstract p::before{display:none}
+table.tableblock{max-width:100%;border-collapse:separate}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
+table.grid-all>tfoot>tr>.tableblock{border-width:1px 1px 0 0}
+table.grid-cols>*>tr>.tableblock{border-width:0 1px 0 0}
+table.grid-rows>thead>tr>.tableblock,table.grid-rows>tbody>tr>.tableblock{border-width:0 0 1px}
+table.grid-rows>tfoot>tr>.tableblock{border-width:1px 0 0}
+table.grid-all>*>tr>.tableblock:last-child,table.grid-cols>*>tr>.tableblock:last-child{border-right-width:0}
+table.grid-all>tbody>tr:last-child>.tableblock,table.grid-all>thead:last-child>tr>.tableblock,table.grid-rows>tbody>tr:last-child>.tableblock,table.grid-rows>thead:last-child>tr>.tableblock{border-bottom-width:0}
+table.frame-all{border-width:1px}
+table.frame-sides{border-width:0 1px}
+table.frame-topbot,table.frame-ends{border-width:1px 0}
+table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd){background:#f8f8f7}
+table.stripes-none tr,table.stripes-odd tr:nth-of-type(even){background:none}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{display:table-cell;line-height:1.6;background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+td>div.verse{white-space:pre}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
+ul.inline{display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
+.imageblock.left,.imageblock[style*="float: left"]{margin:.25em .625em 1.25em 0}
+.imageblock.right,.imageblock[style*="float: right"]{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background-color:#00fafa}
+.black{color:#000}
+.black-background{background-color:#000}
+.blue{color:#0000bf}
+.blue-background{background-color:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background-color:#fa00fa}
+.gray{color:#606060}
+.gray-background{background-color:#7d7d7d}
+.green{color:#006000}
+.green-background{background-color:#007d00}
+.lime{color:#00bf00}
+.lime-background{background-color:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background-color:#7d0000}
+.navy{color:#000060}
+.navy-background{background-color:#00007d}
+.olive{color:#606000}
+.olive-background{background-color:#7d7d00}
+.purple{color:#600060}
+.purple-background{background-color:#7d007d}
+.red{color:#bf0000}
+.red-background{background-color:#fa0000}
+.silver{color:#909090}
+.silver-background{background-color:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background-color:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background-color:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background-color:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background-color:rgba(0,0,0,.8);-webkit-border-radius:100px;border-radius:100px;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background-color:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #ddddd8!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media print,amzn-kf8{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+
+</style>
+</head>
+<body class="book toc2 toc-left">
+<div id="header">
+<h1>豊四季Tiny BASIC for Arduino STM32 V0.87仕様編</h1>
+<div class="details">
+<span id="author" class="author">たま吉さん</span><br>
+<span id="email" class="email"><a href="mailto:tamacat2014@gmail.com">tamacat2014@gmail.com</a></span><br>
+<span id="revnumber">バージョン 0.87(Draft) 2018/12/15</span>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_仕様およびシステム構成">1. 仕様およびシステム構成</a>
+<ul class="sectlevel2">
+<li><a href="#_はじめに">1.1. はじめに</a></li>
+<li><a href="#_関連情報">1.2. 関連情報</a></li>
+<li><a href="#_著作権利用条件">1.3. 著作権・利用条件</a></li>
+<li><a href="#_システム構成">1.4. システム構成</a>
+<ul class="sectlevel3">
+<li><a href="#_バリエーション">1.4.1. バリエーション</a></li>
+<li><a href="#_個別構成">1.4.2. 個別構成</a></li>
+<li><a href="#_個別詳細">1.4.3. 個別詳細</a></li>
+</ul>
+</li>
+<li><a href="#_ソフトウェア仕様">1.5. ソフトウェア仕様</a></li>
+<li><a href="#_ハードウエア仕様">1.6. ハードウエア仕様</a></li>
+<li><a href="#_結線図">1.7. 結線図</a>
+<ul class="sectlevel3">
+<li><a href="#_シリアル接続版_2">1.7.1. シリアル接続版</a></li>
+<li><a href="#_ntsc版_2">1.7.2. NTSC版</a></li>
+<li><a href="#_oled版_2">1.7.3. OLED版</a></li>
+<li><a href="#_tft版_2">1.7.4. TFT版</a></li>
+<li><a href="#_sdカード対応">1.7.5. SDカード対応</a></li>
+<li><a href="#_rtc用電池">1.7.6. RTC用電池</a></li>
+<li><a href="#_部品表">1.7.7. 部品表</a></li>
+</ul>
+</li>
+<li><a href="#_ピンレイアウト">1.8. ピンレイアウト</a></li>
+<li><a href="#_ピン割り付け一覧">1.9. ピン割り付け一覧</a></li>
+<li><a href="#_メモリーマップ">1.10. メモリーマップ</a>
+<ul class="sectlevel3">
+<li><a href="#_flashメモリ">1.10.1. FLASHメモリ</a></li>
+<li><a href="#_sram">1.10.2. SRAM</a></li>
+<li><a href="#_仮想アドレス">1.10.3. 仮想アドレス</a></li>
+</ul>
+</li>
+<li><a href="#_フォント">1.11. フォント</a></li>
+<li><a href="#_編集操作キー">1.12. 編集操作キー</a></li>
+</ul>
+</li>
+<li><a href="#_利用環境設定">2. 利用環境設定</a>
+<ul class="sectlevel2">
+<li><a href="#_初期設定">2.1. 初期設定</a></li>
+<li><a href="#_ps2キーボード">2.2. PS/2キーボード</a></li>
+<li><a href="#_コンソール画面設定">2.3. コンソール画面設定</a></li>
+<li><a href="#_シリアル通信">2.4. シリアル通信</a>
+<ul class="sectlevel3">
+<li><a href="#_通信条件">2.4.1. 通信条件</a></li>
+<li><a href="#_文字コード設定">2.4.2. 文字コード設定</a></li>
+</ul>
+</li>
+<li><a href="#_ntscビデオ出力">2.5. NTSCビデオ出力</a>
+<ul class="sectlevel3">
+<li><a href="#_垂直同期信号補正">2.5.1. 垂直同期信号補正</a></li>
+</ul>
+</li>
+<li><a href="#_起動時コンソール画面">2.6. 起動時コンソール画面</a></li>
+<li><a href="#_内部rtcの時刻設定">2.7. 内部RTCの時刻設定</a></li>
+<li><a href="#_プログラム保存読込">2.8. プログラム保存・読込</a></li>
+<li><a href="#_プログラム転送">2.9. プログラム転送</a></li>
+<li><a href="#_プログラム退避">2.10. プログラム退避</a></li>
+<li><a href="#_プログラム自動起動">2.11. プログラム自動起動</a></li>
+<li><a href="#_仮想eeprom">2.12. 仮想EEPROM</a></li>
+<li><a href="#_プログラム保存領域">2.13. プログラム保存領域</a></li>
+<li><a href="#_mmc互換カード">2.14. MMC互換カード</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_仕様およびシステム構成">1. 仕様およびシステム構成</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_はじめに">1.1. はじめに</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/hajime_02.jpg" alt="hajime 02" width="300">
+</div>
+<div class="title">図 1. 実行環境</div>
+</div>
+<div class="paragraph">
+<p>「豊四季Tiny BASIC for Arduino STM32」は、
+Tetsuya Suzuki氏が開発・公開している「<a href="https://github.com/vintagechips/ttbasic_arduino"><strong>TOYOSHIKI Tiny BASIC for Arduino</strong></a>」を<a href="https://wiki.stm32duino.com/index.php?title=Blue_Pill"><strong>Blue Pillボード</strong></a>(STM32F103C8T6搭載)に移植・機能拡張を施した、<strong>Tiny BASICインタープリタ</strong> です。</p>
+</div>
+<div class="paragraph">
+<p>昔風の「電源入れて即、BASIC動くパソコン」、<br>
+「安価で強力・自作・改造出来るパソコン」 を目指し、<br>
+安価な割に高性能のBluePillボード、開発環境にArduinoを採用しました。<br>
+(ただし、ボードがマイナー、Arduino STM32が分かりにくいですが..  ^^;)</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/hajime_04.jpg" alt="hajime 04" width="300">
+</div>
+<div class="title">図 2. NTSC画面表示のスクリーンエディタ</div>
+</div>
+<div class="paragraph">
+<p>配布パッケージに添付のファームウェアをボードに書き込んでの利用、<br>
+Arduino IDEでスケッチをコンパイル＆書き込みでの利用が可能です。</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">主な拡張機能</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>プログラム編集・開発機能の強化</strong><br></p>
+<div class="ulist">
+<ul>
+<li>
+<p>フルスクリーンエディット機能<br>
+(シリアル、NTSC、OLED、TFT画面)</p>
+</li>
+<li>
+<p>プログラム保存機能(内部メモリ、SDカード)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>周辺機器のサポート</strong><br></p>
+<div class="ulist">
+<ul>
+<li>
+<p>TV(NTSC)/OLED/TFTディスプレイ</p>
+</li>
+<li>
+<p>PS/2キーボード(日本語キーボード、USキーボード)</p>
+</li>
+<li>
+<p>MMC互換カード</p>
+</li>
+<li>
+<p>単音出力</p>
+</li>
+<li>
+<p>RTCバックアップ電池</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>入出力・制御機能</strong><br></p>
+<div class="ulist">
+<ul>
+<li>
+<p>デジタル入出力、PWM出力、アナログ入力</p>
+</li>
+<li>
+<p>I2Cバス通信</p>
+</li>
+<li>
+<p>シリアル通信</p>
+</li>
+<li>
+<p>ファイル入出力</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/hajime_03.jpg" alt="hajime 03" width="300">
+</div>
+<div class="title">図 3. NTSC・PS/2キーボード・SDカードを実装したボード</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">開発環境</dt>
+<dd>
+<p>Arduino 1.8.5以降 + <a href="https://github.com/rogerclarkmelbourne/Arduino_STM32"><strong>Arduino STM32</strong></a>パッケージ</p>
+</dd>
+<dt class="hdlist1">必要ハードウェア</dt>
+<dd>
+<p><a href="https://wiki.stm32duino.com/index.php?title=Blue_Pill"><strong>Blue Pillボード</strong></a>(STM32F103C8T6搭載)</p>
+</dd>
+</dl>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/hajime_01.jpg" alt="hajime 01" width="300">
+</div>
+<div class="title">図 4. Blue PIllボード</div>
+</div>
+<div class="paragraph">
+<p>本マニュアルでは、「豊四季Tiny BASIC for Arduino STM32」の仕様を中心に解説します。<br>
+別紙「コマンドリファレンス」では、BASICインタープリタで利用できる各コマンドについて解説いたします。</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">製作者について</dt>
+<dd>
+<p>製作者名：たま吉さん<br></p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>注意：『「たま吉」さんの飼い主(下僕?)』の略です。<br>
+決して、自分に「さん」付けている訳ではありません。<br>
+単なる、猫の「たま吉」さん の飼い主です。</p>
+</div>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+<div class="sect2">
+<h3 id="_関連情報">1.2. 関連情報</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">「豊四季タイニーBASIC（オリジナル版）」に関する情報</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>開発者公開ホームページ<br>
+電脳伝説Vintagechips 豊四季タイニーBASIC確定版<br>
+<a href="https://vintagechips.wordpress.com/2015/12/06/豊四季タイニーbasic確定版/" class="bare">https://vintagechips.wordpress.com/2015/12/06/豊四季タイニーbasic確定版/</a></p>
+</li>
+<li>
+<p>開発者公開リソース<br>
+TOYOSHIKI Tiny BASIC for Arduino<br>
+<a href="https://github.com/vintagechips/ttbasic_arduino/" class="bare">https://github.com/vintagechips/ttbasic_arduino/</a></p>
+</li>
+<li>
+<p>開発者が執筆した関連書籍<br>
+「タイニーBASICをCで書く」<br>
+<a href="http://www.socym.co.jp/book/1020" class="bare">http://www.socym.co.jp/book/1020</a><br>
+<span class="image"><img src="images/book.png" alt="book" width="350"></span></p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">「豊四季タイニーBASIC for Arduino STM32」に関する情報</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>公開サイト
+豊四季タイニーBASIC for Arduino STM32<br>
+<a href="https://github.com/Tamakichi/ttbasic_arduino_stm32" class="bare">https://github.com/Tamakichi/ttbasic_arduino_stm32</a></p>
+</li>
+<li>
+<p>Arduino STM32に関する情報<br>
+・Arduino STM32 公式HP(モージュール配布サイト)<br>
+rogerclarkmelbourne/Arduino_STM32
+<a href="https://github.com/rogerclarkmelbourne/Arduino_STM32" class="bare">https://github.com/rogerclarkmelbourne/Arduino_STM32</a></p>
+</li>
+<li>
+<p>Arduino STM32 公式フォーラム<br>
+<a href="http://www.stm32duino.com/" class="bare">http://www.stm32duino.com/</a></p>
+</li>
+<li>
+<p>STM32duino wiki<br>
+<a href="http://wiki.stm32duino.com" class="bare">http://wiki.stm32duino.com</a></p>
+</li>
+<li>
+<p>Blue Billボードに関する情報<br>
+<a href="http://wiki.stm32duino.com/index.php?title=STM32F103_boards" class="bare">http://wiki.stm32duino.com/index.php?title=STM32F103_boards</a></p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">その他の情報公開サイト</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>DEKOのあやしいお部屋 - STM32F103C8T6<br>
+<a href="http://ht-deko.com/arduino/stm32f103c8t6.html" class="bare">http://ht-deko.com/arduino/stm32f103c8t6.html</a></p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+<div class="sect2">
+<h3 id="_著作権利用条件">1.3. 著作権・利用条件</h3>
+<div class="paragraph">
+<p>「豊四季タイニーBASIC for Arduino STM32」の著作権は移植・機能拡張者の「たま吉さん」、オリジナル版開発者の「Tetsuya Suzuki氏」にあります。<br>
+本著作物の利用条件は、オリジナル版「豊四季タイニーBASIC」に従うものとします。</p>
+</div>
+<div class="paragraph">
+<p>オリジナル版はGPL（General Public License）でライセンスされた著作物であり、「豊四季タイニーBASIC for Arduino STM32」もそれに従い、GPLライセンスされた著作物となります。<br></p>
+</div>
+<div class="paragraph">
+<p>更に利用条件として以下を追加します。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>不特定多数への再配布においてはバイナリーファイルのみの配布を禁止、必ずソースを添付すること</p>
+</li>
+<li>
+<p>「豊四季タイニーBASIC for Arduino STM32」の明記、配布元のURLを明記する</p>
+</li>
+<li>
+<p>営利目的のNAVER等のまとめサイト(まとめ者に利益分配のあるもの)へのいかなる引用の禁止</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>補足事項</strong><br>
+オリジナル版において開発者Tetsuya Suzuki氏は次の利用条件を提示しています。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>TOYOSHIKI Tiny BASIC for Arduino の記載内容<br>
+<a href="https://github.com/vintagechips/ttbasic_arduino" class="bare">https://github.com/vintagechips/ttbasic_arduino</a></p>
+</li>
+</ul>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>&#169;2012 Tetsuya Suzuki GNU General Public License</p>
+</div>
+</blockquote>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>豊四季タイニーbasicリファレンスを公開」の記載内容<br>
+<a href="https://vintagechips.wordpress.com/2012/06/14/" class="bare">https://vintagechips.wordpress.com/2012/06/14/</a></p>
+</li>
+</ul>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>豊四季タイニーBASICがもたらすいかなる結果にも責任を負いません。<br>
+著作権者の同意なしに経済的な利益を得てはいけません。<br>
+この条件のもとで、利用、複写、改編、再配布を認めます。</p>
+</div>
+</blockquote>
+</div>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+<div class="sect2">
+<h3 id="_システム構成">1.4. システム構成</h3>
+<div class="paragraph">
+<p>「豊四季Tiny BASIC for Arduino STM32」では、次の構成での利用が可能です。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/System_configuration.png" alt="System configuration">
+</div>
+<div class="title">図 5. システム構成</div>
+</div>
+<div class="paragraph">
+<p>赤い網掛け部分は利用においての最小限の構成です。<br>
+USB-シリアル経由ターミナルコンソール上でのプログラム入力が可能です。</p>
+</div>
+<div class="paragraph">
+<p>周辺機器は必須ではありません。<br>
+表示デバイスのNTSC、OLED、TFT液晶は同時利用は出来ません。</p>
+</div>
+<div class="sect3">
+<h4 id="_バリエーション">1.4.1. バリエーション</h4>
+<div class="paragraph">
+<p>「豊四季Tiny BASIC for Arduino STM32」では、次の組み合わせの利用環境が構築出来ます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/combination.png" alt="combination">
+</div>
+<div class="title">図 6. 組み合わせパターン</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_個別構成">1.4.2. 個別構成</h4>
+<div class="imageblock">
+<div class="content">
+<img src="images/Application_example.png" alt="Application example">
+</div>
+<div class="title">図 7. 具体的な利用構成</div>
+</div>
+<div class="paragraph">
+<p><strong>4種類の基本構成</strong><br>
+(1)シリアルターミナルコンソール<br>
+(2)NTSC(TVモニター） + PS/2キーボード<br>
+(3)OLEDディスプレイ + PS/2キーボード<br>
+(4)TFTディスプレイ + PS/2キーボード</p>
+</div>
+<div class="paragraph">
+<p>「豊四季Tiny BASIC for Arduino STM32」ではこの４タイプの構成で利用するために、次のコンパイル済ファームウェアを用意しています。<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>シリアルターミナルコンソール版 ファームウェア</p>
+</li>
+<li>
+<p>NTSC（ビデオ出力）版 ファームウェア</p>
+</li>
+<li>
+<p>OLED SH1106 SPI接続版 ファームウェア<br></p>
+</li>
+<li>
+<p>OLED SH1106 I2C接続版 ファームウェア<br></p>
+</li>
+<li>
+<p>OLED SSD1306/SSD1309 SPI接続版 ファームウェア<br></p>
+</li>
+<li>
+<p>OLED SSD1306/SSD1309 I2C接続版 ファームウェア<br></p>
+</li>
+<li>
+<p>TFT I ILI9341 SPI接続版 ファームウェア</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_個別詳細">1.4.3. 個別詳細</h4>
+<div class="sect4">
+<h5 id="_シリアル接続版">シリアル接続版</h5>
+<div class="paragraph">
+<p>USBポート・シリアルポート接続のシリアルコンソール画面を使った最小限のプログラミング環境です。</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"></dt>
+<dd>
+<p><span class="image"><img src="images/type_term_1.png" alt="BluePill" width="300"></span> <span class="image"><img src="images/type_term_2.png" alt="ターミナル" width="300"></span></p>
+</dd>
+<dt class="hdlist1">特徴</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>標準装備のUSBポートにてパソコンに接続し、ターミナルソフト（TeraTerm等）を使って、<br>
+プログラム開発を行うことが出来ます。</p>
+</li>
+<li>
+<p>ターミナル画面上では全角文字（シフトJIS）が利用出来ます。</p>
+</li>
+<li>
+<p>シリアルコンソール画面は、USBシリアル接続の他、<br>
+ボード上のシリアルポートに随時切り替えて使うことも可能です。<br>
+起動時に選択することも出来ます（詳細は「起動時のコンソール画面の選択」を参照して下さい）。<br>
+<span class="image"><img src="images/type_term_3.png" alt="コンソール切り替え"></span></p>
+</li>
+<li>
+<p>コンソール画面は横文字数、縦文字数の変更が可能です。デフォルトは80桁・２４行です。</p>
+</li>
+<li>
+<p>スクリーン編集機能の利用が可能です（詳細は「編集操作キー」を参照して下さい）。</p>
+</li>
+<li>
+<p>COLOR文による文字色指定、LOCATE文による表示位置指定等のスクリーン制御をサポートしています。</p>
+</li>
+<li>
+<p>必要に応じて、SDカードリーダー、圧電スピーカー、内蔵RTC用バックアップ電池を追加利用出来ます。</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_ntsc版">NTSC版</h5>
+<div class="paragraph">
+<p>NTSC対応モニターとPS/2キーボードを使う環境です。<br>
+<span class="image"><img src="images/type_ntsc_1.jpg" alt="NTSC"></span></p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">特徴</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>NTSCビデオ出力画面をプログラム作成画面（コンソール画面）として利用します。</p>
+<div class="ulist">
+<ul>
+<li>
+<p>シリアルコンソール版と同等のスクリーン編集機能の利用が可能です。</p>
+</li>
+<li>
+<p>画面の文字サイズの変更が可能です。</p>
+</li>
+<li>
+<p>コマンドによるグラフィック描画をサポートします。</p>
+</li>
+<li>
+<p>SDカードからビットマップ画像をロードして表示すること出来ます。</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>文字入力はPS/2キーボードを利用します。カタカナのローマ字入力をサポートします。</p>
+</li>
+<li>
+<p>シリアルポートを補助入出力に利用出来ます。</p>
+<div class="ulist">
+<ul>
+<li>
+<p>NTSCビデオ画面に表示するテキスト文字列は、シリアルポート（デフォルトではUSBシリアルポート）にも出力されます。</p>
+</li>
+<li>
+<p>シリアルポートからの入力は、PS/2キーボードと並行してキーボード入力として受付ます。</p>
+</li>
+<li>
+<p>NTSCビデオ出力画面表示が行えない状況でも、シリアルポートからのコマンド入力を行うことが可能です。</p>
+</li>
+<li>
+<p>シリアルポートを利用してパソコンからのBASICプログラムの取り込みや、パソコンへの転送も用意に行うことが出来ます。</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>「<strong>シリアルターミナルコンソール版</strong>」の機能を包含します。<br>
+CONSOLEコマンドにより、いつでもシリアルターミナルコンソールモードへ移行することが出来ます。NTSCビデオ画面の利用に戻ることが出来ます。<br>
+<span class="image"><img src="images/type_ntsc_2.png" alt="コンソール切り替え"></span></p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_oled版">OLED版</h5>
+<div class="paragraph">
+<p>OLEDモジュールを表示機として利用する環境です。PS/2キーボードを併用します。<br>
+<span class="image"><img src="images/type_oled_1.png" alt="OLED"></span></p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">特徴</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>OLED画面をプログラム作成画面（コンソール画面）として利用します。</p>
+<div class="ulist">
+<ul>
+<li>
+<p>シリアルコンソール版と同等のスクリーン編集機能の利用が可能です。</p>
+</li>
+<li>
+<p>画面表示の向きの変更、画面の文字サイズの変更が可能です。</p>
+</li>
+<li>
+<p>コマンドによるグラフィック描画をサポートします。</p>
+</li>
+<li>
+<p>SDカードからビットマップ画像をロードして表示すること出来ます。</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>文字入力はPS/2キーボードを利用します。カタカナのローマ字入力をサポートします。</p>
+</li>
+<li>
+<p>シリアルポートを補助入出力に利用出来ます。</p>
+<div class="ulist">
+<ul>
+<li>
+<p>OLED画面に表示するテキスト文字列は、シリアルポート（デフォルトではUSBシリアルポート）にも出力されます。</p>
+</li>
+<li>
+<p>シリアルポートからの入力は、PS/2キーボードと並行してキーボード入力として受付ます。</p>
+</li>
+<li>
+<p>OLED画面に表示が行えない状況でも、シリアルポートからのコマンド入力を行うことが可能です。</p>
+</li>
+<li>
+<p>シリアルポートを利用してパソコンからのBASICプログラムの取り込みや、パソコンへの転送も用意に行うことが出来ます。</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>「<strong>シリアルターミナルコンソール版</strong>」の機能を包含します。<br>
+CONSOLEコマンドにより、いつでもシリアルターミナルコンソールモードへ移行することが出来ます。OLED画面の利用に戻ることが出来ます。<br>
+<span class="image"><img src="images/type_oled_2.png" alt="コンソール切り替え"></span></p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_tft版">TFT版</h5>
+<div class="paragraph">
+<p>TFTカラーグラフィック液晶とPS/2キーボードを使う環境です。<br>
+カラー表示をサポートします。<br>
+<span class="image"><img src="images/type_tft_1.png" alt="TFT"></span></p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">特徴</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>TFT画面をプログラム作成画面（コンソール画面）として利用します。</p>
+<div class="ulist">
+<ul>
+<li>
+<p>シリアルコンソール版と同等のスクリーン編集機能の利用が可能です。</p>
+</li>
+<li>
+<p>画面表示の向きの変更、画面の文字サイズの変更が可能です。</p>
+</li>
+<li>
+<p>コマンドによるグラフィック描画をサポートします。</p>
+</li>
+<li>
+<p>SDカードからビットマップ画像をロードして表示すること出来ます。</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>文字入力はPS/2キーボードを利用します。カタカナのローマ字入力をサポートします。</p>
+</li>
+<li>
+<p>シリアルポートを補助入出力に利用出来ます。</p>
+<div class="ulist">
+<ul>
+<li>
+<p>TFT画面に表示するテキスト文字列は、シリアルポート（デフォルトではUSBシリアルポート）にも出力されます。</p>
+</li>
+<li>
+<p>シリアルポートからの入力は、PS/2キーボードと並行してキーボード入力として受付ます。</p>
+</li>
+<li>
+<p>TFT画面に表示が行えない状況でも、シリアルポートからのコマンド入力を行うことが可能です。</p>
+</li>
+<li>
+<p>シリアルポートを利用してパソコンからのBASICプログラムの取り込みや、パソコンへの転送も用意に行うことが出来ます。</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>「<strong>シリアルターミナルコンソール版</strong>」の機能を包含します。<br>
+CONSOLEコマンドにより、いつでもシリアルターミナルコンソールモードへ移行することが出来ます。TFT画面の利用に戻ることが出来ます。<br>
+<span class="image"><img src="images/type_tft_2.png" alt="コンソール切り替え"></span></p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ソフトウェア仕様">1.5. ソフトウェア仕様</h3>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top" colspan="2">項目</th>
+<th class="tableblock halign-center valign-top">概要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">プログラミング環境</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CUI（キャラクユーザーインタフェース)<br>
+                            スタンドアロンのスクリーンエディタ＋実行環境</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle" rowspan="7"><p class="tableblock">画<br>
+面<br>
+サ<br>
+イ<br>
+ズ</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NTSCキャラクタ表示画面</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">37×27文字、28×13文字、28×13文字、24×13文字</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NTSCグラフィック表示画面</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">224×216ドット、224×108ドット、112×108ドット</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ターミナルスクリーン画面</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16×10文字 ～ 127文字×45文字の範囲で任意指定、全角対応（SJIS）</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OLEDキャラクタ表示画面</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">21×8文字、10×4文字、7×2文字（画面回転可能）</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OLEDグラフィック表示画面</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">128×64ドット（画面回転可能）</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TFTキャラクタ表示画面</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">53×30、26×15、17×10、13×7、10×6、8×5文字（画面回転可能）</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TFTグラフィック表示画面</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">320x240ドット（画面回転可能）</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle" rowspan="6"><p class="tableblock">Ｂ<br>
+Ａ<br>
+Ｓ<br>
+Ｉ<br>
+Ｃ<br>
+言<br>
+語<br>
+仕<br>
+様</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">形式</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">整数型BASIC（符号付16ビット整数 -32768～32767）</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">プログラム領域</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4096バイト</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">利用文字コード</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1バイトJISコード<br>
+                           (半角記号・英数字、半角カタカナ) ＋<br>
+                           キャラクタ文字(IchigoJam互換)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">利用可能変数</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">変数名：208個<br>
+                            A～Zの英字1文字 26個,<br>
+                            A0..A6 ～ Z0..Z6の英字1文字+数字1文字 182個<br>
+                            配列変数@:100個  @(0)～@(99)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ユーザー開放<br>
+ 作業用メモリ</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SRAM  1024バイト</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">内部フラッシュメモリ</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">250ワード（2バイト×250）</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+<div class="sect2">
+<h3 id="_ハードウエア仕様">1.6. ハードウエア仕様</h3>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">項目</th>
+<th class="tableblock halign-center valign-top">概要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">動作クロック</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">72MHz</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">時計機能</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">内部RTC利用（電池によるバックアップ可能）<br>
+                精度：±10分/月</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">映像出力</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">モノラル（２色白黒）NTSCビデオ出力 <br>
+                接続は RCA端子.(コンポジット映像信号)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">キーボード I/F</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PS/2  5V 対応（5Vトレラント ピン利用）<br>
+                 日本語キーボード、USキーボード対応</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">サウンド</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">圧電スピーカーによる単音モノラル再生 <br>
+                （3.3V 矩形波 1～32767Hz)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">USB I/F</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DFU利用ファームウェア書込み<br>
+                 USB-シリアル通信</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">シリアル通信</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1チャンネル(3線 TX、RX、GND)：通信速度 ～921,600、データ長 8ビット、<br>
+                 ストップビット1、パリティ None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I2Cインタフェース</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1チャンネル（マスター利用のみ）<br>
+                   アドレス 7ビット、400kbps or 100kbps</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GPIO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">・デジタル入力 1ビット× 24ポート(最大)<br>
+                  ・デジタル出力 1ビット× 24ポート(最大)<br>
+                  ・PWM出力 7チャンネル(周波数可変、ディユティー比 1/4096刻み)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">アナログ入力</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9チャンネル(最大) 、分解能12ビット</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MMC互換カード<br>
+(SDカード含む)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FAT16 / FAT32 32Gバイトまで対応<br>
+                  SPI接続</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OLEDディスプレイ</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">対応モジュール	SSD1306、SSD1309、SH1106コントローラ利用モジュール<br>
+                  画面サイズ 0.96インチ～2.24インチ 128×64ドットの解像度の製品<br>
+                  対応インタフェース：I2C、SPI</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TFTディスプレイ</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">対応モジュール	ILI9341コントローラ利用グラフィック液晶モジュール<br>
+                  画面解像度 320×240の製品<br>
+                  対応インタフェース：SPI</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+<div class="sect2">
+<h3 id="_結線図">1.7. 結線図</h3>
+<div class="paragraph">
+<p>Blue Pillボードを使用した結線図です。</p>
+</div>
+<div class="sect3">
+<h4 id="_シリアル接続版_2">1.7.1. シリアル接続版</h4>
+<div class="paragraph">
+<p>最小構成です。<br>
+単音出力が不要の場合、圧電スピーカーは省略可能です。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/serialconsole.png" alt="serialconsole">
+</div>
+</div>
+<div class="paragraph">
+<p>圧電スピーカーの端子は極性がありません。</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">オプション</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>RTC用バックアップ電池</p>
+</li>
+<li>
+<p>Dカードモジュールも必要に応じて追加できます。</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ntsc版_2">1.7.2. NTSC版</h4>
+<div class="imageblock">
+<div class="content">
+<img src="images/NTSC.png" alt="NTSC">
+</div>
+</div>
+<div class="paragraph">
+<p>PS/2キーボード用コネクタは、PS/2コネクタまたはUSBコネクタのどちらかを好みで選択して下さい。</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_oled版_2">1.7.3. OLED版</h4>
+<div class="paragraph">
+<p>OLEDディスプレイは128×64ドット、搭載コントローラSSD1306、SSD1309、SH1106、インタフェースはI2C、SPIに対応の製品に対応しています。</p>
+</div>
+<div class="paragraph">
+<p>SPI接続は、I2C接続よりも表示が高速です。<br>
+また、SPI接続において、コントローラSH1106は、SSD1306、SSD1309よりも高速です（早いクロック数で転送）。</p>
+</div>
+<div class="sect4">
+<h5 id="_i2c接続タイプ">I2C接続タイプ<br></h5>
+<div class="imageblock">
+<div class="content">
+<img src="images/OLED_I2C.png" alt="OLED I2C">
+</div>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<caption class="title">表 1. OLEDディスプレイの結線表</caption>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">OLED端子</th>
+<th class="tableblock halign-center valign-top">BluePill端子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">SDA</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB7(SDA1)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">SCL</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB6(SCL1)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GND</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GND</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">VCC</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">3.3V</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_spi接続タイプ">SPI接続タイプ</h5>
+<div class="imageblock">
+<div class="content">
+<img src="images/OLED_SPI.png" alt="OLED SPI">
+</div>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<caption class="title">表 2. OLEDディスプレイの結線表</caption>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">OLED端子</th>
+<th class="tableblock halign-center valign-top">BluePill端子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">CS</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">DS</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB12</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">RES</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">R(NRST)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">SDA</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB15(MOSI2)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">SCK</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB13(SCK2)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">VCC</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">3.3V</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GND</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GND</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_tft版_2">1.7.4. TFT版</h4>
+<div class="imageblock">
+<div class="content">
+<img src="images/TFT.png" alt="TFT">
+</div>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<caption class="title">表 3. TFTディスプレイの結線表</caption>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">TFT端子</th>
+<th class="tableblock halign-center valign-top">BluePill端子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">VCC</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">3.3V</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GND</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GND</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">CS</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">RESET</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">R(NRST)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">D/C</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB12</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">SDI(MOSI)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB15(MOSI2)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">SCK</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB13(SCK2)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">LED</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">3.3V</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">SDO(MISO)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB14(MISO2)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sdカード対応">1.7.5. SDカード対応</h4>
+<div class="paragraph">
+<p>市販のプルアップ抵抗及び、ダンピング抵抗が組み込まれたモジュールの利用を推奨します。<br>
+TFT版では、TFTディスプレイのSDカードスロットも利用可能です。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/SD_modile_sample.jpg" alt="SD modile sample">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/SD.png" alt="SD">
+</div>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<caption class="title">表 4. SDカードモジュール結線表</caption>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">SDカードモジュール端子</th>
+<th class="tableblock halign-center valign-top">BluePill端子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GND</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GND</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">MISO</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA6(MISO1)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">CLK</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA5(CLK1)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">MOSI</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA7(MOSI1)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">SS</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA4(NSS1)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">3.3V</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">3.3V</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>5V/3.3V変換レギュレータが乗っている製品の場合、5Vと3.3Vの端子がありますが、<br>
+5V端子に5Vを供給しないと動作しない場合があります。<br>
+その場合は5V端子にBluePillボードの5V端子を接続して下さい。</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_rtc用電池">1.7.6. RTC用電池</h4>
+<div class="paragraph">
+<p>RTC用バックアップ電池を利用することで、電源を切った状態でもRTCの時刻を保持することが出来ます。<br>
+以下の接続例を示します。利用するダイオードは、VF値が低い(0.5以下）ものであれば何でも良いです。</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="images/RTC.png" alt="RTC"></span>
+<span class="image"><img src="images/RTC_2.png" alt="RTC 2" width="400"></span><br></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_部品表">1.7.7. 部品表</h4>
+<table class="tableblock frame-all grid-all fit-content">
+<caption class="title">表 5. 部品表</caption>
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top" colspan="2">部品</th>
+<th class="tableblock halign-center valign-top">参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle" rowspan="3"><p class="tableblock">P<br>
+S<br>
+/<br>
+2<br>
+キ<br>
+｜<br>
+ボ<br>
+｜<br>
+ド<br>
+用</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mini DIN 6pin メスコネクタ<br>
+(PS/2コネクタ)</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="http://akizukidenshi.com/catalog/g/gC-09385/">秋月電子 ミニＤＩＮソケット（メス）６Ｐ</a><br>
+ <span class="image"><img src="http://akizukidenshi.com/img/goods/L/C-09385.jpg" alt="秋月電子販売" width="100" height="100"></span><br></p>
+</div>
+<div class="paragraph">
+<p><a href="http://akizukidenshi.com/catalog/g/gK-09483/">秋月電子
+ミニＤＩＮコネクタピッチ変換キット</a><br>
+ <span class="image"><img src="http://akizukidenshi.com/img/goods/L/K-09483.jpg" alt="秋月電子販売" width="100" height="100"></span></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">USBコネクタ<br>
+ (Aタイプ メス)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">- <a href="http://akizukidenshi.com/catalog/g/gC-00160/">秋月電子
+基板取付用ＵＳＢコネクタ（Ａタイプ　メス）</a><br>
+ <span class="image"><img src="http://akizukidenshi.com/img/goods/L/C-00160.jpg" alt="秋月電子販売" width="100" height="100"></span><br></p>
+<p class="tableblock"><a href="http://akizukidenshi.com/catalog/g/gK-07429/">秋月電子
+ＵＳＢコネクタＤＩＰ化キット（Ａメス）</a><br>
+ <span class="image"><img src="http://akizukidenshi.com/img/goods/L/K-07429.jpg" alt="秋月電子販売" width="100" height="100"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">抵抗 10kΩ × 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://akizukidenshi.com/catalog/g/gR-25103/">秋月電子
+カーボン抵抗(炭素皮膜抵抗) 1/4W 10kΩ(１００本入)</a><br>
+ <span class="image"><img src="http://akizukidenshi.com/img/goods/L/R-25103.jpg" alt="秋月電子販売" width="100" height="100"></span><br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle" rowspan="3"><p class="tableblock">N<br>
+T<br>
+S<br>
+C<br>
+ビ<br>
+デ<br>
+オ<br>
+用</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ＲＣＡジャック（黄）</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="http://akizukidenshi.com/catalog/g/gC-06508/">秋月電子
+基板用ＲＣＡジャック（黄）</a><br>
+ <span class="image"><img src="http://akizukidenshi.com/img/goods/L/C-06508.jpg" alt="秋月電子販売" width="100" height="100"></span><br></p>
+</div>
+<div class="paragraph">
+<p><a href="http://akizukidenshi.com/catalog/g/gK-06522/">秋月電子
+ＲＣＡジャックＤＩＰ化キット（黄）</a><br>
+ <span class="image"><img src="http://akizukidenshi.com/img/goods/L/K-06522.jpg" alt="秋月電子販売" width="100" height="100"></span><br></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">抵抗 240Ω</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://akizukidenshi.com/catalog/g/gR-25241/">秋月電子
+カーボン抵抗(炭素皮膜抵抗) 1/4W 240Ω(１００本入)</a><br>
+ <span class="image"><img src="http://akizukidenshi.com/img/goods/L/R-25241.jpg" alt="秋月電子販売" width="100" height="100"></span><br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">抵抗 560Ω</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://akizukidenshi.com/catalog/g/gR-25561/">秋月電子
+カーボン抵抗(炭素皮膜抵抗) 1/4W 560Ω(１００本入)</a><br>
+ <span class="image"><img src="http://akizukidenshi.com/img/goods/L/R-25561.jpg" alt="秋月電子販売" width="100" height="100"></span><br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">単<br>
+音<br>
+出<br>
+力<br>
+用</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">圧電スピーカー(圧電サウンダ)</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>直径13mm程度のものがお手頃です。<br>
+ 推奨: <a href="http://akizukidenshi.com/catalog/g/gP-04118/">村田製作所 PKM13EPYH4000-A0 (販売：秋月電子)</a><br>
+ <span class="image"><img src="http://akizukidenshi.com/img/goods/C/P-04118.jpg" alt="秋月電子販売" width="100" height="100"></span></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">O<br>
+L<br>
+E<br>
+D<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OLEDディスプレイ <br>
+(128×64ドット、<br>
+0.96/1.3/1.54/2.25インチ、<br>
+  I2C/SPIインタフェース、 <br>
+  コントローラ SSD1306/SSD1309/SH1106)</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="image"><img src="images/OLED_sample.jpg" alt="OLED sample"></span><br>
+画面サイズが大きいもの程高くなります。<br>
+(1.3インチ推奨)<br></p>
+</div>
+<div class="paragraph">
+<p><a href="http://akizukidenshi.com/catalog/g/gP-12031/">秋月電子
+0.96インチ 128×64ドット有機ELディスプレイ(OLED[M096P4W])</a><br>
+ <span class="image"><img src="http://akizukidenshi.com/img/goods/L/P-12031.jpg" alt="秋月電子販売" width="100" height="100"></span><br></p>
+</div>
+<div class="paragraph">
+<p><a href="http://www.aitendo.com/product/14958">aitendo
+OLEDモジュール（0.96/白色/I2C） [M096P4W]</a><br>
+ <span class="image"><img src="https://www.aitendo.com/data/aitendo/_/70726f647563742f32303136313131335f3763636666612e706e67003235300000660066.jpg" alt="aitendo販売" width="100" height="100"></span><br>
+<br>
+  その他Amazon、Aliexpress等の通販サイトで入手可能です<br></p>
+</div>
+<div class="paragraph">
+<p>Aliexpress<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.aliexpress.com/item/1PCS-1-3-OLED-module-white-color-SPI-128X64-1-3-inch-OLED-LCD-LED-Display/32681602908.html?spm=a2g0s.9042311.0.0.vs8i3e">1PCS 1.3" OLED module white color SPI 128X64 1.3 inch OLED</a></p>
+</li>
+<li>
+<p><a href="https://www.aliexpress.com/item/1PCS-1-3-OLED-module-white-color-128X64-1-3-inch-OLED-LCD-LED-Display-Module/32683739839.html?spm=a2g0s.9042311.0.0.vs8i3e">1PCS 1.3" OLED module white color I2C128X64 1.3 inch OLED</a><br></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Aliexpressでのその他製品リスト<br>
+<a href="https://www.aliexpress.com/wholesale?SearchText=oled+128x64" class="bare">https://www.aliexpress.com/wholesale?SearchText=oled+128x64</a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">T<br>
+F<br>
+T</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TFT(ILI9341)ディスプレイモジュール<br>
+(320×240ドット SPI接続、<br>
+2.2 ～ 3.2インチ)<br>
+タッチ機能不要</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>画面サイズが大きいほど高くなります。<br>
+SDカードスロットも利用出来ます。<br>
+<a href="http://www.aitendo.com/product/16038">aitendo
+2.8インチ液晶モジュール（SPI） [M028C9341SD]</a><br>
+ <span class="image"><img src="https://www.aitendo.com/data/aitendo/_/70726f647563742f32303137303630395f3063613935302e706e67003235300000660066.jpg" alt="aitendo販売" width="100" height="100"></span><br>
+<br></p>
+</div>
+<div class="paragraph">
+<p>Amazon経由、Aliexpress等海外通販サイト利用で安く入手可能です。<br>
+Aliexpressでの製品リスト<br>
+<a href="https://www.aliexpress.com/wholesale?SearchText=ILI9341" class="bare">https://www.aliexpress.com/wholesale?SearchText=ILI9341</a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">S<br>
+D<br>
+カ<br>
+｜<br>
+ド<br>
+モ<br>
+ジ<br>
+ュ<br>
+｜<br>
+ル</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SDカードモジュール<br>
+(SD/micro SD/MMCカード用、<br>
+SPIインタフェース、<br>
+3.3V対応)</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="image"><img src="images/SD_modile_sample.jpg" alt="SD modile sample"></span><br>
+SDカードスロットも利用出来ます。<br>
+<br>
+<a href="http://www.aitendo.com/product/13245">aitendo
+マイクロSDモジュール [MSD-M6P]</a><br>
+ <span class="image"><img src="https://www.aitendo.com/data/aitendo/_/70726f647563742f32303136303331335f3636653833332e706e67003235300000660066.jpg" alt="aitendo販売" width="100" height="100"></span><br>
+ この製品はピンヘッドを押し込んで反対側に<br>
+ ビンヘッドを出すと、ブレッドボード上で使いやすくなります。<br></p>
+</div>
+<div class="paragraph">
+<p>このほか、Amazon、Aliexpress等海外通販サイト利用で安く入手可能です。</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle" rowspan="4"><p class="tableblock">R<br>
+T<br>
+C<br>
+用<br>
+バ<br>
+ッ<br>
+ク<br>
+ア<br>
+ッ<br>
+プ<br>
+電<br>
+池</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.3Vボタン電池 CR2032</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>ダイソー ボタン電池 CR2032</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3V ボタン電池 CR2032用ホルダー</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://akizukidenshi.com/catalog/g/gP-00706/">秋月電子
+ボタン電池基板取付用ホルダー CRC2032用(小型タイプ)</a><br>
+ <span class="image"><img src="http://akizukidenshi.com/img/goods/L/P-00706.jpg" alt="秋月電子販売" width="100" height="100"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ショートキーバリアダイオード<br>
+ 1S3/1N5819/11EQS03L等 VFが0.5V以下が目安</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://akizukidenshi.com/catalog/g/gI-01707/">秋月電子
+整流用ショットキーダイオード（３０Ｖ１Ａ）１Ｓ３</a><br>
+ <span class="image"><img src="http://akizukidenshi.com/img/goods/L/I-01707.JPG" alt="秋月電子販売" width="100" height="100"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">電解コンデンサ 100μF<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://akizukidenshi.com/catalog/g/gP-03122/">秋月電子
+電解コンデンサー１００μＦ２５Ｖ８５℃（ルビコンＰＫ）</a><br>
+ <span class="image"><img src="http://akizukidenshi.com/img/goods/L/P-03122.jpg" alt="秋月電子販売" width="100" height="100"></span></p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ピンレイアウト">1.8. ピンレイアウト</h3>
+<div class="paragraph">
+<p>Blue Pillボードのピンレイアウトです。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/board_pins.png" alt="board pins">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>コマンドや関数にてピンを指定する場合、ピン名称またはピン番号による指定が可能です。</p>
+</li>
+<li>
+<p>利用する構成により、利用できるピンは異なります。</p>
+</li>
+<li>
+<p>5Vトレラント対応ピンでは、5V系の信号入出力に接続可能です。</p>
+</li>
+<li>
+<p>VBAT端子は内蔵RTCの外部電源によるバックアップに利用可能です。</p>
+</li>
+<li>
+<p>BOOT1端子もPB2としてデジタルINPUT/OUTPUTに利用可能です。</p>
+</li>
+</ul>
+</div>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+<div class="sect2">
+<h3 id="_ピン割り付け一覧">1.9. ピン割り付け一覧</h3>
+<table class="tableblock frame-all grid-all fit-content">
+<caption class="title">表 6. ピン割り付け一覧</caption>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">ピン</th>
+<th class="tableblock halign-center valign-top">番号</th>
+<th class="tableblock halign-center valign-top">用途</th>
+<th class="tableblock halign-center valign-top">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA0</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">アナログ入力、デジタルIN/OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">アナログ入力、デジタルIN/OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NTSC 同期信号	汎用、NTSC版では占有(利用禁止)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA2</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">アナログ入力、デジタルIN/OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA3</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">アナログ入力、デジタルIN/OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA4</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">アナログ入力、デジタルIN/OUT、SPI(NSS)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用、SDカード</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA5</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">アナログ入力、デジタルIN/OUT、SPI(SCK)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用、SDカード</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA6</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">アナログ入力、デジタルIN/OUT、PWM、SPI(MISO)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用、SDカード</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA7</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">アナログ入力、デジタルIN/OUT、PWM、SPI(MOSI)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用、SDカード</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA8</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">デジタルIN/OUT、PWM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA9</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">デジタルIN/OUT、PWM、シリアル通信</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用、シリアル通信（送信）</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA10</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">デジタルIN/OUT、PWM、シリアル通信</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用、シリアル通信（受信）</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA11</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">USB D-	占有</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">他の利用禁止</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA12</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">USB D+	占有</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">他の利用禁止</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA13</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S-LINK、デジタルIN/OUT	S-LINK、</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA14</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S-LINK、デジタルIN/OUT	S-LINK、</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PA15</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">デジタルIN/OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB0</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">アナログ入力、デジタルIN/OUT、PWM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">アナログ入力、デジタルIN/OUT、PWM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB2</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BOOT1、デジタルIN/OUT ※プルアップ抵抗あり<br>
+起動時にレベルの状態でターミナルモード選択</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用、BOOT1モード指定<br>
+ターミナルモード選択</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB3</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">19</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">デジタルIN/OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB4</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">デジタルIN/OUT 、PS/2 キーボードI/F CLK</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用、PS/2キーボード利用時占有(利用禁止)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB5</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">21</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">デジタルIN/OUT 、PS/2 キーボードI/F DATA</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用、PS/2キーボード利用時占有(利用禁止)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB6</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I2C SCL1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">占有、他の利用禁止</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB7</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I2C SDA1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">占有、他の利用禁止</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB8</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">デジタルIN/OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB9</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">25</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SOUND(PWM出力)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">占有、他の利用禁止</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB10</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">26</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">デジタルIN/OUT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB11</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">27</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">デジタルIN/OUT、OLED_CS、TFT_CS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用、OLED(SPI)、TFT利用時占有(利用禁止)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB12</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">28</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">デジタルIN/OUT、OLED_SC、TFT_DC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用、OLED(SPI)、TFT利用時占有(利用禁止)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB13</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">29</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">デジタルIN/OUT、OLED_SCK、TFT_SCK</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用、OLED(SPI)、TFT利用時占有(利用禁止)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB14</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">デジタルIN/OUT、TFT_SDO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用、TFT利用時占有(利用禁止)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PB15</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">31</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">デジタルIN/OUT、<br>
+         NTSC 映像信号、OLED_SDA、TFT_SDI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用、NTSC、OLED(SPI)、TFT利用時占有(利用禁止)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PC13</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">32</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LED、デジタルIN/OUT ※プルアップ抵抗あり</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">汎用</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PC14</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">33</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RTCへのクロック供給</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">占有、他の利用禁止</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">PC15</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">34</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RTCへのクロック供給</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">占有、他の利用禁止</p></td>
+</tr>
+</tbody>
+</table>
+<div class="ulist">
+<ul>
+<li>
+<p>各ピン 20mA（ソース、シンク利用）まで電流を流すことが可能、推奨8mA</p>
+</li>
+<li>
+<p>全ピン合計では150mAまで利用可能</p>
+</li>
+</ul>
+</div>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+<div class="sect2">
+<h3 id="_メモリーマップ">1.10. メモリーマップ</h3>
+<div class="paragraph">
+<p>「豊四季Tiny BASIC for Arduino STM32」ではSTM32F103CT6のサポート外のフラッシュメモリ領域64バイトを含む合計128kバイトの領域を利用しています。SRAMは20kバイトの領域を利用しています。</p>
+</div>
+<div class="sect3">
+<h4 id="_flashメモリ">1.10.1. FLASHメモリ</h4>
+<div class="paragraph">
+<p>128kバイトの領域はページ単位(1024バイト)で領域が管理されています。<br>
+領域の利用は下記の通りです。</p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<caption class="title">表 7. フラッシュメモリ領域の割り当て</caption>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-middle">アドレス</th>
+<th class="tableblock halign-center valign-middle">ページ番号</th>
+<th class="tableblock halign-center valign-middle">ページ数</th>
+<th class="tableblock halign-center valign-middle">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0x08000000 - 0x08001FFF</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Arduino STM32ブートローダー(DFU)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0x08002000 - 0x080‭197FF</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">94</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Tiny BASICインタープリタ+フォントデータ</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0x080‭19800 ‬- 0x0801F7FF‬</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">102</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">プログラム保存用（4kバイト×6）</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">0x0801F800 - 0x0801FFFF</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">126</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">仮想EEPROM（config用、ユーザー利用用）</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sram">1.10.2. SRAM</h4>
+<div class="paragraph">
+<p>次の領域をグローバル変数領域として利用しています。<br>
+アドレスはコンパイラに依存します。</p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-middle">変数名</th>
+<th class="tableblock halign-center valign-middle">領域サイズ(バイト)</th>
+<th class="tableblock halign-center valign-middle">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">lbuf</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">128</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">コマンドライン入力バッファ</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">tbuf</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">128</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">テキスト表示用バッファ</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ibuf</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">128</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">中間コード変換バッファ</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">listbuf</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">4,096</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">プログラム領域(4kバイト)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">var</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">210×2</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">変数領域(A-Z,A0:A6-Z0:Z6の26+26×7×2=416)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">arr</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">100×2</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">配列変数領域(@(0)～@(99)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">gstk</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">20×4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">GOSUBスタック stack size(2/nest) :10ネストまでOK</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">lstk</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">50×4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">FORスタック  stack size(5/nest)  :10ネストまでOK</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">mem</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">1024</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">自由利用データ領域</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">workarea</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">5,760<br>
+             or <br>
+            7,048</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">テキスト表示・グラフィック表示用<br>
+                    ・NTSC版 7,048 バイト <br>
+                    ・OLED版、TFT版、シリアルコンソール版  5,760バイト <br></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_仮想アドレス">1.10.3. 仮想アドレス</h4>
+<div class="paragraph">
+<p>「豊四季Tiny BASIC for Arduino STM32」では、仮想アドレス利用することでSRAMおよびフラッシュメモリ上のデータの参照・書き込みを行うことができます。仮想アドレスは次の構成となります。</p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<caption class="title">表 8. 仮想アドレス空間の割り当て</caption>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-middle">仮想アドレス</th>
+<th class="tableblock halign-center valign-middle">定数名</th>
+<th class="tableblock halign-center valign-middle">領域サイズ(バイト)</th>
+<th class="tableblock halign-center valign-middle">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">$0000</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">VRAM</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">可変・最大 5,760</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">キャラクタスクリーン表示用メモリ(CW×CH)<br>
+                                  最大 128×45 = 5,760バイト</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">$1900</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">VAR</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">420</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">変数領域（A～Z, A0:A6～Z0:Z6）+ 4バイト</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">$1AA0</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ARRAY</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">200</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">配列変数領域(@(0)～@(99) )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">$1BA0</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">PRG</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">4,096</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">プログラム領域</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">$2BA0</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">MEM</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">1,024</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">ユーザーワーク領域</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">$2FA0</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">FNT</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">2,048</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">フォント256文字(フラッシュメモリ)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">$37A0</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">GRAM</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">可変・最大 6,048</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">グラフィック表示用メモリ<br>
+                                   NTSC、OLED版でのみ利用可能。<br>
+                                   ただし、ターミナルモード切り替え時(CONSOLE 1)領域サイズは0となります。<br>
+                                   サイズはGW÷8×GHで計算できます。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">$4F40</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">PRG2</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">4,096</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">フラッシュメモリプログラム保存領域<br>
+                                  (バンク0～5の切り替え可能、デフォルト バンク0)</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_フォント">1.11. フォント</h3>
+<div class="paragraph">
+<p>表示デバイス(NTSCビデオ出力、OLED画面、TFT画面)で<br>
+利用しているトフォントのキャラクター表を下記に示します。<br></p>
+</div>
+<div class="paragraph">
+<p>フォントはサイズは6×8ドットです。<br>
+IchigoJamと互換性があります。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/font.png" alt="font">
+</div>
+<div class="title">図 8. フォントデザイン</div>
+</div>
+<div class="paragraph">
+<p>ライセンスに関する表記<br>
+<span class="image"><img src="images/cc.png" alt="cc"></span> CC BY <a href="http://ichigojam.net">IchigoJam</a></p>
+</div>
+<div class="paragraph">
+<p>フォントデータはIchigoJam 1.2.1 の8×8ドットフォントを参考にして、<br>
+6×8ドットフォントを新に作成しています。</p>
+</div>
+<div class="paragraph">
+<p>フォントデザインは下記のプログラムにて作成しています。</p>
+</div>
+<div class="listingblock">
+<div class="title">フォントデザイン見本作成プログラム</div>
+<div class="content">
+<pre>10 'font map
+20 N=16
+30 GOSUB "@hr"
+40 FOR C=0 TO 255 STEP N
+50 GOSUB "@line(C,N)"
+60 GOSUB "@hr"
+70 NEXT C
+80 END
+90 "@line(C,N)"
+100 FOR L0=0 TO 7
+110 ?"  |";
+120 FOR I0=C TO C+N-1
+130 D0=PEEK(FNT+8*I0+L0)
+140 FOR J0=0 TO 5
+150 IF D0&amp;($80&gt;&gt;J0) ?"#"; ELSE ?" ";
+160 NEXT J0
+170 ?"|";
+180 NEXT I0
+190 ?
+200 NEXT L0
+210 RETURN
+220 "@hr"
+225 ?"  ";
+230 FOR I0=0 TO 111
+240 ?"-";
+250 NEXT I0
+260 ?
+270 RETURN</pre>
+</div>
+</div>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+<div class="sect2">
+<h3 id="_編集操作キー">1.12. 編集操作キー</h3>
+<div class="paragraph">
+<p>「豊四季Tiny BASIC for Arduino STM32」では、デバイス画面（NTSCビデオ出力画面、OLED画面、TFT画面)、<br>
+シリアルコンソール画面でのフルスクリーン編集をサポートしています。</p>
+</div>
+<div class="paragraph">
+<p>PS/2キーボード及び、パソコン上のターミナルソフト上では、次の編集キーを利用することが出来ます。</p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">編集キー</th>
+<th class="tableblock halign-center valign-top">機能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[ESC]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">プログラム中断、シリアルコンソールでは要２回押し</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[F1]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">画面の全消去</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[F2]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">カーソル位置の行消去</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[F3]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">カーソルの次行に空行挿入</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[F5]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">画面の再表示</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[F7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">行の分割：カーソル以降のテキストを次行に分割する</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[F8]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">行の結合：カーソル行に次行のテキストを結合する</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[BackSpace]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">カーソル前の文字の削除</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[Insert]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">上書きモード、挿入モードも切り替え</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[Home]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">カーソルを行の先頭に移動</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[END]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">カーソルを行の末尾に移動</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[PageUP]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">カーソルを画面右上に移動、画面のスクローダウン</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[PageDown]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">カーソルを表示している最終行に移動、スクロールアップ</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[Delete]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">カーソル位置の文字の削除</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[←]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">カーソルを左に移動</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[→]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">カーソルを右に移動</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[↑]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">カーソルを上に移動</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[↓]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">カーソルを下に移動</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[Enter]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">行入力の確定、改行</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[NumLock]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">テンキーのロック、ロック解除</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[カタカナ/ひらがな/ローマ字]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">カタカナ入力のＯＮ、ＯＦＦ</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[Ctrl] + C</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">プログラム中断</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[Ctrl] + D</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">カーソル位置の行削除</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[Ctrl] + K</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">カタカナ入力のＯＮ、ＯＦＦ</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[Ctrll + L</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">画面の全消去</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[Ctrl] + N</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">カーソルの次行に空白挿入</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[Ctrl] + R</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">画面の再表示</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[Ctrl] + X</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">カーソル位置の文字の削除</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_利用環境設定">2. 利用環境設定</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>本節では、「豊四季Tiny BASIC for Arduino STM32」を使ってプログラムの開発を行うための環境及びその設定について、解説します。</p>
+</div>
+<div class="sect2">
+<h3 id="_初期設定">2.1. 初期設定</h3>
+<div class="paragraph">
+<p>「豊四季Tiny BASIC for Arduino STM32」のファームウェア(スケッチ)を初めての利用、またはバージョンの更新を行った場合、内部フラッシュメモリのプログラム保存及びCONFIGデータ保存用の領域の初期化が必要となります。</p>
+</div>
+<div class="paragraph">
+<p>初期化は次の作業を行って下さい。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>プログラム保存領域の初期化
+内部フラッシュメモリの初期化を行います。<br>
+詳細については下記の項目を参照して下さい。<br>
+⇒ 「<a href="#_プログラム保存領域の初期化">プログラム保存領域の初期化</a>」</p>
+</li>
+<li>
+<p>仮想EEPROM領域の初期化
+システム設定情報を保存する領域の初期化を行います。<br>
+詳細については下記の項目を参照して下さい。<br>
+⇒ 「<a href="#_仮想EEPROM領域の初期化">仮想EEPROM領域の初期化</a>」</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>初期化を行った場合、再設定が必要となります。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ps2キーボード">2.2. PS/2キーボード</h3>
+<div class="paragraph">
+<p>PS/2キーボードは、日本語キーボードとUSキーボードに対応しています。<br>
+デフォルトでは日本語キーボード対応になっています。<br>
+利用するキーボードのタイプを一時的に切り替えるにはCONFIGコマンドを利用します。<br></p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">書式</dt>
+<dd>
+<p>CONFIG 1,キーボード選択（0:日本語キーボード 1:USキーボード）</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="title">USキーボードに切り替える</div>
+<div class="content">
+<pre>CONFIG 1,1</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">日本語キーボードに切り替える</div>
+<div class="content">
+<pre>CONFIG 1,0</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>設定した状態を保存するののは、SAVECONFIGコマンドを実行します。</p>
+</div>
+<div class="listingblock">
+<div class="title">設定の保存</div>
+<div class="content">
+<pre>SAVECONFIG</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>これにより、次回以降の利用にも反映されます。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_コンソール画面設定">2.3. コンソール画面設定</h3>
+<div class="paragraph">
+<p>コンソール画面は、画面解像度、画面文字サイズ、画面の向きなどの設定変更が可能です。<br>
+表示設定は利用しているデバイスコンソール画面（シリアル、NTSC、OLED、TFT）により異なります。</p>
+</div>
+<div class="paragraph">
+<p>下記に表示設定を行う、コマンドを利用するこで、表示設定を行うことができます。</p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<caption class="title">表 9. 表示設定</caption>
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">画面</th>
+<th class="tableblock halign-center valign-top">コマンド</th>
+<th class="tableblock halign-center valign-top">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NTSC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SCREEN n</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">画面解像度を設定します。<br>
+n：スクリーンモード(デフォルト 1)<br>
+1：画面解像度  224×216ドット、テキスト 37×27文字<br>
+2：画面解像度  224×108ドット、テキスト 37×13文字<br>
+3：画面解像度  112×108ドット、テキスト 18×13文字</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">TFT液晶</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SCREEN n [, m]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">画面フォントサイズ、画面向きを設定します。<br>
+n：スクリーンモード(デフォルト 1)<br>
+1：画面解像度  320×240、ノーマルフォント テキスト53×30文字<br>
+2：画面解像度  320×240、2倍角フォント   テキスト26×15文字<br>
+3：画面解像度  320×240、3倍角フォント   テキスト17×10文字<br>
+4：画面解像度  320×240、4倍角フォント   テキスト13×7文字<br>
+5：画面解像度  320×240、5倍角フォント   テキスト10×6文字<br>
+6：画面解像度  320×240、6倍角フォント   テキスト 8×5文字<br>
+<br>
+ｍ：画面向き<br>
+0～4：時計回りに90°づつ回転（デフォルト 3）</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">COLOR n [, m]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">テキスト文字色、背景色を設定します。<br>
+n：文字色 0～8 、$0000～$FFFF<br>
+m：背景色0～8 、$0000～$FFFF<br>
+<br>
+COLORコマンドの色指定については、<br>
+コマンドリファレンス「COLOR 文字色の設定」を参照して下さい。<br>
+<br>
+COLORコマンド実行後、CLSコマンドを実行するか、<br>
+[F1]キーを押すことで画面全体に色設定が反映されます。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OLED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SCREEN n [, m]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">n：スクリーンモード<br>
+1：画面解像度  128×64、ノーマルフォント テキスト21×8文字<br>
+2：画面解像度  128×64、2倍角フォント   テキスト10×4文字<br>
+3：画面解像度  128×64、3倍角フォント　 テキスト7×2文字<br>
+<br>
+ｍ：画面向き<br>
+0～4：時計回りに90°づつ回転（デフォルト 0）</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">シリアルコンソール</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WIDTH n , m</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">テキスト表示の縦・横文字数を設定します。<br>
+n：横文字数 16 ～ 128（デフォルト 80）<br>
+m：縦文字数 10 ～ 45（デフォルト 24）<br>
+<br>
+USBシリアルポートまたは、GPIOシリアルポート接続を<br>
+コンソール画面として利用している場合に設定可能です。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SMODE n [, m]</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>2つのシリアルポートの機能を切り替えます。<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>SMODE 0 <br>
+USBシリアルポートをコンソール画面として利用し、<br>
+GPIOシリアルポートはデータ通信用に利用します。</p>
+</li>
+<li>
+<p>SMODE 1, "通信速度"<br>
+GPIOシリアルポートをコンソール画面として利用し、<br>
+USBシリアルポートはデータ通信用に利用します。<br>
+第2引数には通信速度を指定します。<br>
+例：SMODE 1,"115200"</p>
+</li>
+<li>
+<p>SMODE 2<br>
+シリアル通信禁止<br>
+ターミナル対話利用のコンソールでの入出力、<br>
+データ通信用の入出力は利用出来ません。<br>
+出力を行った場合は破棄されます。</p>
+</li>
+<li>
+<p>SMODE 3, 制御コード無加工指定<br>
+シリアルターミナルからの制御コードの処理を指定します。<br>
+0の場合、処理を行いません。1の場合は処理を行います。</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">共通</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CONSOLE n</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">デバイスコンソール画面（NTSC、TFT、OLED）から、<br>
+シリアルコンソール画面への切り替えまたは、その逆を行います。<br>
+<br>
+0：デバイスコンソール画面の利用に切り替えます<br>
+1：シリアルコンソール画面の利用に切り替えます<br>
+<br>
+シリアルコンソール画面ではPS/2キーボードは利用出来ません。</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_シリアル通信">2.4. シリアル通信</h3>
+<div class="paragraph">
+<p>ここでは、Windows 10パソコン上でターミナルソフト TearTermを利用する場合の設定について解説します。</p>
+</div>
+<div class="sect3">
+<h4 id="_通信条件">2.4.1. 通信条件</h4>
+<div class="paragraph">
+<p>メニュー[設定] - [シリアルポート]から[シリアルポート設定]画面を開いて行います。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/tterm_config.png" alt="tterm config">
+</div>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<caption class="title">表 10. 設定項目</caption>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">項目</th>
+<th class="tableblock halign-center valign-top">設定値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ポート</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">各自の環境に合わせて設定</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ボー・レート</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">115200(任意)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">データ長</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8bit</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">パリティビット</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">無し</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ストップビット</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1bit</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">フロー制御</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">無し</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>USB接続の場合、ボー・レートの設定任意です。<br>
+GPIOシリアルポート利用の場合は、SMODEコマンドで設定して通信速度を設定して下さい。<br></p>
+</div>
+<div class="listingblock">
+<div class="title">通信速度設定例</div>
+<div class="content">
+<pre>SMODE 1,"115200"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>GPIOシリアルポートで設定可能な通信速度は、<br>
+利用しているUSB-シリアル変換モジュールに依存します。</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_文字コード設定">2.4.2. 文字コード設定</h4>
+<div class="paragraph">
+<p>改行コード、文字コード、キーボードに関するの指定を行います。</p>
+</div>
+<div class="paragraph">
+<p>「豊四季Tiny BASIC for Arduino STM32」では1バイトコードの半角カタカナ、シフトJIS全角文字の利用をサポートします。<br>
+半角カタカナ、シフトJIS全角文字を利用のためには、利用する文字列コードとしてシフトJISを指定します。<br></p>
+</div>
+<div class="sect4">
+<h5 id="_言語設定">言語設定</h5>
+<div class="sect5">
+<h6 id="_メニュー_設定_全般設定_全般設定画面_の設定">メニュー [設定] - [全般設定] - [全般設定]画面 の設定</h6>
+<div class="imageblock">
+<div class="content">
+<img src="images/tterm_lang.png" alt="tterm lang">
+</div>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<caption class="title">表 11. 設定項目</caption>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">項目</th>
+<th class="tableblock halign-center valign-top">設定値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">言語</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Japanese</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">言語UI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Japaneze.lng</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_メニュー_設定_端末の設定_端末の設定画面_の設定">メニュー [設定] - [端末の設定] - [端末の設定]画面 の設定</h6>
+<div class="imageblock">
+<div class="content">
+<img src="images/tterm_setting.png" alt="tterm setting">
+</div>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<caption class="title">表 12. 設定項目</caption>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">項目</th>
+<th class="tableblock halign-center valign-top">設定値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">漢字-受信</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SJIS</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">漢字-受信</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SJIS</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">改行コード	受信</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AUTO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">改行コード	送信</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CR</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ウィンドウサイズ</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">☑チェックを入れる</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_メニュー_設定_キーボード画面_の設定">メニュー [設定] - [キーボード]画面 の設定</h6>
+<div class="imageblock">
+<div class="content">
+<img src="images/tterm_keyboard.png" alt="tterm keyboard">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>DELを送信するキー</strong> のBackspaceキー、Deleteキーのチェックを外します。</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ntscビデオ出力">2.5. NTSCビデオ出力</h3>
+<div class="paragraph">
+<p>NTSCビデオモニターの映像がスクロールする等、<br>
+正常に表示出来ない場合は、次の調整を試してみてください。<br>
+改善される場合があります。</p>
+</div>
+<div class="sect3">
+<h4 id="_垂直同期信号補正">2.5.1. 垂直同期信号補正</h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">書式</dt>
+<dd>
+<p>CONFIG 0, 垂直同期補正（-2～2  デフォルト値:0)<br>
+CONFIG 0, 垂直同期補正（-2～2  デフォルト値:0),横表示開始位置調整, 縦表示開始位置調整</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="title">画面映像が縦にスクロールする場合の補正</div>
+<div class="content">
+<pre>CONFIG 0,2</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>画面の下部の表示が乱れる場合は、-2~0の数値での調整を試して下さい。</p>
+</div>
+<div class="paragraph">
+<p>表示する映像が画面に収まらず、表示内容が欠けてしまう場合は、<br>
+第2引数 横表示開始位置調整（-15～15）、<br>
+第3引数 縦表示開始位置調整（-15～15）を <br>
+指定して画像表示開始位置の調整を試みて下さい。</p>
+</div>
+<div class="listingblock">
+<div class="title">例</div>
+<div class="content">
+<pre>CONFIG 0,0,8,8</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>設定した状態を保存するののは、SAVECONFIGコマンドを実行します。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>SAVECONFIG</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>これにより、次回以降の利用にも反映されます。</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_起動時コンソール画面">2.6. 起動時コンソール画面</h3>
+<div class="paragraph">
+<p>デバイスコンソール(NTSC、OLED、TFT)を利用する環境では、<br>
+起動直後は、デバイス画面がコンソール画面となります。</p>
+</div>
+<div class="paragraph">
+<p>起動時に次の設定にて利用するコンソール画面を選択することが出来ます。</p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">コンソール画面</th>
+<th class="tableblock halign-center valign-top">BOOT1</th>
+<th class="tableblock halign-center valign-top">SWCLK</th>
+<th class="tableblock halign-center valign-top">補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NTSC /OLED / TFT</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">USBポート接続シリアルコンソール</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">OPEN or LOW</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GPIOシリアルポート接続シリアルコンソール</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">HIGH</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">通信速度 115,200bps</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>BOOT1とSWCLK</strong></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/select_console_1.png" alt="select console 1">
+</div>
+<div class="title">図 9. BOOT1とSWCLK</div>
+</div>
+<div class="paragraph">
+<p>BOOT1を1、SWCLKをHIGH(3.3Vに接続)にして、起動時のコンソール画面を<br>
+GPIOGPIOシリアルポート接続シリアルコンソールに指定する例</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/select_console_2.png" alt="select console 2" width="400">
+</div>
+<div class="title">図 10. 例：シリアルポート接続シリアルコンソール選択の例</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">注意</div>
+</td>
+<td class="content">
+SWCLKを3.3Vに結線した場合、2点間に80μA(実測)の電流が流れます(0.265mW)。消費電力を押さえたい場合は、間に大き目の抵抗(100KΩ～1MΩ)を間に入れて下さい。1MΩの抵抗を入れた場合、3μA(0.001mW)まで抑えられます。
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_内部rtcの時刻設定">2.7. 内部RTCの時刻設定</h3>
+<div class="paragraph">
+<p>内部RTCの時刻設定は次のコマンドで行います。<br></p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">書式</dt>
+<dd>
+<p>SETDATE 年,月,日,時,分,秒</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="title">例</div>
+<div class="content">
+<pre>SETDATE 2019,8,10,12,30,0</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>設定した時刻はDATEコマンドで確認できます。</p>
+</div>
+<div class="listingblock">
+<div class="title">例</div>
+<div class="content">
+<pre>DATE
+2017/08/10 [Thr] 12;32:45
+OK</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>RTCの設定時刻は、SDカード利用した場合のファイル作成・更新時刻としても利用されます。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_プログラム保存読込">2.8. プログラム保存・読込</h3>
+<div class="paragraph">
+<p>作成したプログラムは内部フラシュメモリに保存可能です。</p>
+</div>
+<div class="paragraph">
+<p>フラッシュメモリへの保存</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>SAVE プログラム番号(0～5)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>フラッシュメモリからの読み込み</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>LOAD プログラム番号(0～5)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>フラッシュメモリに保存しているプログラム一覧の表示</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>FILES [先頭プログラム番号, 終了プログラム番号]</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">プログラム一覧の表示例</div>
+<div class="content">
+<pre>FILES
+files
+0:CLS
+1:'oscilloscope
+2:'ｼﾞｺｸﾋｮｳｼﾞ
+3:(none)
+4:(none)
+5:(none)
+OK</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>FILESコマンドはプログラムの先頭行を表示します。<br>
+プログラム番号の格納領域にプログラムが保存されていない場合は、(none)が表示されます。<br>
+フラッシュメモリ上のプログラムはESASEコマンドにてにて削除することが出来ます。</p>
+</div>
+<div class="paragraph">
+<p>LRUNコマンドを用いると、指定したプログラムをロードして実行することが出来ます。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>LRUN 1</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>マイコンボードの起動時に予め指定したプログラムを起動することも可能です。<br>
+詳細は、<a href="#_プログラムの自動起動設定">プログラムの自動起動設定</a>を参照して下さい。</p>
+</div>
+<div class="paragraph">
+<p>また、SDカードモジュールを接続している場合、MMC互換カード(SDカード含む)へのプログラムの保存、読み込みが可能となります。</p>
+</div>
+<div class="paragraph">
+<p>MMC互換カード(SDカード含む)への保存</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>SAVE "ファイル名"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>MMC互換カード(SDカード含む)からの読み込み</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>LOAD "ファイル名"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>MMC互換カード(SDカード含む)に保存しているプログラムのリスト表示</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>FILES ""</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ファイルの保存先には、ディレクトリ名の指定も可能です。<br>
+詳細については、各コマンドのリファレンスを参照して下さい。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_プログラム転送">2.9. プログラム転送</h3>
+<div class="paragraph">
+<p>パソコンからマイコンボードにプログラムを転送する方法としては、<br>
+ターミナルソフトの画面にプログラムソースコピー＆ペーストする方法が簡単でおすすめです。</p>
+</div>
+<div class="paragraph">
+<p>TeraTermにて長いプログラムソースをペーストした際に取りこぼしが発生する場合は、<br>
+送信遅延のタイミングの調整を行って下さい。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/tterm_config.png" alt="tterm config">
+</div>
+</div>
+<div class="paragraph">
+<p>また、通常ペースト時には一部の制御用文字（BSキーの文字コードなど）が機能してしまい、正しく転送出来ない場合があります。<br>
+この場合は、シリアルポートのコンソール画面利用をしていない状態で、<br>
+SMODEコマンドを使って一時的に制御用文字コードの機能を無効化してから転送して下さい。<br></p>
+</div>
+<div class="paragraph">
+<p>制御用文字コードの機能を無効化</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>SMODE 3,0</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>制御用文字コードの機能を有効化</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>SMODE 3,1</pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">注意</div>
+</td>
+<td class="content">
+シリアルポートをコンソール画面（スクリーン編集可能な画面として利用している場合）として利用している場合、SMODEコマンドによる制御用文字コードの機能を無効化は行うことが出来ません。
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_プログラム退避">2.10. プログラム退避</h3>
+<div class="paragraph">
+<p>内部フラッシュメモリに保存されている、プログラムをパソコンにバックアップする機能として、
+EXPORTコマンドを用意しています。</p>
+</div>
+<div class="paragraph">
+<p>パソコン上のターミナルソフトから接続した状態で、EXPORTコマンドを実行します。</p>
+</div>
+<div class="paragraph">
+<p>ターミナルソフト上に保存されているプロフラムが全て出力されますので、その内容をコピー＆ペーストにてメモ帳等に張り付けて保存します。</p>
+</div>
+<div class="listingblock">
+<div class="title">EXPORTコマンド実行例</div>
+<div class="content">
+<pre>export
+NEW
+10 CLS
+20 GETTIME H,M,S
+30 @(0)=H/10:@(1)=H%10
+40 @(2)=10
+50 @(3)=M/10:@(4)=M%10
+60 @(5)=10
+70 @(6)=S/10:@(7)=S%10
+80 FOR I=0 TO 7
+90 BITMAP I*24+10,20,FNT,@(I)+ASC("0"),6,8,4
+100 NEXT I
+110 GOTO 20
+SAVE 0
+
+NEW
+10 'oscilloscope
+20 CLS
+30 GPIO PB1,ANALOG
+40 "LOOP"
+50 R=ANA(PB1)
+60 Q=R/20
+70 LOCATE 0,0:?R;"   "
+80 PSET GW-1,GH-Q-4,1
+90 WAIT 50
+100 GSCROLL 8,208,3
+110 GOTO "LOOP"
+SAVE 1
+
+NEW
+1 'ｼﾞｺｸﾋｮｳｼﾞ
+5000 CLS
+5010 GETTIME H,M,S
+5020 @(0)=H/10:@(1)=H%10
+5030 @(2)=10
+5040 @(3)=M/10:@(4)=M%10
+5050 @(5)=10
+5060 @(6)=S/10:@(7)=S%10
+5070 FOR I=0 TO 7
+5080 BITMAP I*24+10,20,FNT,@(I)+ASC("0"),6,8,4
+5090 NEXT I
+5100 GOTO 20
+SAVE 2
+
+OK</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>保存したプログラムをマイコンボードに読み込むには「<a href="#_パソコンからのプログラム読込と保存">パソコンからのプログラム読込と保存</a>」の内容を参考にして、保存していたテキストの「NEW～SAVE n」の単位でコピー＆ペーストしてプログラム番号単位で保存していきます。</p>
+</div>
+<div class="paragraph">
+<p>作業については、コマンドリファレンス「EXPORT 内部フラッシュメモリの内容のエクスポート」の内容も参照して下さい。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_プログラム自動起動">2.11. プログラム自動起動</h3>
+<div class="paragraph">
+<p>マイコンボードの起動時にフラッシュメモリー上の指定したプログラム番号のプログラムを起動することが出来ます。</p>
+</div>
+<div class="paragraph">
+<p>この設定はCONFIGコマンド、SAVECONFIGコマンドにて行います。<br>
+プログラム番号0を自動起動する場合は、次のコマンドを実行します。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>CONFIG 2,0
+OK
+SAVECONFIG
+OK</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>CONFIGコマンドの第2引数にプログラム番号(0～7)を指定します。</p>
+</div>
+<div class="paragraph">
+<p>自動起動を解除する場合は、次のコマンドを実行します。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>CONFIG 2,-1
+OK
+SAVECONFIG
+OK</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>自動起動するプログラムには、SDカード上のプログラムを指定することは出来ませんが、
+フラッシュメモリーから起動されるプログラムからRLUNコマンドを使って間接的に起動することが出来ます。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>10 LRUN "STAT.BAS"</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_仮想eeprom">2.12. 仮想EEPROM</h3>
+<div class="paragraph">
+<p>仮想EEPROM領域には、システム設定情報とユーザー用仮想EEPROM用に利用します。<br>
+この領域を初期化はEEPFORMATコマンドを実行して下さい。<br>
+具体的には、次のコマンドを実行して下さい。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>EEPFORMAT
+OK</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_プログラム保存領域">2.13. プログラム保存領域</h3>
+<div class="paragraph">
+<p>内部フラッシュメモリの初期化は、ERASEコマンドを利用します。<br>
+具体的には、次のコマンドを実行して下さい。<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ERASE 0,7
+OK</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mmc互換カード">2.14. MMC互換カード</h3>
+<div class="paragraph">
+<p>MMC互換カード(SDカード）の初期を行い場合は、FAT16たまはFAT32形式で行って下さい。<br>
+通常、購入したSDカードはFAT16またはFAT32にてフォーマットされており、そのまま利用することが出来ます。<br></p>
+</div>
+<div class="paragraph">
+<p>なお、MMC互換カード(SDカード）は電気的に弱い面もありますので、万が一の故障を想定し、重要なデータを保存する用途との併用は避け、なるべく専用のカードを用意して下さい。</p>
+</div>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+バージョン 0.87(Draft) 2018/12/15<br>
+最終更新 2018-12-15 19:01:48 東京 (標準時)
+</div>
+</div>
+</body>
+</html>
