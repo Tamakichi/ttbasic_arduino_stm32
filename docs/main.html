@@ -438,7 +438,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="details">
 <span id="author" class="author">たま吉さん</span><br>
 <span id="email" class="email"><a href="mailto:tamacat2014@gmail.com">tamacat2014@gmail.com</a></span><br>
-<span id="revnumber">バージョン 0.87(Draft) 2018/12/15</span>
+<span id="revnumber">バージョン 0.87(Draft) 2018/12/19</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">目次</div>
@@ -448,47 +448,118 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_はじめに">1.1. はじめに</a></li>
 <li><a href="#_関連情報">1.2. 関連情報</a></li>
 <li><a href="#_著作権利用条件">1.3. 著作権・利用条件</a></li>
-<li><a href="#_システム構成">1.4. システム構成</a></li>
+<li><a href="#_システム構成">1.4. システム構成</a>
+<ul class="sectlevel3">
+<li><a href="#_バリエーション">1.4.1. バリエーション</a></li>
+<li><a href="#_個別構成">1.4.2. 個別構成</a></li>
+<li><a href="#_個別詳細">1.4.3. 個別詳細</a></li>
+</ul>
+</li>
 <li><a href="#_ソフトウェア仕様">1.5. ソフトウェア仕様</a></li>
 <li><a href="#_ハードウエア仕様">1.6. ハードウエア仕様</a></li>
-<li><a href="#_結線図">1.7. 結線図</a></li>
+<li><a href="#_結線図">1.7. 結線図</a>
+<ul class="sectlevel3">
+<li><a href="#_シリアル接続版_2">1.7.1. シリアル接続版</a></li>
+<li><a href="#_ntsc版_2">1.7.2. NTSC版</a></li>
+<li><a href="#_oled版_2">1.7.3. OLED版</a></li>
+<li><a href="#_tft版_2">1.7.4. TFT版</a></li>
+<li><a href="#_sdカード対応">1.7.5. SDカード対応</a></li>
+<li><a href="#_rtc用電池">1.7.6. RTC用電池</a></li>
+<li><a href="#_部品表">1.7.7. 部品表</a></li>
+</ul>
+</li>
 <li><a href="#_ピンレイアウト">1.8. ピンレイアウト</a></li>
 <li><a href="#_ピン割り付け一覧">1.9. ピン割り付け一覧</a></li>
-<li><a href="#_メモリーマップ">1.10. メモリーマップ</a></li>
+<li><a href="#_メモリーマップ">1.10. メモリーマップ</a>
+<ul class="sectlevel3">
+<li><a href="#_flashメモリ">1.10.1. FLASHメモリ</a></li>
+<li><a href="#_sram">1.10.2. SRAM</a></li>
+<li><a href="#_仮想アドレス">1.10.3. 仮想アドレス</a></li>
+</ul>
+</li>
 <li><a href="#_フォント">1.11. フォント</a></li>
 <li><a href="#_編集操作キー">1.12. 編集操作キー</a></li>
 </ul>
 </li>
-<li><a href="#_利用環境設定">2. 利用環境設定</a>
+<li><a href="#_インストール">2. インストール</a>
 <ul class="sectlevel2">
-<li><a href="#_初期設定">2.1. 初期設定</a></li>
-<li><a href="#_ps2キーボード">2.2. PS/2キーボード</a></li>
-<li><a href="#_コンソール画面設定">2.3. コンソール画面設定</a></li>
-<li><a href="#_シリアル通信">2.4. シリアル通信</a></li>
-<li><a href="#_ntscビデオ出力">2.5. NTSCビデオ出力</a></li>
-<li><a href="#_起動時コンソール画面">2.6. 起動時コンソール画面</a></li>
-<li><a href="#_内部rtcの時刻設定">2.7. 内部RTCの時刻設定</a></li>
-<li><a href="#_プログラム保存読込">2.8. プログラム保存・読込</a></li>
-<li><a href="#_プログラム転送">2.9. プログラム転送</a></li>
-<li><a href="#_プログラム退避">2.10. プログラム退避</a></li>
-<li><a href="#_プログラム自動起動">2.11. プログラム自動起動</a></li>
-<li><a href="#_仮想eeprom">2.12. 仮想EEPROM</a></li>
-<li><a href="#_プログラム保存領域">2.13. プログラム保存領域</a></li>
-<li><a href="#_mmc互換カード">2.14. MMC互換カード</a></li>
+<li><a href="#_パッケージの配置">2.1. パッケージの配置</a></li>
+<li><a href="#_ファームウェアの書込">2.2. ファームウェアの書込</a></li>
+<li><a href="#_スケッチの書込">2.3. スケッチの書込</a></li>
 </ul>
 </li>
-<li><a href="#_プログラム構成要素">3. プログラム構成要素</a>
+<li><a href="#_利用環境設定">3. 利用環境設定</a>
 <ul class="sectlevel2">
-<li><a href="#_プログラム構造と形式">3.1. プログラム構造と形式</a></li>
-<li><a href="#_行と命令文">3.2. 行と命令文</a></li>
-<li><a href="#_制御文">3.3. 制御文</a></li>
-<li><a href="#_コマンド関数">3.4. コマンド・関数</a></li>
-<li><a href="#_数値">3.5. 数値</a></li>
-<li><a href="#_変数配列変数">3.6. 変数・配列変数</a></li>
-<li><a href="#_文字文字列">3.7. 文字・文字列</a></li>
-<li><a href="#_演算子">3.8. 演算子</a></li>
-<li><a href="#_式">3.9. 式</a></li>
-<li><a href="#_定数">3.10. 定数</a></li>
+<li><a href="#_初期設定">3.1. 初期設定</a></li>
+<li><a href="#_ps2キーボード">3.2. PS/2キーボード</a></li>
+<li><a href="#_コンソール画面設定">3.3. コンソール画面設定</a></li>
+<li><a href="#_シリアル通信">3.4. シリアル通信</a>
+<ul class="sectlevel3">
+<li><a href="#_通信条件">3.4.1. 通信条件</a></li>
+<li><a href="#_文字コード設定">3.4.2. 文字コード設定</a></li>
+</ul>
+</li>
+<li><a href="#_ntscビデオ出力">3.5. NTSCビデオ出力</a>
+<ul class="sectlevel3">
+<li><a href="#_垂直同期信号補正">3.5.1. 垂直同期信号補正</a></li>
+</ul>
+</li>
+<li><a href="#_起動時コンソール画面">3.6. 起動時コンソール画面</a></li>
+<li><a href="#_内部rtcの時刻設定">3.7. 内部RTCの時刻設定</a></li>
+<li><a href="#_プログラム保存読込">3.8. プログラム保存・読込</a></li>
+<li><a href="#_プログラム転送">3.9. プログラム転送</a></li>
+<li><a href="#_プログラム退避">3.10. プログラム退避</a></li>
+<li><a href="#_プログラム自動起動">3.11. プログラム自動起動</a></li>
+<li><a href="#_仮想eeprom">3.12. 仮想EEPROM</a></li>
+<li><a href="#_プログラム保存領域">3.13. プログラム保存領域</a></li>
+<li><a href="#_mmc互換カード">3.14. MMC互換カード</a></li>
+</ul>
+</li>
+<li><a href="#_プログラム構成要素">4. プログラム構成要素</a>
+<ul class="sectlevel2">
+<li><a href="#_プログラム構造と形式">4.1. プログラム構造と形式</a></li>
+<li><a href="#_行と命令文">4.2. 行と命令文</a>
+<ul class="sectlevel3">
+<li><a href="#_行">4.2.1. 行</a></li>
+<li><a href="#_命令文">4.2.2. 命令文</a></li>
+</ul>
+</li>
+<li><a href="#_制御文">4.3. 制御文</a></li>
+<li><a href="#_コマンド関数">4.4. コマンド・関数</a>
+<ul class="sectlevel3">
+<li><a href="#_コマンド_2">4.4.1. コマンド</a></li>
+</ul>
+</li>
+<li><a href="#_数値">4.5. 数値</a>
+<ul class="sectlevel3">
+<li><a href="#_関数">4.5.1. 関数</a></li>
+</ul>
+</li>
+<li><a href="#_変数配列変数">4.6. 変数・配列変数</a>
+<ul class="sectlevel3">
+<li><a href="#_変数の表記">4.6.1. 変数の表記</a></li>
+</ul>
+</li>
+<li><a href="#_文字文字列">4.7. 文字・文字列</a>
+<ul class="sectlevel3">
+<li><a href="#_変数への代入">4.7.1. 変数への代入</a></li>
+</ul>
+</li>
+<li><a href="#_演算子">4.8. 演算子</a>
+<ul class="sectlevel3">
+<li><a href="#_算術演算子">4.8.1. 算術演算子</a></li>
+<li><a href="#_ビット演算子">4.8.2. ビット演算子</a></li>
+<li><a href="#_比較演算子">4.8.3. 比較演算子</a></li>
+<li><a href="#_論理演算子">4.8.4. 論理演算子</a></li>
+<li><a href="#_演算子の優先順序">4.8.5. 演算子の優先順序</a></li>
+</ul>
+</li>
+<li><a href="#_式">4.9. 式</a>
+<ul class="sectlevel3">
+<li><a href="#_式の利用">4.9.1. 式の利用</a></li>
+</ul>
+</li>
+<li><a href="#_定数">4.10. 定数</a></li>
 </ul>
 </li>
 </ul>
@@ -2492,13 +2563,457 @@ IchigoJamと互換性があります。</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_利用環境設定">2. 利用環境設定</h2>
+<h2 id="_インストール">2. インストール</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>本節では、「豊四季タイニー BASIC for Arduino STM32」配布パッケージのインストールについて解説します。<br>
+Windows 10環境の利用を前提に解説します。</p>
+</div>
+<div class="sect2">
+<h3 id="_パッケージの配置">2.1. パッケージの配置</h3>
+<div class="paragraph">
+<p>下記のリンクからダウンロードして解凍するか、<br>
+gitコマンドにてクローンの作成を行って下さい。<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ダウンロードのリンク<br>
+<a href="https://github.com/Tamakichi/ttbasic_arduino_stm32/archive/master.zip" class="bare">https://github.com/Tamakichi/ttbasic_arduino_stm32/archive/master.zip</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>コマンドプロンプト上でgitコマンドでダウンロード(複製の作成)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>git clone https://github.com/Tamakichi/ttbasic_arduino_stm32.git</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Windows 10へのgitの導入は、下記の手順を参考にして下さい。<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>git for Windowsのインストール手順<br>
+<a href="https://tamakichi.github.io/ttbasic_arduino_stm32/install_git.html" class="bare">https://tamakichi.github.io/ttbasic_arduino_stm32/install_git.html</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>ダウンロードした本パッケージのトップフォルダを 📁ttbasic_arduino_stm32\ とします。<br>
+（解凍直後の tbasic_arduino_stm32-master から変更して下さい)<br>
+トップフォルダを任意の場所に配置して下さい。<br></p>
+</div>
+<div class="paragraph">
+<p><strong>パッケージ構成</strong><br></p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>📁ttbasic_arduino_stm32\ ・・・ 本パッケージのトップフォルダ<br>
+　📁bin\ ・・・・・・・・・・・・コンパイル済みスケッチ(ファームウェア)<br>
+　📁docs\ ・・・・・・・・・・・  ドキュメント類(作成中)<br>
+　📁fontbin\ ・・・・・・・・・・ 日本語フォント類<br>
+　📁image\ ・・・・・・・・・・・ README用画像ファイル<br>
+　📁hardware\ ・・・・・・・・・ Arduino STM32パッケージ配置場所<br>
+　📁libraries\ ・・・・・・・・・スケッチ用ライブラリ<br>
+　📁ttbasic\ ・・・・・・・・・・ スケッチ本体<br>
+　📄README.md ・・・・・・・・・ 本ドキュメント<br>
+　📄TinyBASIC早見表.pdf ・・・・ チートシート<br>
+　📄manual.pdf ・・・・・・・・・ マニュアル(旧)<br>
+　📄platform.local.txt ・・・・・コンパイルオプション定義(OLEDコントローラ指定用)<br>
+　📄キーワード.html ・・・・・・ キーワード一覧(コマンド簡易説明書HTML版)<br>
+　📄キーワード..pdf ・・・・・・  キーワード一覧(コマンド簡易説明書PDF版)</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Arduino IDEでスケッチをコンパイルする場合は、<br>
+Arduino IDEの環境設定の スケッチブックの保存場所に<br>
+📁ttbasic_arduino_stm32\ を 設定して下さい。<br>
+これにより、既存の環境・ライブラリとの干渉減らすことが出来ます。</p>
+</div>
+<div class="paragraph">
+<p><strong>ArduinoSTM32導入</strong><br>
+Arduino STM32パッケージは、随時更新されているため動作確認した時点のスナップショットに不具合修正を行った、下記のパッケージをダウンロードして利用して下さい。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ダウンロードリンク<br>
+<a href="https://github.com/Tamakichi/Arduino_STM32/archive/master.zip" class="bare">https://github.com/Tamakichi/Arduino_STM32/archive/master.zip</a></p>
+</li>
+<li>
+<p>gitを使ったダウンロード(複製のダウンロード)</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>git clone https://github.com/Tamakichi/Arduino_STM32.git</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ダウンロードしたArduino STM32パッケージのトップフォルダを<br>
+📁Arduino_STM32\ とします。<br>
+（解凍直後の Arduino_STM32-master から変更して下さい)</p>
+</div>
+<div class="paragraph">
+<p>Arduino STM32パッケージのトップフォルダは、<br>
+📁hardware\の下に配置して下さい。</p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>📁ttbasic_arduino_stm32\<br>
+　　📁hardware\<br>
+　　　📁Arduino_STM32\</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>ドライバのインストール</strong><br>
+Arduino STM32パッケージに添付のUSBドライバをインストールします。<br>
+下記の📁win\📄install_drivers.batをクリックしてドライバをインストールします。</p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>　📁ttbasic_arduino_stm32\<br>
+　　📁hardware\<br>
+　　　📁Arduino_STM32\<br>
+　　　　📁drivers\<br>
+　　　　　📁win\<br>
+　　　　　　📄install_drivers.bat</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Javaのインストール</strong><br>
+Arduino STM32のスケッチの書き込みにおいて、java(jre:実行環境)の実行環境が必要となります。<br>
+インストールしていない場合は、ダウンロードしてインストールして下さい。</p>
+</div>
+<div class="paragraph">
+<p>無料Javaのダウンロード <a href="https://java.com/ja/download/" class="bare">https://java.com/ja/download/</a></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/install01.png" alt="install01" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p><b class="button">無料のJavaのダウンロード</b> をクリックしてダウンロードし、インストールして下さい。<br>
+無料Javaのダウンロード <a href="https://java.com/ja/download/" class="bare">https://java.com/ja/download/</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ファームウェアの書込">2.2. ファームウェアの書込</h3>
+<div class="paragraph">
+<p>コンパイル済みスケッチ(ファームウェア) を用意しています。<br>
+ファームウェアを直接マイコンボードに書き込んで利用することが出来ます。<br></p>
+</div>
+<div class="paragraph">
+<p>プロジェクトファイルのbinフォルダに２つのタイプのファームウェアを用意しています。<br></p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">ブートローダー無しファームウェア(バイナリー形式)</dt>
+<dd>
+<p>ブートローダ経由(USB経由)で書き込むタイプのファームウェアです。<br>
+Arduino IDE経由で書き込むスケッチと同じものです。</p>
+</dd>
+</dl>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<caption class="title">表 9. ブートローダー無しファームウェア(バイナリー形式)</caption>
+<colgroup>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>📁ttbasic_arduino_stm32\<br>
+　📁bin\<br>
+　　📄black_medium_small_square:ttbasic_NTSC.bin	(NTSCビデオ出力版)<br>
+　　📄black_medium_small_square:ttbasic_OLED_SH1106_I2C.bin	(OLED SH1106 I2C版)<br>
+　　📄black_medium_small_square:ttbasic_OLED_SH1106_SPI.bin	(OLED SH1106 SPI版)<br>
+　　📄black_medium_small_square:ttbasic_OLED_SSD1306_I2C.bin (OLEDSSD1306/SSD1309 I2C版)<br>
+　　📄black_medium_small_square:ttbasic_OLED_SSD1306_SPI.bin (OLED SSD1306/SSD1309 SPI版)<br>
+　　📄black_medium_small_square:ttbasic_Serial.bin (シリアルコンソール版)<br>
+　　📄black_medium_small_square:ttbasic_TFT.bin	(TFT ILI9341版)</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">ブートローダー付きファームウェア(バイナリー形式)</dt>
+<dd>
+<p>ブートローダにスケッチを結合したファームウェアです。<br>
+ブートローダの書き込み方法と同じように書き込みます。</p>
+</dd>
+</dl>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<caption class="title">表 10. ブートローダー付きファームウェア(バイナリー形式)</caption>
+<colgroup>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>📁ttbasic_arduino_stm32\<br>
+　📁bin\PlusBootloader\<br>
+　　📄boot_ttbasic_NTSC.bin	(NTSCビデオ出力版)<br>
+　　📄boot_ttbasic_OLED_SH1106_I2C.bin (OLED SH1106 I2C版)<br>
+　　📄boot_ttbasic_OLED_SH1106_SPI.bin (OLED SH1106 SPI版)<br>
+　　📄boot_ttbasic_OLED_SSD1306_I2C.bin (OLED SSD1306/SSD1309 I2C版)<br>
+　　📄boot_ttbasic_OLED_SSD1306_SPI.bin (OLED SSD1306/SSD1309 SPI版)<br>
+　　📄boot_ttbasic_Serial.bin	(ターミナルコンソール版)<br>
+　　📄boot_ttbasic_TFT.bin (TFT ILI9341版)<br></code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>ブートローダー無しファームウェアの書込み手順</strong><br>
+利用するマイコンボードにArduino STM32用のブートローダーが書き込まれている必要があります。<br>
+<strong>BluePillボード</strong> への書き込みは下記の記事等を参考して行って下さい。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://tamakichi.github.io/ttbasic_arduino_stm32/install.html#_bluepill%E3%83%9C%E3%83%BC%E3%83%89%E3%81%B8%E3%81%AE%E3%83%96%E3%83%BC%E3%83%88%E3%83%AD%E3%83%BC%E3%83%80%E3%81%AE%E6%9B%B8%E3%81%8D%E8%BE%BC%E3%81%BF"> コンパイル環境の構築 - 7. BluePillボードへのブートローダの書き込み</a></p>
+</li>
+<li>
+<p>DEKOのアヤシいお部屋-「STM32F103C8T6」<br>
+<a href="http://ht-deko.com/arduino/stm32f103c8t6.html" class="bare">http://ht-deko.com/arduino/stm32f103c8t6.html</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>1. ファームウェア書込み手順</strong> <br></p>
+</div>
+<div class="paragraph">
+<p><strong>1-1. ttwrite.batを修正します</strong><br>
+<strong>ttwrite.bat</strong> の修正をエディタ(メモ帳でもOK)で開き、<br>
+<strong>dev</strong> にマイコンボードのUSBポートが利用するシリアルポートを指定します。<br>
+COMは必ず半角大文字で記述して下さい。</p>
+</div>
+<div class="listingblock">
+<div class="title">ttwrite.bat</div>
+<div class="content">
+<pre>set dev=COM4
+・・・</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1-2. コマンドプロンプト上でコマンド実行</strong><br>
+コマンドプロンプトを起動します。<br>
+カレントディレクトリを <code>📁ttbasic_arduino_stm32\📁bin\</code> に移動し、<br>
+次のコマンドを実行します。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ttwrite ファームウェアファイル</pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"></dt>
+<dd>
+<p>ファームウェアファイル は各自の利用目的に応じて選択して下さい。</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="title"><code>ttwrite ttbasic_TFT.bin</code> を書き込む場合の例</div>
+<div class="content">
+<pre>ttwrite ttwrite ttbasic_TFT.bin</pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/install02.png" alt="install02" width="600">
+</div>
+</div>
+<div class="paragraph">
+<p>コマンド実行しても書き込みが開始されない場合、ボード上のリセットボタンを押すことで、ブートローダーが強制的に書込みモードに切り替わります。試してみて下さい。</p>
+</div>
+<div class="paragraph">
+<p>別の方法として、エクスプローラー上で <strong>ttwrite.bat</strong> アイコン上にブートローダー無しファームウェアファイルのアイコンをドラック＆ドロップすることで書き込むことが出来ます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/install03.png" alt="install03">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>ブートローダー付きファームウェアの書込み手順</strong></p>
+</div>
+<div class="paragraph">
+<p>ブートローダーと同じ方法で書き込むこと出来ます。<br>
+(プログラマ <strong>ST-LINK</strong> を利用して、<strong>STM32 ST-LINK Utility</strong> での書き込み)</p>
+</div>
+<div class="paragraph">
+<p>ここでは添付の <strong>ttbtwrite.bat</strong> コマンドを使ったシリアル接続による方法を説明します。</p>
+</div>
+<div class="paragraph">
+<p><strong>1. 事前準備</strong></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/install04.jpg" alt="install04">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1-1. USB-シリアル変換モジュールの用意</strong>
+<strong>USB-シリアル変換モジュール</strong> を用意して下さい。<br>
+パソコンに接続してシリアルポートを確認します。<br>
+ここでは、<strong>COM5</strong> とします。</p>
+</div>
+<div class="paragraph">
+<p><strong>1-2. ttbtwrite.batの修正</strong><br>
+書込み用バッチファイル <strong>ttbtwrite.bat</strong> を各自の環境に合わせて修正します。<br>
+<code>📁bin\PlusBootloader\ttbtwrite.bat</code> をエディタ（メモ用でもOK）で開きます。<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>set dev=COM5
+stm32flash.exe -b 115200 -f -v -w %1 %dev%</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>devのシリアルポートの指定を各自の環境に合わせて変更して下さい。</p>
+</div>
+<div class="paragraph">
+<p><strong>1-3.BluePillボードをパソコンに接続</strong><br>
+<strong>BluePillボード</strong> のUSBポートを電源供給を兼ねてパソコンに接続します。</p>
+</div>
+<div class="paragraph">
+<p><strong>1-4 USB-シリアル変換モジュールの接続</strong><br>
+<strong>USB-シリアル変換モジュール</strong> と <strong>Blue Pillボード</strong> を結線します。</p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">USB-シリアル変換モジュール</th>
+<th class="tableblock halign-center valign-top">Blue Pillボード</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GND</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GND</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">TXD</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">A10</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">RXD</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">A9</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>1-4 ジャンパースイッチの設定</strong><br>
+ジャンパースイッチの設定ボード上の <strong>BOOT0</strong> ジャンパを1に設定します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/install05.jpg" alt="install05">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>BOOT0</strong> ：1<br>
+<strong>BOOT1</strong> ：0</p>
+</div>
+<div class="paragraph">
+<p><strong>2. 書込み作業</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>2-1 コマンドプロンプトを起動します</strong> <br>
+カレントディレクトリを <code>📁bin\PlusBootloader\</code> に移動し、　<br></p>
+</div>
+<div class="paragraph">
+<p><strong>2-2. 次のコマンドを実行します</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ttbtwrite ブートローダー付きファームウェアファイル</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>ブートローダー付きファームウェアファイル</strong> は同じフォルダ内にあります。<br>
+各自の用途に合わせて選択指定して下さい。</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>ttbtwrite boot_ttbasic_Serial.bin</code> を実行した例：</div>
+<div class="content">
+<pre>ttbtwrite ttbtwrite boot_ttbasic_Serial.bin</pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/install06.png" alt="install06" width="600">
+</div>
+</div>
+<div class="paragraph">
+<p>書込みはエクスプローラー上でブートローダー付きファームウェアファイルのアイコンを <code>ttbtwrite.bat</code> のアイコンにドラック＆ドロップする操作でも行うことが出来ます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/install07.png" alt="install07">
+</div>
+</div>
+<div class="paragraph">
+<p>書込みが完了したら、<strong>BOOT0</strong> ジャンバを0に戻して下さい。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_スケッチの書込">2.3. スケッチの書込</h3>
+<div class="paragraph">
+<p>Arduino IDEにて、添付のプログラムソース（スケッチ）を使って、<br>
+ファームウェアの書き込みが可能です。</p>
+</div>
+<div class="paragraph">
+<p>手順については、下記のドキュメントにまとめました。<br>
+こちらを参照下さい。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>豊四季Tiny BASIC for Arduino STM32 コンパイル環境の構築<br>
+<a href="https://tamakichi.github.io/ttbasic_arduino_stm32/install.html" class="bare">https://tamakichi.github.io/ttbasic_arduino_stm32/install.html</a></p>
+</li>
+</ul>
+</div>
+<hr>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_利用環境設定">3. 利用環境設定</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>本節では、「豊四季タイニー BASIC for Arduino STM32」を使ってプログラムの開発を行うための環境及びその設定について、解説します。</p>
 </div>
 <div class="sect2">
-<h3 id="_初期設定">2.1. 初期設定</h3>
+<h3 id="_初期設定">3.1. 初期設定</h3>
 <div class="paragraph">
 <p>「豊四季タイニー BASIC for Arduino STM32」のファームウェア(スケッチ)を初めての利用、またはバージョンの更新を行った場合、内部フラッシュメモリのプログラム保存及びCONFIGデータ保存用の領域の初期化が必要となります。</p>
 </div>
@@ -2526,7 +3041,7 @@ IchigoJamと互換性があります。</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ps2キーボード">2.2. PS/2キーボード</h3>
+<h3 id="_ps2キーボード">3.2. PS/2キーボード</h3>
 <div class="paragraph">
 <p>PS/2キーボードは、日本語キーボードとUSキーボードに対応しています。<br>
 デフォルトでは日本語キーボード対応になっています。<br>
@@ -2566,7 +3081,7 @@ IchigoJamと互換性があります。</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_コンソール画面設定">2.3. コンソール画面設定</h3>
+<h3 id="_コンソール画面設定">3.3. コンソール画面設定</h3>
 <div class="paragraph">
 <p>コンソール画面は、画面解像度、画面文字サイズ、画面の向きなどの設定変更が可能です。<br>
 表示設定は利用しているデバイスコンソール画面（シリアル、NTSC、OLED、TFT）により異なります。</p>
@@ -2575,7 +3090,7 @@ IchigoJamと互換性があります。</p>
 <p>下記に表示設定を行う、コマンドを利用するこで、表示設定を行うことができます。</p>
 </div>
 <table class="tableblock frame-all grid-all fit-content">
-<caption class="title">表 9. 表示設定</caption>
+<caption class="title">表 11. 表示設定</caption>
 <colgroup>
 <col>
 <col>
@@ -2695,12 +3210,12 @@ USBシリアルポートはデータ通信用に利用します。<br>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_シリアル通信">2.4. シリアル通信</h3>
+<h3 id="_シリアル通信">3.4. シリアル通信</h3>
 <div class="paragraph">
 <p>ここでは、Windows 10パソコン上でターミナルソフト TearTermを利用する場合の設定について解説します。</p>
 </div>
 <div class="sect3">
-<h4 id="_通信条件">2.4.1. 通信条件</h4>
+<h4 id="_通信条件">3.4.1. 通信条件</h4>
 <div class="paragraph">
 <p>メニュー[設定] - [シリアルポート]から[シリアルポート設定]画面を開いて行います。</p>
 </div>
@@ -2710,7 +3225,7 @@ USBシリアルポートはデータ通信用に利用します。<br>
 </div>
 </div>
 <table class="tableblock frame-all grid-all fit-content">
-<caption class="title">表 10. 設定項目</caption>
+<caption class="title">表 12. 設定項目</caption>
 <colgroup>
 <col>
 <col>
@@ -2764,7 +3279,7 @@ GPIOシリアルポート利用の場合は、SMODEコマンドで設定して�
 </div>
 </div>
 <div class="sect3">
-<h4 id="_文字コード設定">2.4.2. 文字コード設定</h4>
+<h4 id="_文字コード設定">3.4.2. 文字コード設定</h4>
 <div class="paragraph">
 <p>改行コード、文字コード、キーボードに関するの指定を行います。</p>
 </div>
@@ -2782,7 +3297,7 @@ GPIOシリアルポート利用の場合は、SMODEコマンドで設定して�
 </div>
 </div>
 <table class="tableblock frame-all grid-all fit-content">
-<caption class="title">表 11. 設定項目</caption>
+<caption class="title">表 13. 設定項目</caption>
 <colgroup>
 <col>
 <col>
@@ -2813,7 +3328,7 @@ GPIOシリアルポート利用の場合は、SMODEコマンドで設定して�
 </div>
 </div>
 <table class="tableblock frame-all grid-all fit-content">
-<caption class="title">表 12. 設定項目</caption>
+<caption class="title">表 14. 設定項目</caption>
 <colgroup>
 <col>
 <col>
@@ -2863,14 +3378,14 @@ GPIOシリアルポート利用の場合は、SMODEコマンドで設定して�
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ntscビデオ出力">2.5. NTSCビデオ出力</h3>
+<h3 id="_ntscビデオ出力">3.5. NTSCビデオ出力</h3>
 <div class="paragraph">
 <p>NTSCビデオモニターの映像がスクロールする等、<br>
 正常に表示出来ない場合は、次の調整を試してみてください。<br>
 改善される場合があります。</p>
 </div>
 <div class="sect3">
-<h4 id="_垂直同期信号補正">2.5.1. 垂直同期信号補正</h4>
+<h4 id="_垂直同期信号補正">3.5.1. 垂直同期信号補正</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">書式</dt>
@@ -2915,7 +3430,7 @@ CONFIG 0, 垂直同期補正（-2～2  デフォルト値:0),横表示開始位�
 </div>
 </div>
 <div class="sect2">
-<h3 id="_起動時コンソール画面">2.6. 起動時コンソール画面</h3>
+<h3 id="_起動時コンソール画面">3.6. 起動時コンソール画面</h3>
 <div class="paragraph">
 <p>デバイスコンソール(NTSC、OLED、TFT)を利用する環境では、<br>
 起動直後は、デバイス画面がコンソール画面となります。</p>
@@ -2992,7 +3507,7 @@ SWCLKを3.3Vに結線した場合、2点間に80μA(実測)の電流が流れま
 </div>
 </div>
 <div class="sect2">
-<h3 id="_内部rtcの時刻設定">2.7. 内部RTCの時刻設定</h3>
+<h3 id="_内部rtcの時刻設定">3.7. 内部RTCの時刻設定</h3>
 <div class="paragraph">
 <p>内部RTCの時刻設定は次のコマンドで行います。<br></p>
 </div>
@@ -3026,7 +3541,7 @@ OK</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_プログラム保存読込">2.8. プログラム保存・読込</h3>
+<h3 id="_プログラム保存読込">3.8. プログラム保存・読込</h3>
 <div class="paragraph">
 <p>作成したプログラムは内部フラシュメモリに保存可能です。</p>
 </div>
@@ -3118,7 +3633,7 @@ OK</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_プログラム転送">2.9. プログラム転送</h3>
+<h3 id="_プログラム転送">3.9. プログラム転送</h3>
 <div class="paragraph">
 <p>パソコンからマイコンボードにプログラムを転送する方法としては、<br>
 ターミナルソフトの画面にプログラムソースコピー＆ペーストする方法が簡単でおすすめです。</p>
@@ -3167,7 +3682,7 @@ SMODEコマンドを使って一時的に制御用文字コードの機能を無
 </div>
 </div>
 <div class="sect2">
-<h3 id="_プログラム退避">2.10. プログラム退避</h3>
+<h3 id="_プログラム退避">3.10. プログラム退避</h3>
 <div class="paragraph">
 <p>内部フラッシュメモリに保存されている、プログラムをパソコンにバックアップする機能として、
 EXPORTコマンドを用意しています。</p>
@@ -3236,7 +3751,7 @@ OK</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_プログラム自動起動">2.11. プログラム自動起動</h3>
+<h3 id="_プログラム自動起動">3.11. プログラム自動起動</h3>
 <div class="paragraph">
 <p>マイコンボードの起動時にフラッシュメモリー上の指定したプログラム番号のプログラムを起動することが出来ます。</p>
 </div>
@@ -3277,7 +3792,7 @@ OK</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_仮想eeprom">2.12. 仮想EEPROM</h3>
+<h3 id="_仮想eeprom">3.12. 仮想EEPROM</h3>
 <div class="paragraph">
 <p>仮想EEPROM領域には、システム設定情報とユーザー用仮想EEPROM用に利用します。<br>
 この領域を初期化はEEPFORMATコマンドを実行して下さい。<br>
@@ -3291,7 +3806,7 @@ OK</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_プログラム保存領域">2.13. プログラム保存領域</h3>
+<h3 id="_プログラム保存領域">3.13. プログラム保存領域</h3>
 <div class="paragraph">
 <p>内部フラッシュメモリの初期化は、ERASEコマンドを利用します。<br>
 具体的には、次のコマンドを実行して下さい。<br></p>
@@ -3304,7 +3819,7 @@ OK</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_mmc互換カード">2.14. MMC互換カード</h3>
+<h3 id="_mmc互換カード">3.14. MMC互換カード</h3>
 <div class="paragraph">
 <p>MMC互換カード(SDカード）の初期を行い場合は、FAT16たまはFAT32形式で行って下さい。<br>
 通常、購入したSDカードはFAT16またはFAT32にてフォーマットされており、そのまま利用することが出来ます。<br></p>
@@ -3317,13 +3832,13 @@ OK</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_プログラム構成要素">3. プログラム構成要素</h2>
+<h2 id="_プログラム構成要素">4. プログラム構成要素</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>本章では、「豊四季タイニー BASIC for Arduino STM32」が サポートするプログラム言語について解説します。</p>
 </div>
 <div class="sect2">
-<h3 id="_プログラム構造と形式">3.1. プログラム構造と形式</h3>
+<h3 id="_プログラム構造と形式">4.1. プログラム構造と形式</h3>
 <div class="paragraph">
 <p>次のプログラムリストは、画面に時刻を表示するプログラムです。<br>
 実行するとNTSCビデオ画面に時刻を更新表示します。</p>
@@ -3398,9 +3913,9 @@ OK</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_行と命令文">3.2. 行と命令文</h3>
+<h3 id="_行と命令文">4.2. 行と命令文</h3>
 <div class="sect3">
-<h4 id="_行">3.2.1. 行</h4>
+<h4 id="_行">4.2.1. 行</h4>
 <div class="paragraph">
 <p>行とは利用者がコンピュータに対して指示を行う単位です。行は命令文にて構成されます。<br>
 「prduct」では、行の単位で利用者からの指示を処理します。</p>
@@ -3431,7 +3946,7 @@ OK</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_命令文">3.2.2. 命令文</h4>
+<h4 id="_命令文">4.2.2. 命令文</h4>
 <div class="paragraph">
 <p>命令文とはコマンド、式、関数、コメント、ラベルを組み合わせて記述した命令です。<br></p>
 </div>
@@ -3479,7 +3994,7 @@ OK</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_制御文">3.3. 制御文</h3>
+<h3 id="_制御文">4.3. 制御文</h3>
 <div class="paragraph">
 <p>制御文は制御命令を使ったプログラムの記述文です。複数のキーワード、式の組み合わせで構成されます。<br>
 プログラムは <strong>RUN</strong> コマンドを実行することにより、通常は先頭行から行番号順に逐次実行されます。<br>
@@ -3544,9 +4059,9 @@ OK</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_コマンド関数">3.4. コマンド・関数</h3>
+<h3 id="_コマンド関数">4.4. コマンド・関数</h3>
 <div class="sect3">
-<h4 id="_コマンド_2">3.4.1. コマンド</h4>
+<h4 id="_コマンド_2">4.4.1. コマンド</h4>
 <div class="paragraph">
 <p>コマンドとは何らかの処理を行うプログラム要素です。<br>
 コマンドには一般コマンドとシステムコマンドの２種類があります。<br></p>
@@ -3573,7 +4088,7 @@ OK</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_数値">3.5. 数値</h3>
+<h3 id="_数値">4.5. 数値</h3>
 <div class="paragraph">
 <p>「豊四季タイニー BASIC for Arduino STM32」で使える数値は整数型のみとなります。<br>
 整数型は16ビット幅、有効範囲は-32768～32767となります。<br>
@@ -3614,7 +4129,7 @@ OK</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_関数">3.5.1. 関数</h4>
+<h4 id="_関数">4.5.1. 関数</h4>
 <div class="paragraph">
 <p>関数とは何らかの値を返す命令文です。関数には数値関数と文字列関数の２種類があります。<br>
 数値関数は数値を返す関数です。文字列関数は文字列を返す関数です。<br>
@@ -3658,7 +4173,7 @@ OK</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_変数配列変数">3.6. 変数・配列変数</h3>
+<h3 id="_変数配列変数">4.6. 変数・配列変数</h3>
 <div class="paragraph">
 <p>変数とは数値を格納する保存領域です。数値と同様に式に利用できます。<br>
 変数には、通常の <strong>変数</strong> の他に <strong>配列変数</strong> があります。<br>
@@ -3669,7 +4184,7 @@ OK</pre>
 文字列の参照を行うことが出来出来ます。</p>
 </div>
 <div class="sect3">
-<h4 id="_変数の表記">3.6.1. 変数の表記</h4>
+<h4 id="_変数の表記">4.6.1. 変数の表記</h4>
 <div class="sect4">
 <h5 id="_通常の変数">通常の変数</h5>
 <div class="paragraph">
@@ -3716,7 +4231,7 @@ OK</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_文字文字列">3.7. 文字・文字列</h3>
+<h3 id="_文字文字列">4.7. 文字・文字列</h3>
 <div class="paragraph">
 <p>「prduct」では半角英数字の文字列を扱うことが出来ます。</p>
 </div>
@@ -3737,7 +4252,7 @@ OK</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_変数への文字列代入">3.7.1. 変数への文字列代入</h4>
+<h4 id="_変数への代入">4.7.1. 変数への代入</h4>
 <div class="paragraph">
 <p>「prduct」では、<br>
 文字列の格納アドレスへの参照の形式で、変数への文字列代入をサポートしています。</p>
@@ -3830,13 +4345,13 @@ OK</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_演算子">3.8. 演算子</h3>
+<h3 id="_演算子">4.8. 演算子</h3>
 <div class="paragraph">
 <p>数値演算で利用できる演算子を示します。<br>
 記述例のA,Bには数値、変数、配列変数、関数、カッコで囲んだ式が利用できます。</p>
 </div>
 <div class="sect3">
-<h4 id="_算術演算子">3.8.1. 算術演算子</h4>
+<h4 id="_算術演算子">4.8.1. 算術演算子</h4>
 <table class="tableblock frame-all grid-all fit-content">
 <colgroup>
 <col>
@@ -3887,7 +4402,7 @@ OK</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_ビット演算子">3.8.2. ビット演算子</h4>
+<h4 id="_ビット演算子">4.8.2. ビット演算子</h4>
 <table class="tableblock frame-all grid-all fit-content">
 <colgroup>
 <col>
@@ -3948,7 +4463,7 @@ OK</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_比較演算子">3.8.3. 比較演算子</h4>
+<h4 id="_比較演算子">4.8.3. 比較演算子</h4>
 <table class="tableblock frame-all grid-all fit-content">
 <colgroup>
 <col>
@@ -4007,7 +4522,7 @@ A&lt;&gt;B</code></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_論理演算子">3.8.4. 論理演算子</h4>
+<h4 id="_論理演算子">4.8.4. 論理演算子</h4>
 <table class="tableblock frame-all grid-all fit-content">
 <colgroup>
 <col>
@@ -4046,13 +4561,13 @@ A&lt;&gt;B</code></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_演算子の優先順序">3.8.5. 演算子の優先順序</h4>
+<h4 id="_演算子の優先順序">4.8.5. 演算子の優先順序</h4>
 <div class="paragraph">
 <p>演算子の優先度を下記に示します。優先度の数値が小さいほど優先度が高くなります。<br>
 計算結果が意図した結果にならない場合は、優先度の確認、括弧をつけて優先度を上げる等の対応を行って下さい。</p>
 </div>
 <table class="tableblock frame-all grid-all fit-content">
-<caption class="title">表 13. 演算子の優先度</caption>
+<caption class="title">表 15. 演算子の優先度</caption>
 <colgroup>
 <col>
 <col>
@@ -4102,14 +4617,14 @@ A&lt;&gt;B</code></p></td>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_式">3.9. 式</h3>
+<h3 id="_式">4.9. 式</h3>
 <div class="paragraph">
 <p>式とは <code>1</code>、<code>1+1</code> 、<code>A</code> 、<code>A+1</code> 、<code>ABS(-1)</code> ` などの演算・値の評価を伴う記述をいいます。<br>
 式はプログラム実行にて計算・評価が行われ、１つの整数値の値として振る舞います。<br>
 変数への値の代入、コマンド、条件判定(IF文)、関数に引数に式が用いられた場合は、評価後の値がコマンドおよび関数に渡されます。<br></p>
 </div>
 <div class="sect3">
-<h4 id="_式の利用">3.9.1. 式の利用</h4>
+<h4 id="_式の利用">4.9.1. 式の利用</h4>
 <div class="paragraph">
 <p>変数への値の代入(代入命令 LETは省略可能)</p>
 </div>
@@ -4133,7 +4648,7 @@ A=EEPREAD(I+J+1)/2</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_定数">3.10. 定数</h3>
+<h3 id="_定数">4.10. 定数</h3>
 <div class="paragraph">
 <p>「豊四季タイニー BASIC for Arduino STM32」では定義済の定数が利用出来ます。<br>
 定数はコマンドの引数や式の中で数値関数と同等に利用出来ます。</p>
@@ -4153,8 +4668,8 @@ A=EEPREAD(I+J+1)/2</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-バージョン 0.87(Draft) 2018/12/15<br>
-最終更新 2018-12-16 21:47:13 東京 (標準時)
+バージョン 0.87(Draft) 2018/12/19<br>
+最終更新 2018-12-19 18:44:08 東京 (標準時)
 </div>
 </div>
 </body>
