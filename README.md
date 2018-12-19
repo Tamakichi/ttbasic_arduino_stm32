@@ -204,16 +204,17 @@ Javaをインストールしていない場合は、インストールして下�
 
 プロジェクトファイルの**binフォルダ**に２つのタイプのファームウェアを用意しています。
 
-1. ブートローダー無しファームウェア(バイナリー形式)  
+1. ブートローダー無しファームウェア(.binファイル・バイナリー形式)  
 📁ttbasic_arduino_stm32\  
 　📁bin\  
-　　📄black_medium_small_square:ttbasic_NTSC.bin	(NTSCビデオ出力版)  
-　　📄black_medium_small_square:ttbasic_OLED_SH1106_I2C.bin	(OLED SH1106 I2C版)  
-　　📄black_medium_small_square:ttbasic_OLED_SH1106_SPI.bin	(OLED SH1106 SPI版)  
-　　📄black_medium_small_square:ttbasic_OLED_SSD1306_I2C.bin (OLEDSSD1306/SSD1309 I2C版)  
-　　📄black_medium_small_square:ttbasic_OLED_SSD1306_SPI.bin (OLED SSD1306/SSD1309 SPI版)  
-　　📄black_medium_small_square:ttbasic_Serial.bin (シリアルコンソール版)  
-　　📄black_medium_small_square:ttbasic_TFT.bin	(TFT ILI9341版)  
+　　📄ttbasic_NTSC.bin	(NTSCビデオ出力版)  
+　　📄ttbasic_OLED_SH1106_I2C.bin	(OLED SH1106 I2C版)  
+　　📄ttbasic_OLED_SH1106_SPI.bin	(OLED SH1106 SPI版)  
+　　📄ttbasic_OLED_SSD1306_I2C.bin (OLEDSSD1306/SSD1309 I2C版)  
+　　📄ttbasic_OLED_SSD1306_SPI.bin (OLED SSD1306/SSD1309 SPI版)  
+　　📄ttbasic_Serial.bin (シリアルコンソール版)  
+　　📄ttbasic_TFT.bin	(TFT ILI9341版)  
+　　📄ttwrite.bat  ・・・ ファームウェア書き込み用バッチファイル
 
 2. ブートローダー付きファームウェア(バイナリー形式)  
 📁ttbasic_arduino_stm32\  
@@ -225,6 +226,7 @@ Javaをインストールしていない場合は、インストールして下�
 　　📄boot_ttbasic_OLED_SSD1306_SPI.bin (OLED SSD1306/SSD1309 SPI版)  
 　　📄boot_ttbasic_Serial.bin	(ターミナルコンソール版)  
 　　📄boot_ttbasic_TFT.bin (TFT ILI9341版)  
+　　📄ttbtwrite.bat  ・・・ ブートローダ付きファームウェア書き込み用バッチファイル    
 
 #### ブートローダー無しファームウェア(バイナリー形式)の書込み手順(Windows10環境)
 利用するマイコンボードにArduino STM32用のブートローダーが書き込まれている必要があります。  

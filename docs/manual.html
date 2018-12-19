@@ -438,7 +438,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="details">
 <span id="author" class="author">たま吉さん</span><br>
 <span id="email" class="email"><a href="mailto:tamacat2014@gmail.com">tamacat2014@gmail.com</a></span><br>
-<span id="revnumber">バージョン 0.87(Draft) 2018/12/13</span>
+<span id="revnumber">バージョン 0.87(Draft) 2018/12/19</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">目次</div>
@@ -3093,7 +3093,7 @@ OK</pre>
 <div class="sect4">
 <h5 id="_説明_11">【説明】</h5>
 <div class="paragraph">
-<p>システム情報表示
+<p>システム情報を表示します。<br>
 スタックアドレス、ヒープアドレス、SRAM未使用サイズ、キーワード数を表示します。</p>
 </div>
 <div class="paragraph">
@@ -12235,7 +12235,8 @@ OK</pre>
 </div>
 <div class="paragraph">
 <p>OLED画面では、単色(0 または 1)のみ設定可能です。<br>
-NTSC画面に対しては、設定は無効となります。</p>
+NTSC画面では、設定は無効となります(0～8以外の値の設定時はエラーとなります)。<br>
+シリアルコンソール版では、COLORコマンドと同じ動作となります。</p>
 </div>
 <div class="paragraph">
 <p>TFT(ILI9341)ディスプレイでは、色コードの他に、16ビット色が利用可能です。</p>
@@ -13332,7 +13333,7 @@ RGBコードとして $0009 ～ $FFFFの色指定が可能です。<br>
 </dd>
 <dt class="hdlist1">緑</dt>
 <dd>
-<p>緑色のレベル 0 ～ 31 （5ビット）</p>
+<p>緑色のレベル 0 ～ 63 （6ビット）</p>
 </dd>
 <dt class="hdlist1">青</dt>
 <dd>
@@ -13418,10 +13419,12 @@ $0000～$0008は、次の色に割り当てています。<br></p>
 </tbody>
 </table>
 <div class="paragraph">
-<p>RGBコードは、緑のみ6ビット（0～63）です。<br>
-本関数では、他の色を同じように色ビットの重みを同じ扱いにするために緑も0～31を指定範囲とし、<br>
-内部にて値を2倍にしています。この場合、0～62までの値しか取れないため、<br>
-緑のみ32の値の指定が可能とし、32を指定した場合、内部処理にて63を設定するものとします。<br></p>
+<p>RGBコードは、緑のみ6ビット（0～63）であることに注意して下さい。<br>
+(人間の目は赤・青・緑のうち、緑に敏感なため、1ビット多く割り当てられています)</p>
+</div>
+<div class="paragraph">
+<p>RGBコードの0～8は、色コードとして利用しているため、<br>
+RGB(0,0,0) ～ RGB(0,0,8)はRGBコードとしては利用できません。</p>
 </div>
 </div>
 <div class="sect4">
@@ -15475,8 +15478,8 @@ OK</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-バージョン 0.87(Draft) 2018/12/13<br>
-最終更新 2018-12-13 10:18:09 東京 (標準時)
+バージョン 0.87(Draft) 2018/12/19<br>
+最終更新 2018-12-19 14:41:29 東京 (標準時)
 </div>
 </div>
 </body>
