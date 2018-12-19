@@ -42,6 +42,7 @@
 // 2018/12/05 LISTコマンドの仕様変更（行番号指定時はその行だけを表示に変更)(issues #71)
 // 2018/12/05 STRCMPの仕様変更（一致 1、不一致 0)
 // 2018/12/06 プロフラムリスト内にOKを記述してもエラーに仕様に変更
+// 2018/12/19 RGB関数の仕様変更(16ビット色を標準仕様に変更)
 //
 
 #include <Arduino.h>
@@ -3927,17 +3928,20 @@ int16 iRGB() {
   // 引数の取得
   if (checkOpen())  return 0;   // '('のチェック
   if ( getParam(color_R, 0,31, true) ||  // 赤 5ビット
-       getParam(color_G, 0,32, true) ||  // 緑 5ビット
+       getParam(color_G, 0,63, true) ||  // 緑 6ビット
        getParam(color_B, 0,31, false)    // 青 5ビット
   ) return 0; 
     if (checkClose()) return 0; // ')'のチェック
   
+/* 2018/12/19 下記の仕様は混乱を招くため、標準的な16ビット色の
+   緑は6っビット0～63の値が有効とする
   // 緑のみ6ビットのため赤・青と同等に扱うため補正を行う
   if (color_G > 31) {
     color_G = 63;
   } else {
     color_G<<=1;
   }
+*/
   rc = ((color_R & B11111)<<11) | ((color_G & B111111) << 5) | (color_B & B11111);
   return (int16_t)rc;
 }    
