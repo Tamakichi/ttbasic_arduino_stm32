@@ -43,6 +43,7 @@
 // 2018/12/05 STRCMPの仕様変更（一致 1、不一致 0)
 // 2018/12/06 プロフラムリスト内にOKを記述してもエラーに仕様に変更
 // 2018/12/19 RGB関数の仕様変更(16ビット色を標準仕様に変更)
+// 2018/12/23 KANJI,KFONTのSDカード再初期化・SDカード開放処理の不具合対応
 //
 
 #include <Arduino.h>
@@ -1951,9 +1952,7 @@ uint8_t loadPrgText(char* fname, uint8_t newmode = 0) {
   int16_t rc;
   int16_t len;
 #if USE_SD_CARD == 1
-Serial.println("step1");
   rc = fs.tmpOpen(fname,0);
-Serial.println("step2");
   if (rc == SD_ERR_INIT) {
     err = ERR_SD_NOT_READY;
     return 1;
@@ -3348,9 +3347,9 @@ int16_t ikfont() {
    }
 
   // フォントデータの取得
-  if ( SDSfonts.open() == false ) {              // フォントのオープン
+  if ( SDSfonts.init(PA4) == false || SDSfonts.open() == false ) {  // フォントのオープン
     // ファイルオープン失敗
-    err = ERR_FILE_OPEN;
+    err = ERR_SD_NOT_READY;
     return 0;
   }
   
@@ -3367,6 +3366,7 @@ int16_t ikfont() {
   }
 
   SDSfonts.close();          // フォントのクローズ
+  SD.end();                  // SDカードの開放
   return rc;
 }
 
@@ -4212,7 +4212,16 @@ void drawKanji(int16_t x, int16_t y, char *pSJIS) {
   int16_t  base_x = x, base_y = y;
   uint8_t buf[MAXFONTLEN]; // フォントデータ格納アドレス(最大24x24/8 = 72バイト)
 
-  SDSfonts.open();                 // フォントのオープン
+  // フォントデータの取得
+  if ( SDSfonts.init(PA4) == false || SDSfonts.open() == false ) {  // フォントのオープン
+    // ファイルオープン失敗
+    err = ERR_SD_NOT_READY;
+    return;
+  }
+
+//  SDSfonts.init(PA4);      // SDフォント管理の初期化
+//  SDSfonts.open();                 // フォントのオープン
+
   SDSfonts.setFontSize(KInf.size); // フォントサイズの設定
 
   // 文字列の描画
@@ -4233,6 +4242,7 @@ void drawKanji(int16_t x, int16_t y, char *pSJIS) {
     x += SDSfonts.getWidth()*KInf.xtd + KInf.s_w;
   }
   SDSfonts.close(); // フォントのクローズ
+  SD.end();         // SDカードの開放
 }
 #endif
 
