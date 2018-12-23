@@ -224,7 +224,7 @@ Javaをインストールしていない場合は、インストールして下�
 　　📄boot_ttbasic_OLED_SH1106_SPI.bin (OLED SH1106 SPI版)  
 　　📄boot_ttbasic_OLED_SSD1306_I2C.bin (OLED SSD1306/SSD1309 I2C版)  
 　　📄boot_ttbasic_OLED_SSD1306_SPI.bin (OLED SSD1306/SSD1309 SPI版)  
-　　📄boot_ttbasic_Serial.bin	(ターミナルコンソール版)  
+　　📄boot_ttbasic_Serial.bin	(シリアルコンソール版)  
 　　📄boot_ttbasic_TFT.bin (TFT ILI9341版)  
 　　📄ttbtwrite.bat  ・・・ ブートローダ付きファームウェア書き込み用バッチファイル    
 
