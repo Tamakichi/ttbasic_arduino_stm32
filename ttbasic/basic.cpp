@@ -44,6 +44,7 @@
 // 2018/12/06 プロフラムリスト内にOKを記述してもエラーに仕様に変更
 // 2018/12/19 RGB関数の仕様変更(16ビット色を標準仕様に変更)
 // 2018/12/23 KANJI,KFONTのSDカード再初期化・SDカード開放処理の不具合対応
+// 2019/03/06 I2CRでCardKBユニットからのデータ取得が出来ない不具合の対応
 //
 
 #include <Arduino.h>
@@ -2782,18 +2783,19 @@ int16_t ii2cr() {
      { err = ERR_RANGE; return 0; }
  
   // I2Cデータ送受信
-  I2C_WIRE.beginTransmission(i2cAdr);
-  
-  // 送信
   if (sdlen) {
+    I2C_WIRE.beginTransmission(i2cAdr);
+  
+    // 送信
     I2C_WIRE.write(sdptr, sdlen);
-  }
-  rc = I2C_WIRE.endTransmission();
-  if (rdlen) {
+    rc = I2C_WIRE.endTransmission();
     if (rc!=0) {
-      delay(1); // Issues #8 フリーズするBUG対応,2018/08/22
+      delay(10); // Issues #8 フリーズするBUG対応,2018/08/22
       return rc;
     }
+  }
+
+  if (rdlen) {
     n = I2C_WIRE.requestFrom(i2cAdr, rdlen);
     while (I2C_WIRE.available()) {
       *(rdptr++) = I2C_WIRE.read();
