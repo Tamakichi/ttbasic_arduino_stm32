@@ -1,4 +1,4 @@
-set bt=generic_boot20_pc13.bin
+set bt=generic_boot20_pc13_fastboot.bin
 set btdir=.\PlusBootloader
 mergesketch.exe %bt% ttbasic_NTSC.bin %btdir%\boot_ttbasic_NTSC.bin
 mergesketch.exe %bt% ttbasic_OLED_SH1106_I2C.bin %btdir%\boot_ttbasic_OLED_SH1106_I2C.bin
