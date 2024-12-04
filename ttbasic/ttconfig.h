@@ -80,7 +80,7 @@
 // ** SDカードの利用      0:利用しない 1:利用する *****************************
 #define USE_SD_CARD    1 // (デフォルト:1)
 #if USE_SD_CARD == 1 && USE_INNERRTC == 0
- #define USE_INNERRTC 1
+  #define USE_INNERRTC 1
 #endif
 
 // ** フォントデータ指定 ******************************************************
@@ -109,28 +109,28 @@
 
 // 設定の矛盾補正
 #if USE_TFT  == 1 || USE_OLED == 1
- #define USE_NTSC 0
+  #define USE_NTSC 0
 #endif
 #if USE_NTSC == 0 && USE_TFT == 0 && USE_OLED == 0
- #define USE_SCREEN_MODE 0
+  #define USE_SCREEN_MODE 0
 #endif
 
 // デバイスコンソール抽象化定義（修正禁止）
 #if USE_NTSC == 1
- #define DEV_SCMODE NTSC_SCMODE
- #define DEV_RTMODE CONFIG.NTSC
- #define DEV_IFMODE 0
- #define MAX_SCMODE 3
+  #define DEV_SCMODE NTSC_SCMODE
+  #define DEV_RTMODE CONFIG.NTSC
+  #define DEV_IFMODE 0
+  #define MAX_SCMODE 3
 #elif USE_OLED == 1
- #define DEV_SCMODE OLED_SCMODE
- #define DEV_RTMODE OLED_RTMODE
- #define DEV_IFMODE OLED_IFMODE
- #define MAX_SCMODE 3 
+  #define DEV_SCMODE OLED_SCMODE
+  #define DEV_RTMODE OLED_RTMODE
+  #define DEV_IFMODE OLED_IFMODE
+  #define MAX_SCMODE 3 
 #elif USE_TFT == 1
- #define DEV_SCMODE TFT_SCMODE
- #define DEV_RTMODE TFT_RTMODE
- #define DEV_IFMODE 0
- #define MAX_SCMODE 6 
+  #define DEV_SCMODE TFT_SCMODE
+  #define DEV_RTMODE TFT_RTMODE
+  #define DEV_IFMODE 0
+  #define MAX_SCMODE 6 
 #endif
 
 #endif
