@@ -39,7 +39,7 @@ https://github.com/Tamakichi/Arduino_STM32/tree/base_245b97a
 
 ### システム構成
 
-![システム構成図](./image/04.png)    
+![システム構成図](./image/04.png)  
 ※ Windows 11にも対応
 
 #### 構成組み合わせパターン
@@ -213,10 +213,10 @@ Arduino STM32パッケージに添付のUSBドライバをインストールし�
 #### Java(JRE)実行環境のインストール
 
 Arduino 2.3.x系では、Arduino STM32パッケージのボート書き込みツールはJavaの実行環境が必要です。  
-Javaをインストールしていない場合は、インストールして下さい(mazon Corretto 8推奨)。  
+Javaをインストールしていない場合は、インストールして下さい(Amazon Corretto 21推奨)。  
 
-* Open Java Development Kit Amazon Corretto 8 のダウンロード 
-<https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/downloads-list.html>
+* Open Java Development Kit Amazon Corretto 21 のダウンロード  
+<https://docs.aws.amazon.com/corretto/latest/corretto-21-ug/downloads-list.html>
 
 ### コンパイル済みスケッチ(ファームウェア) の利用
 
