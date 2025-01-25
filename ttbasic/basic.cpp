@@ -46,6 +46,7 @@
 // 2018/12/23 KANJI,KFONTのSDカード再初期化・SDカード開放処理の不具合対応
 // 2019/03/06 I2CRでCardKBユニットからのデータ取得が出来ない不具合の対応
 // 2024/11/18 lookupの処理の見直し、strnicmp()をstrncasecmp()に変更
+// 2025/01/25 コンパイラの警告の一部を対応
 // 
 
 #include <Arduino.h>
@@ -760,7 +761,7 @@ void putHexnum(short value, uint8_t d, uint8_t devno=0) {
 
   for (uint8_t i = 0; i < 4; i++) {
     h = ( hex >> (12 - i * 4) ) & 0x0f;
-    lbuf[i] = (h >= 0 && h <= 9) ? h + '0': h + 'A' - 10;
+    lbuf[i] = h <= 9 ? h + '0': h + 'A' - 10;
   }
   lbuf[4] = 0;
   c_puts(&lbuf[4-dig],devno);
@@ -884,7 +885,7 @@ int16_t getnum() {
 	　直前のマッチを今回の内容に更新する
 */
 
-int16_t lookup(char* str, uint16_t len) {
+int16_t lookup(char* str) {
   int16_t  fd_id  = -1;   // 該当したキーワードコード
   uint16_t fd_len = 0;    // 該当したキーワード長さ
 
@@ -922,7 +923,7 @@ uint8_t toktoi() {
   while (*s) {                  //文字列1行分の終端まで繰り返す
     while (c_isspace(*s)) s++;  //空白を読み飛ばす
 
-    key = lookup(s, strlen(s));
+    key = lookup(s);
     if (key >= 0) {    
       // 該当キーワードあり
       if (len >= SIZE_IBUF - 1) {      // もし中間コードが長すぎたら
@@ -2762,7 +2763,6 @@ int16_t ii2cr() {
   uint8_t* sdptr;
   uint8_t* rdptr;
   int16_t  rc;
-  int16_t  n;
 
   if (checkOpen()) return 0;
   if (getParam(i2cAdr, 0, 0x7f, true)) return 0;
@@ -2791,7 +2791,7 @@ int16_t ii2cr() {
   }
 
   if (rdlen) {
-    n = I2C_WIRE.requestFrom(i2cAdr, rdlen);
+    I2C_WIRE.requestFrom(i2cAdr, rdlen);
     while (I2C_WIRE.available()) {
       *(rdptr++) = I2C_WIRE.read();
     }
@@ -2964,7 +2964,7 @@ void igetDate() {
     st.weekday = 0;
 
   int16_t v[] = {
-    st.year+1970, 
+    1970+st.year, 
     st.month,
     st.day,
     st.weekday
@@ -3325,8 +3325,6 @@ int16_t ikfont() {
   uint16_t sjis;    // 文字コード
   int16_t fsize;    // フォントサイズ
   uint8_t* radr;    // 実アドレス
-  int16_t index;    // フォントコード
-  uint8_t* fontadr; // フォント格納アドレス
   int16_t  rc = 0;
 
  // 引数の取得
@@ -3559,7 +3557,6 @@ void iplay() {
   int8_t  scale = 0;          // 音階
   uint32_t duration;          // 再生時間(msec)
   uint8_t flgExtlen = 0;
-  uint8_t flgAnpa = 0;        // '&':結合フラグ
   
   // 引数のMMLをバッファに格納する
   cleartbuf();
@@ -3706,7 +3703,7 @@ void iplay() {
         tmpVol+= *ptr - '0';
         ptr++;
       }
-      if (tmpVol < 0 || tmpVol > 15) {
+      if ( tmpVol > 15 ) {
         err = ERR_MML; 
         return;       
       }
@@ -4033,7 +4030,8 @@ int16_t igets() {
       memset(adr+1,0,maxlen); // 領域の初期化
     } else {
       // 文字列のコピー
-      maxlen = min(strlen((char *)src_adr),maxlen) ;
+      //maxlen = min(strlen((char *)src_adr),maxlen) ;
+      maxlen = strlen((char *)src_adr)<maxlen ? strlen((char *)src_adr): maxlen;
       memcpy(adr+1,src_adr,maxlen);
       adr[0] = maxlen;        // 長さのセット
     }
@@ -4051,8 +4049,7 @@ int16_t istrcmp() {
   int16_t index;    // 配列添え字
   int16_t optlen = -1; // 比較長さ
   uint8_t* str[2];  // 文字列先頭位置
-  int16_t pos = 0;
-
+  
   if (checkOpen())  return -1;
   for (int16_t i =0; i < 2; i++) {
     if ( *cip == I_VAR)  {
@@ -4203,8 +4200,8 @@ void igprint() {
 // シフトJISフォントによる描画
 #if USE_NTSC == 1 || USE_TFT ==1 || USE_OLED == 1
 void drawKanji(int16_t x, int16_t y, char *pSJIS) {
-  int16_t  rgb = 7, mode = 0;
-  int16_t  base_x = x, base_y = y;
+  int16_t  mode = 0;
+  int16_t  base_x = x;
   uint8_t buf[MAXFONTLEN]; // フォントデータ格納アドレス(最大24x24/8 = 72バイト)
 
   // フォントデータの取得
@@ -4583,7 +4580,7 @@ DONE:
 void ibload() {
   uint8_t*radr;           // 実データ格納アドレス
   int16_t vadr, len;
-  uint16_t c;
+  int16_t c;
   int16_t pos=0;          // ファイル内位置
   int16_t fwt=0;          // フラシュメモリ書き込み指定
   char* fname;
@@ -4653,7 +4650,7 @@ void ibload() {
         goto DONE;
       }
       c = fs.read();
-      if (c <0 ) {
+      if (c < 0 ) {
         err = ERR_FILE_READ;
         goto DONE;      
       }
@@ -4667,14 +4664,14 @@ void ibload() {
       if (radr == NULL) {
         goto DONE;
       }
-      uint16_t tmp_c1,tmp_c2;
+      int16_t tmp_c1,tmp_c2;
       tmp_c1 = fs.read();
-      if (tmp_c1  <0 ) {
+      if (tmp_c1 < 0 ) {
         err = ERR_FILE_READ;
         goto DONE;      
       }
       tmp_c2 = fs.read();
-      if (tmp_c2  <0 ) {
+      if (tmp_c2 < 0 ) {
         err = ERR_FILE_READ;
         goto DONE;      
       }

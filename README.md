@@ -3,7 +3,11 @@
 (注意) 本スケッチをコンパイルする場合、  
 
 * Arduino IDE 1.8.xx(1.8.21で確認済)  
-* gcc ARMは、Arduino SAMD Boards (32-bits ARM Coetex-M0+) 1.6.xx系(1.6.21で確認済)  
+* gcc ARMは arm-none-eabi-gcc-4.8.3-2014q1の利用必須  
+Arduino SAMD Boards (32-bits ARM Coetex-M3) 1.6.xx系(1.6.12で確認済) or  
+Arduino SAMD Boards (32-bits ARM Coetex-M0+) 1.6.xx系(1.6.21で確認済)  
+* Arduino_STM32環境は、下記の修正版を利用  
+https://github.com/Tamakichi/Arduino_STM32/tree/base_245b97a  
 
 をご使用ください.
 
@@ -35,7 +39,8 @@
 
 ### システム構成
 
-![システム構成図](./image/04.png)  
+![システム構成図](./image/04.png)    
+※ Windows 11にも対応
 
 #### 構成組み合わせパターン
 
@@ -175,13 +180,15 @@ Arduino STM32パッケージは、随時更新されているため動作確認�
 不具合修正を行った、下記のパッケージをダウンロードして利用して下さい。  
 
 * ダウンロードリンク  
-  <https://github.com/Tamakichi/Arduino_STM32/archive/master.zip>
+  <https://github.com/Tamakichi/Arduino_STM32/archive/refs/tags/base_245b97a.zip>
 
 * gitを使ったダウンロード(複製のダウンロード)  
 
    ```bat
-   git clone https://github.com/Tamakichi/Arduino_STM32.git
+   git clone -b base_245b97a https://github.com/Tamakichi/Arduino_STM32.git
    ```
+
+Windows環境の場合、hardware\stm32Clone.bat を実行するとこでもダウンロード出来ます。  
 
 ダウンロードしたArduino STM32パッケージのトップフォルダを 📁Arduino_STM32\ とします。  
 (解凍直後の *Arduino_STM32-master* から変更して下さい)  
@@ -205,10 +212,11 @@ Arduino STM32パッケージに添付のUSBドライバをインストールし�
 
 #### Java(JRE)実行環境のインストール
 
-Arduino STM32パッケージのボート書き込みツールはJavaの実行環境が必要です。  
-Javaをインストールしていない場合は、インストールして下さい。
+Arduino 2.3.x系では、Arduino STM32パッケージのボート書き込みツールはJavaの実行環境が必要です。  
+Javaをインストールしていない場合は、インストールして下さい(mazon Corretto 8推奨)。  
 
-* 無料Javaのダウンロード <https://java.com/ja/download/>
+* Open Java Development Kit Amazon Corretto 8 のダウンロード 
+<https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/downloads-list.html>
 
 ### コンパイル済みスケッチ(ファームウェア) の利用
 
@@ -368,8 +376,8 @@ ttbtwrite ttbtwrite boot_ttbasic_Serial.bin
   設定反映のため一旦Arduino IDE終了し、再度Arduino IDEを起動して下さい。
 
 2. Arduino IDEのボードマネージャにて  
-「Arduino SAMD Boards (32-bits ARM Coetex-M0+) by Arduino」の  
-最新版をインストールして下さい。
+「Arduino SAMD Boards (32-bits ARM Coetex-M3) by Arduino」の  
+1.6.x系の最新版をインストールして下さい。
 
 3. Arduino IDEのボードの設定  
 Arduinoのメニューでボードの設定を行います。  
