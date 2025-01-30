@@ -1,3 +1,7 @@
 [submodule "libraries/SD"]
 	path = libraries/SD
 	url = https://github.com/Tamakichi/SD.git
+[submodule "hardware/Arduino_STM32"]
+	path = hardware/Arduino_STM32
+	url = https://github.com/Tamakichi/Arduino_STM32.git
+	branch = base_245b97a
