@@ -8,3 +8,6 @@
 [submodule "libraries/TNTSC"]
 	path = libraries/TNTSC
 	url = https://github.com/Tamakichi/ArduinoSTM32_TNTSC.git
+[submodule "libraries/PS2Keyboard"]
+	path = libraries/PS2Keyboard
+	url = https://github.com/Tamakichi/ArduinoSTM32_PS2Keyboard.git
