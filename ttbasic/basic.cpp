@@ -210,7 +210,7 @@ uint8_t  global_oct   = MML_oct   ;    // 共通高さ
 uint8_t  global_vol   = MML_vol   ;    // 音の大きさ
 
 // note定義
-const PROGMEM  uint16_t mml_scale[] = {
+const uint16_t mml_scale[] = {
   4186,  // C
   4435,  // C#
   4699,  // D
@@ -279,7 +279,7 @@ const WiringPinMode pinType[] = {
 
 // ピン機能チェックテーブル
 #if USE_TFT == 1 || (USE_OLED == 1 && OLED_IFMODE == 1) // TFT/OLED(SPI) 利用専用環境
-const uint8_t pinFunc[]  = {
+const uint8_t pinFunc[] = {
   5,5,5,5,5,5,7,7,3,3,  //  0 -  9: PA0,PA1,PA2,PA3,PA4,PA5,PA6,PA7,PA8,PA9,
   3,0,0,1,1,1,7,7,1,1,  // 10 - 19: PA10,PA11,PA12,PA13,PA14,PA15,PB0,PB1,PB2,PB3, 
   0,0,0,0,1,0,1,0,0,0,  // 20 - 29: PB4,PB5,PB6,PB7,PB8,PB9,PB10,PB11,PB12,PB13,
@@ -362,7 +362,7 @@ short getrnd(short value) {
 }
 
 // キーワードテーブル
-const char *kwtbl[] __FLASH__  = {
+const char* kwtbl[] __FLASH__ = {
   "GOTO", "GOSUB", "RETURN", "FOR", "TO", "STEP", "NEXT", "IF", "END", "ELSE",       // 制御命令(10)
   ",", ";", ":", "\'","-", "+", "*", "/", "%", "(", ")", "$", "`","<<", ">>", "|", "&",  // 演算子・記号(31)
   ">=", "#", ">", "=", "<=", "!=", "<>","<", "AND", "OR", "!", "~", "^", "@",     

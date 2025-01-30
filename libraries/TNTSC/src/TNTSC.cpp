@@ -9,6 +9,7 @@
 // 更新日 2017/04/27, NTSC走査線数補正関数追加
 // 更新日 2017/04/30, SPI1,SPI2の選択指定を可能に修正
 // 更新日 2017/06/25, 外部確保VRAMの指定を可能に修正
+// 更新日 2025/01/26, 変数countをntsc_countに変更
 
 #include <TNTSC.h>
 #include <SPI.h>
@@ -64,7 +65,7 @@ const SCREEN_SETUP screen_type[] __FLASH__ {
 #define SYNC(V)  gpio_write(PWM_CLK,V)        // 同期信号出力(PWM)
 static uint8_t* vram;                         // ビデオ表示フレームバッファ
 static volatile uint8_t* ptr;                 // ビデオ表示フレームバッファ参照用ポインタ
-static volatile int count=1;                  // 走査線を数える変数
+static volatile int ntsc_count=1;             // 走査線を数える変数
 
 static void (*_bktmStartHook)() = NULL;       // ブランキング期間開始フック
 static void (*_bktmEndHook)()  = NULL;        // ブランキング期間終了フック
@@ -123,12 +124,12 @@ void TNTSC_class::SPI_dmaSend(uint8_t *transmitBuf, uint16_t length) {
 
 // ビデオ用データ表示(ラスタ出力）
 void TNTSC_class::handle_vout() {
-  if (count >=NTSC_VTOP+_vAdjust && count <=_ntscHeight+NTSC_VTOP+_vAdjust-1) {  	
+  if (ntsc_count >=NTSC_VTOP+_vAdjust && ntsc_count <=_ntscHeight+NTSC_VTOP+_vAdjust-1) {  	
 
     SPI_dmaSend((uint8_t *)ptr, screen_type[_screen].hsize);
   	//pSPI->dmaSend((uint8_t *)ptr, screen_type[_screen].hsize,1);
   	if (screen_type[_screen].flgHalf) {
-      if ((count-NTSC_VTOP) & 1) 
+      if ((ntsc_count-NTSC_VTOP) & 1) 
       ptr+= screen_type[_screen].hsize;
     } else {
       ptr+=screen_type[_screen].hsize;
@@ -136,7 +137,7 @@ void TNTSC_class::handle_vout() {
   }
 	
   // 次の走査線用同期パルス幅設定
-  if(count >= NTSC_S_TOP-1 && count <= NTSC_S_END-1){
+  if(ntsc_count >= NTSC_S_TOP-1 && ntsc_count <= NTSC_S_END-1){
     // 垂直同期パルス(PWMパルス幅変更)
     TIMER2->regs.adv->CCR2 = 1412;
   } else {
@@ -144,9 +145,9 @@ void TNTSC_class::handle_vout() {
     TIMER2->regs.adv->CCR2 = 112;
   }
 
-   count++; 
-  if( count > _ntsc_line ){
-    count=1;
+   ntsc_count++; 
+  if( ntsc_count > _ntsc_line ){
+    ntsc_count=1;
     ptr = vram;    
   } 
 
@@ -178,7 +179,7 @@ void TNTSC_class::begin(uint8_t mode, uint8_t spino, uint8_t* extram) {
    }
    cls();
    ptr = vram;  // ビデオ表示用フレームバッファ参照ポインタ
-   count = 1;
+   ntsc_count = 1;
 
   // SPIの初期化・設定
   if (spino == 2) {
@@ -254,8 +255,8 @@ void TNTSC_class::cls() {
 // フレーム間待ち
 void TNTSC_class::delay_frame(uint16_t x) {
   while (x) {
-    while (count != _ntscHeight + NTSC_VTOP);
-    while (count == _ntscHeight + NTSC_VTOP);
+    while (ntsc_count != _ntscHeight + NTSC_VTOP);
+    while (ntsc_count == _ntscHeight + NTSC_VTOP);
     x--;
   }
 }

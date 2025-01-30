@@ -24,7 +24,7 @@ uint8_t  kdata[16];
 #define RK_ENTRY_NUM (sizeof(RomaKama)/sizeof(RomaKama[0]))
 
 //子音状態遷移コード
-enum {
+enum :uint8_t {
   _romaji_top = 0,
   _romaji_b, _romaji_c, _romaji_d, _romaji_f, _romaji_g,  _romaji_h, _romaji_j, _romaji_k, _romaji_l, _romaji_m,
   _romaji_n, _romaji_p, _romaji_q, _romaji_r, _romaji_s,  _romaji_t, _romaji_v, _romaji_w, _romaji_x, _romaji_y,

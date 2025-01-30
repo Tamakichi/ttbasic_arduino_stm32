@@ -9,7 +9,7 @@
 #define __ttbasic_error_h__
 
 // エラーコード
-enum ErrorInfo {
+enum ErrorInfo:uint8_t {
   ERR_OK,
   ERR_DIVBY0,
   ERR_VOF,
