@@ -26,3 +26,6 @@
 [submodule "libraries/sdbitmap"]
 	path = libraries/sdbitmap
 	url = https://github.com/Tamakichi/Arduino-SD-Bitmap.git
+[submodule "libraries/TTVoutfonts"]
+	path = libraries/TTVoutfonts
+	url = https://github.com/Tamakichi/TTVoutfont.git
