@@ -14,3 +14,6 @@
 [submodule "libraries/TTVout"]
 	path = libraries/TTVout
 	url = https://github.com/Tamakichi/ArduinoSTM32_TVout.git
+[submodule "libraries/TFlash"]
+	path = libraries/TFlash
+	url = https://github.com/Tamakichi/ArduinoSTM32_TFlash.git
