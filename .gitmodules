@@ -17,3 +17,6 @@
 [submodule "libraries/TFlash"]
 	path = libraries/TFlash
 	url = https://github.com/Tamakichi/ArduinoSTM32_TFlash.git
+[submodule "libraries/SDSfonts"]
+	path = libraries/SDSfonts
+	url = https://github.com/Tamakichi/Arduino-SJISKanjiFont-Library-SD.git
