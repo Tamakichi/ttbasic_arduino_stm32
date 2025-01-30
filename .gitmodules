@@ -5,3 +5,6 @@
 	path = hardware/Arduino_STM32
 	url = https://github.com/Tamakichi/Arduino_STM32.git
 	branch = base_245b97a
+[submodule "libraries/TNTSC"]
+	path = libraries/TNTSC
+	url = https://github.com/Tamakichi/ArduinoSTM32_TNTSC.git
