@@ -32,3 +32,6 @@
 [submodule "libraries/mcurses"]
 	path = libraries/mcurses
 	url = https://github.com/Tamakichi/mcurses.git
+[submodule "libraries/Adafruit_SH1106_STM32"]
+	path = libraries/Adafruit_SH1106_STM32
+	url = https://github.com/Tamakichi/Adafruit_SH1106_STM32.git
