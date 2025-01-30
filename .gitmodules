@@ -1,0 +1,3 @@
+[submodule "libraries/SD"]
+	path = libraries/SD
+	url = https://github.com/Tamakichi/SD.git
