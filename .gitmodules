@@ -23,3 +23,6 @@
 [submodule "libraries/libBitmap"]
 	path = libraries/libBitmap
 	url = https://github.com/Tamakichi/libBitmap.git
+[submodule "libraries/sdbitmap"]
+	path = libraries/sdbitmap
+	url = https://github.com/Tamakichi/Arduino-SD-Bitmap.git
