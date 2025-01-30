@@ -29,3 +29,6 @@
 [submodule "libraries/TTVoutfonts"]
 	path = libraries/TTVoutfonts
 	url = https://github.com/Tamakichi/TTVoutfont.git
+[submodule "libraries/mcurses"]
+	path = libraries/mcurses
+	url = https://github.com/Tamakichi/mcurses.git
