@@ -20,3 +20,6 @@
 [submodule "libraries/SDSfonts"]
 	path = libraries/SDSfonts
 	url = https://github.com/Tamakichi/Arduino-SJISKanjiFont-Library-SD.git
+[submodule "libraries/libBitmap"]
+	path = libraries/libBitmap
+	url = https://github.com/Tamakichi/libBitmap.git
