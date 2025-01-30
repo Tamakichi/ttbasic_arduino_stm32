@@ -11,3 +11,6 @@
 [submodule "libraries/PS2Keyboard"]
 	path = libraries/PS2Keyboard
 	url = https://github.com/Tamakichi/ArduinoSTM32_PS2Keyboard.git
+[submodule "libraries/TTVout"]
+	path = libraries/TTVout
+	url = https://github.com/Tamakichi/ArduinoSTM32_TVout.git
