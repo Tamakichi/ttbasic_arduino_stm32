@@ -19,7 +19,7 @@
 #if OLED_DEV == 0
   #include <Adafruit_SH1106_STM32.h>
 #else
-  #include <Adafruit_SSD1306_STM32_TT.h>
+  #include <Adafruit_SSD1306_STM32.h>
 #endif
 
 // PS/2キーボードの利用 0:利用しない 1:利用する
