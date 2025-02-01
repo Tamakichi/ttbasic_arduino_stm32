@@ -31,3 +31,6 @@
 [submodule "libraries/Adafruit_SH1106_STM32"]
 	path = libraries/Adafruit_SH1106_STM32
 	url = https://github.com/Tamakichi/Adafruit_SH1106_STM32.git
+[submodule "hardware/Arduino_STM32"]
+	path = hardware/Arduino_STM32
+	url = https://github.com/Tamakichi/Arduino_STM32.git
