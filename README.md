@@ -1,17 +1,31 @@
-## 豊四季タイニーBASIC for Arduino STM32V0.87β
+# 豊四季Tiny BASIC for Arduino STM32V0.87β
 
-(注意) 本スケッチをコンパイルする場合、  
+## このソフトウェアについて
 
+本ソフトウェアは、通称 **「BluePill(STM32C8T6搭載)」** ボード上で稼働する
+**整数型 BASICインタプリタ** です。  
+**Tetsuya Suzuki** 氏が開発・公開の **「豊四季 Tiny BASIC」** をベースにしています。  
+<img src="./image/bluepill_board.jpg" width="300">　
+
+Arduino IDE + Arduino STM32 環境にて開発してます。  
+ボードに書き込むだけのバイナリーファイルも配布しており、コンパイルせずに利用出来ますが、  
+配布しているスケッチでもコンパイル・書込みも可能です。  
+ボード単体でも利用出来ますが、TFTモジュールを使ったりとカスタマイズも可能です。  
+
+　![サンプル画像](./image/03.jpg)  ![サンプル画像](./image/10.jpg) ![サンプル画像](./image/11.jpg)  
+ <img src="./image/with_tft_1.jpg" width="300"> 
+<img src="./image/with_tft_2.jpg" width="300">  
+
+本スケッチをコンパイルする場合は、  
+* Git
 * Arduino IDE 1.8.xx(1.8.21で確認済)  
 * gcc ARMは arm-none-eabi-gcc-4.8.3-2014q1の利用必須  
 Arduino SAMD Boards (32-bits ARM Coetex-M3) 1.6.xx系(1.6.12で確認済) or  
 Arduino SAMD Boards (32-bits ARM Coetex-M0+) 1.6.xx系(1.6.21で確認済)  
-* Arduino_STM32環境は、下記の修正版を利用  
-https://github.com/Tamakichi/Arduino_STM32/tree/base_245b97a  
+* Arduino_STM32環境：下記の修正版  
+https://github.com/Tamakichi/Arduino_STM32
 
 をご使用ください.
-
-![サンプル画像](./image/03.jpg)  ![サンプル画像](./image/10.jpg) ![サンプル画像](./image/11.jpg)  
 
 本プログラムは、下記オリジナル版を[Arduino STM32](https://github.com/rogerclarkmelbourne/Arduino_STM32) 向けに移植・機能拡張版です.  
 
@@ -37,38 +51,39 @@ https://github.com/Tamakichi/Arduino_STM32/tree/base_245b97a
 * 「豊四季タイニーBASIC for Arduino STM32」 キーワード一覧(更新中)  
 <https://tamakichi.github.io/ttbasic_arduino_stm32/keyword.html>  
 
-### システム構成
+## システム構成
 
-![システム構成図](./image/04.png)  
-※ Windows 11にも対応
+![システム構成図](./image/system_configuration.png)  
 
-#### 構成組み合わせパターン
+※ パソコン環境はMac、Linuxでも利用可能
+
+### 構成組み合わせパターン
 
 上記構成で表示機器は排他選択となります。次の構成にてシステムを組むことが出来ます。
 
 ![構成パターン](./image/04_1.png)  
 
-##### 基本４構成の結線図
+### 基本４構成の結線図
 
 Blue Pillボードを利用した場合の上記①～④をベースとした結線図を示します。  
 圧電スピーカーはオプションです。必要に応じて接続して下さい。  
-RTC用バックアップ電池、SDカードモジュールも必要に応じて追加できます。  
+RTC用バックアップ電池、SDカードモジュールも必要に応じて追加できます。  
 
-###### ①ターミナルコンソール版
+#### ①ターミナルコンソール版
 
 ![ターミナルコンソール版](./image/04_2.png)  
 
-###### ②NTSC版
+#### ②NTSC版
 
 ![NTSC版](./image/04_3.png)  
 
-###### ③OLED版
+#### ③OLED版
 
-**(1)OLED I2Cインタフェース版**
+##### (1)OLED I2Cインタフェース版
 
 ![NTSC版](./image/04_4.png)  
 
-**(2)OLED SPIインタフェース版**
+##### (2)OLED SPIインタフェース版
 
 ![NTSC版](./image/04_5.png)  
 
@@ -76,24 +91,24 @@ RTC用バックアップ電池、SDカードモジュールも必要に応じて
 
 ![NTSC版](./image/04_6.png)  
 
-##### SDカードモジュールオプション
+#### SDカードモジュールオプション
 
 ![SDカード](./image/02_2.png)  
 ※5V・3.3V変換レギュレータが乗っている製品の場合、VCCは5Vを供給しないと動作しない場合があります。
 
-##### RTC用バックアップ電池  オプション
+#### RTC用バックアップ電池  オプション
 
 ![RTC用電池](./image/02_1.png)  
 
-#### ピン利用構成  
+### ピン利用構成  
 
 ![ピン割り付け](./image/05.png)  
 
-#### ボート上のピン一覧
+### ボート上のピン一覧
 
 ![ピン割り付け](./image/03_4.png)  
 
-#### 利用可能市販パーツ
+### 利用可能市販パーツ
 
 * PS/2キーボード用コネクタ  
   ◾aitendo PS/2モジュール [ML-PS2-4P] <http://www.aitendo.com/product/11377>  
@@ -131,42 +146,36 @@ RTC用バックアップ電池、SDカードモジュールも必要に応じて
 
 ![TFT](./image/14.jpg)  
 
-### 本パッケージ・必要パッケージのダウンロードとインストール・配置
+## 本パッケージ・必要パッケージのダウンロードとインストール・配置
 
-#### 本パッケージのダウンロードと配置
+### 本パッケージのダウンロードと配置
 
-下記のリンクより直接ダウンロードして解凍、またはgitコマンドを使ってダウンロードして下さい。  
-
-* ダウンロードリンク  
-  <https://github.com/Tamakichi/ttbasic_arduino_stm32/archive/master.zip>
-
-* gitを使ったダウンロード(複製のダウンロード)  
+gitコマンドを使ってダウンロードして下さい。  
 
    ```bat
-   git clone https://github.com/Tamakichi/ttbasic_arduino_stm32.git
+   git clone --recursive https://github.com/Tamakichi/ttbasic_arduino_stm32.git
    ```
 
-  Windows 10へのgitの導入は、下記の手順を参考にして下さい。  
+  Windows環境へのgitの導入は、下記の手順を参考にして下さい。  
   * [git for Windowsのインストール手順](https://tamakichi.github.io/ttbasic_arduino_stm32/install_git.html)
 
 ダウンロードした本パッケージのトップフォルダを 📁ttbasic_arduino_stm32\ とします。  
-(解凍直後の *tbasic_arduino_stm32-master* から変更して下さい)  
 トップフォルダを任意の場所に配置して下さい。  
 
-#### 本パッケージの構成
+### 本パッケージの構成
 
 📁ttbasic_arduino_stm32\  ・・・・ 本パッケージのトップフォルダ  
-　📁bin\  ・・・・・・・・・・・・・コンパイル済みスケッチ(ファームウェア)  
-　📁docs\  ・・・・・・・・・・・・ドキュメント類(作成中)  
-　📁fontbin\  ・・・・・・・・・・・日本語フォント類  
-　📁hardware\    ・・・・・・・・・・Arduino STM32パッケージ配置場所  
+　📁bin\  ・・・・・・・・・・・・・ コンパイル済みスケッチ(ファームウェア)  
+　📁docs\  ・・・・・・・・・・・・・ ドキュメント類  
+　📁fontbin\  ・・・・・・・・・・・ 日本語フォント類  
+　📁hardware\    ・・・・・・・・・・ Arduino STM32パッケージ配置場所  
+　📁image\ ・・・・・・・・・・・・・ 本ドキュメント用画像ファイル  
 　📁libraries\   ・・・・・・・・・・・ スケッチ用ライブラリ  
 　📁ttbasic\  ・・・・・・・・・・・ スケッチ本体  
-　📄manual.pdf  ・・・・・・・・・・ マニュアル(旧)  
-　📄platform.local.txt  ・・・・・・・ コンパイルオプション定義(OLEDコントローラ指定用)  
+　📄manual.pdf  ・・・・・・・・・・ マニュアル  
 　📄README.md    ・・・・・・・・・ 本ドキュメント  
 　📄TinyBASIC早見表.pdf  ・・・・・・ チートシート  
-　📄キーワード.html  ・・・・・・・・キーワード一覧(コマンド簡易説明書HTML版)  
+　📄キーワード.html  ・・・・・・・・ キーワード一覧(コマンド簡易説明書HTML版)  
 　📄キーワード..pdf  ・・・・・・・・・ キーワード一覧(コマンド簡易説明書PDF版)  
 
 Arduino IDEでスケッチをコンパイルする場合は、  
@@ -174,31 +183,7 @@ Arduino IDEの環境設定の **スケッチブックの保存場所** に 📁t
 設定して下さい。  
 これにより、既存の環境・ライブラリとの干渉減らすことが出来ます。  
 
-#### Arduino STM32パッケージのダウンロードと配置
-
-Arduino STM32パッケージは、随時更新されているため動作確認した時点のスナップショットに  
-不具合修正を行った、下記のパッケージをダウンロードして利用して下さい。  
-
-* ダウンロードリンク  
-  <https://github.com/Tamakichi/Arduino_STM32/archive/refs/tags/base_245b97a.zip>
-
-* gitを使ったダウンロード(複製のダウンロード)  
-
-   ```bat
-   git clone -b base_245b97a https://github.com/Tamakichi/Arduino_STM32.git
-   ```
-
-Windows環境の場合、hardware\stm32Clone.bat を実行するとこでもダウンロード出来ます。  
-
-ダウンロードしたArduino STM32パッケージのトップフォルダを 📁Arduino_STM32\ とします。  
-(解凍直後の *Arduino_STM32-master* から変更して下さい)  
-
-Arduino STM32パッケージのトップフォルダは、📁hardware\の下に配置して下さい。  
-　📁ttbasic_arduino_stm32\  
-　　📁hardware\  
-　　　📁Arduino_STM32\
-
-#### STM32用USBドライバのインストール(Windows10環境)
+### STM32用USBドライバのインストール(Windows10環境)
 
 Arduino STM32パッケージに添付のUSBドライバをインストールします。  
 
@@ -210,7 +195,7 @@ Arduino STM32パッケージに添付のUSBドライバをインストールし�
 　　　　　📁win\  
 　　　　　　📄install_drivers.bas
 
-#### Java(JRE)実行環境のインストール
+### Java(JRE)実行環境のインストール
 
 Arduino 2.3.x系では、Arduino STM32パッケージのボート書き込みツールはJavaの実行環境が必要です。  
 Javaをインストールしていない場合は、インストールして下さい(Amazon Corretto 21推奨)。  
@@ -218,7 +203,7 @@ Javaをインストールしていない場合は、インストールして下�
 * Open Java Development Kit Amazon Corretto 21 のダウンロード  
 <https://docs.aws.amazon.com/corretto/latest/corretto-21-ug/downloads-list.html>
 
-### コンパイル済みスケッチ(ファームウェア) の利用
+## コンパイル済みスケッチ(ファームウェア) の利用
 
 コンパイル済みスケッチ(ファームウェア) を用意しています。  
 ファームウェアを直接マイコンボードに書き込んで利用することが出来ます。  
@@ -249,7 +234,7 @@ Javaをインストールしていない場合は、インストールして下�
 　　📄boot_ttbasic_TFT.bin (TFT ILI9341版)  
 　　📄ttbtwrite.bat  ・・・ ブートローダ付きファームウェア書き込み用バッチファイル  
 
-#### ブートローダー無しファームウェア(バイナリー形式)の書込み手順(Windows10環境)
+### ブートローダー無しファームウェア(バイナリー形式)の書込み手順(Windows10環境)
 
 利用するマイコンボードにArduino STM32用のブートローダーが書き込まれている必要があります。  
 BluePillボードへの書き込みは下記の記事等を参考して行って下さい。  
@@ -257,7 +242,7 @@ BluePillボードへの書き込みは下記の記事等を参考して行って
 * [BluePillボードへのブートローダの書き込み(本パッケージ添付ドキュメント)](https://tamakichi.github.io/ttbasic_arduino_stm32/install.html#_bluepillボードへのブートローダの書き込み)
 * DEKOのアヤシいお部屋-「STM32F103C8T6」<http://ht-deko.com/arduino/stm32f103c8t6.html>  
 
-##### ファームウェア書込み手順
+### ファームウェア書込み手順
 
 1. `ttwrite.bat`の修正  
 
@@ -294,14 +279,14 @@ BluePillボードへの書き込みは下記の記事等を参考して行って
 
    ![ドラッグ＆ドロップ](./image/15.png)  
 
-#### ブートローダー付きファームウェア(バイナリー形式) の書込み手順
+### ブートローダー付きファームウェア(バイナリー形式) の書込み手順
 
 ブートローダーと同じ方法で書き込むこと出来ます。  
 (プログラマST-LINKのを使って、STM32 ST-LINK Utilityで書き込み)  
 
 ここでは添付のttbtwrite.batコマンドを使ったシリアル接続による方法を説明します。  
 
-##### 事前準備
+#### 事前準備
 
 ![シリアル接続](./image/16.jpg)  
 
@@ -335,7 +320,7 @@ BluePillボードへの書き込みは下記の記事等を参考して行って
    **BOOT0**：1  
    **BOOT1**：0  
 
-##### 書込み作業
+#### 書込み作業
 
 コマンドプロンプトを実行します。  
 **ttbtwrite.bat**のある📁bin\PlusBootloader\ に移動し、次のコマンドを実行します。  
@@ -510,9 +495,9 @@ SDカートのトップのディレクトリに配置して下さい。
 日本語（全角）文字列の入力は、WindowsのTeraTerm等のターミナルコンソールにて入力して下さい。  
 NTSC、OLED、TFT画面のテキストスクリーンエディタでの日本語表示には対応していません。  
 
-### サンプルプログラム
+## サンプルプログラム
 
-#### ボード上のLEDの点滅
+### ボード上のLEDの点滅
 
 ```BASIC
 10 P=PC13
@@ -526,7 +511,7 @@ NTSC、OLED、TFT画面のテキストスクリーンエディタでの日本語
 90 NEXT I
 ```
 
-#### アナログ値表示
+### アナログ値表示
 
 ```BASIC
 10 CLS
@@ -536,7 +521,7 @@ NTSC、OLED、TFT画面のテキストスクリーンエディタでの日本語
 50 GOTO 30
 ```
 
-#### 配列の連続設定
+### 配列の連続設定
 
 ```BASIC
 10 @(1)=1,2,3,4,5,6,7,8
@@ -545,7 +530,7 @@ NTSC、OLED、TFT画面のテキストスクリーンエディタでの日本語
 40 NEXT I
 ```
 
-#### シフト演算
+### シフト演算
 
 ```BASIC
 10 A=1
@@ -554,7 +539,7 @@ NTSC、OLED、TFT画面のテキストスクリーンエディタでの日本語
 40 NEXT I
 ```
 
-#### ラベルの利用
+### ラベルの利用
 
 ```BASIC
 100 GOSUB "SUB01"
@@ -572,7 +557,7 @@ NTSC、OLED、TFT画面のテキストスクリーンエディタでの日本語
 220 RETURN
 ```
 
-#### 日本語フォント表示
+### 日本語フォント表示
 
 ```BASIC
 1'12ﾄﾞｯﾄﾌｫﾝﾄﾋｮｳｼﾞ
